@@ -374,11 +374,12 @@ public class CommonUtils {
 
 		SimpleMatrix v = MatrixConstructor.create(0, 1, 3);
 //		for i=1:f
-		for(int i=0; i<f; i++){
+		for(int i=0; i<f-1; i++){
 //		   for k=1:3     
 			for(int k=0; k<3; k++){
 //		       v(1,k)=median(E(i,k,:)); % en cada fila de "ejes" está el eje mediano respecto a j
 				double[] auxVals = new double[E.size()];
+				System.out.println(i);
 				for(int t=0; t<E.size(); t++)
 					auxVals[t] = E.get(t).get(i, k);
 				v.set(0, k, 
