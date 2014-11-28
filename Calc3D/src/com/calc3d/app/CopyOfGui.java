@@ -1390,8 +1390,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         updateTable();
         dirty=false;
         
-        Vector2D centroid = element.calculateCentroid();
-        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
+       
 //		create treetable
         JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
         treeTableElem3d.setSize(120, 120);
