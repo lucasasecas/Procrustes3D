@@ -39,6 +39,9 @@ public class DistanceCalculatorAdapter {
 				}
 			}
 		}
+		
+		ComposeSimpleElement containerList = new ComposeSimpleElement("distances");
+		containerList.addElement(list);
 		return list;
 	}
 

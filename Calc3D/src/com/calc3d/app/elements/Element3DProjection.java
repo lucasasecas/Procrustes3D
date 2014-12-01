@@ -30,7 +30,7 @@ public class Element3DProjection extends Element3DCollection {
 			double[] coords = elem.getCoords();
 			Element3DPoint point = new Element3DPoint(new Vector3D(coords[0]*0.001, coords[1]*0.001, coords[2]*0.001));
 			point.setName(elem.getName()+"_Projection");
-			point.setText("");
+			point.setText(elem.getName());
 			this.add(point);
 		}
 	}

@@ -70,7 +70,7 @@ public class Icons {
     public static final ImageIcon ABOUT = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/about-icon.png");
 
 	/** Generic add icon */
-	public static final ImageIcon ADD = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/add-icon.png");
+	public static final ImageIcon ADDDATASET = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/addDataset-icon.png");
 	
 	/** Generic remove icon */
 	public static final ImageIcon REMOVE = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/remove-icon.png");
@@ -201,12 +201,14 @@ public class Icons {
 	/**Forward navigation Icon */
 	public static final ImageIcon FORWARD = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/forward-icon.png");
 
-	public static final ImageIcon CM = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/Letter-A-icon.png");
+	public static final ImageIcon CM = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/addProcrustesAnalysis-icon.png");
 	
-	public static final ImageIcon ROB = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/Letter-B-icon.png");
+	public static final ImageIcon DISTANCE = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/line-icon.png");
 	
 	public static final ImageIcon PROJECT = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/project.png");
 	
 	public static final ImageIcon DATASET = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/dataset.png");
+
+	public static final ImageIcon PROJECTION = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/addProjection-icon.png");;
 	
 }

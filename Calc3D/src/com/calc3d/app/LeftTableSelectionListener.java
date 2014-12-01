@@ -5,6 +5,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import com.calc3d.app.elements.Element3D;
+import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
 
 public class LeftTableSelectionListener implements TreeSelectionListener {

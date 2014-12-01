@@ -61,6 +61,7 @@ private int divisions=5;
 private int subDivisions=3;
 
 private double fov;
+private boolean mouseIntreactinAviable = true;
 public Preferences(){
 	 clipBox=new Box3D(-5,5,-5,5,-5,5);
 	 axesBox=new Box3D(-5,5,-5,5,-5,5);
@@ -657,6 +658,15 @@ public double getFov() {
  */
 public void setFov(double fov){ 
 	this.fov = fov;
+}
+
+public void setMousInteractionAviable(boolean b) {
+	this.mouseIntreactinAviable = b;
+	
+}
+
+public boolean getMouseInteractionAviable(){
+	return this.mouseIntreactinAviable;
 }
 
 

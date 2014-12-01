@@ -62,6 +62,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 
 import com.calc3d.app.analysis.AnalysisConfiguration;
+import com.calc3d.app.analysis.DialogConfiguration;
 import com.calc3d.app.analysis.DistanceCalculatorAdapter;
 import com.calc3d.app.analysis.DistanceConfiguration;
 import com.calc3d.app.analysis.ProcrustesCalculatorAdapter;
@@ -374,31 +375,37 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.mnuNew.setIcon(Icons.NEW);
 		this.mnuNew.setActionCommand("new");
 		this.mnuNew.addActionListener(this);
+		this.mnuNew.setEnabled(false);
 		
 		this.mnuSave = new JMenuItem(Messages.getString("menu.file.save"));
 		this.mnuSave.setIcon(Icons.SAVE);
 		this.mnuSave.setActionCommand("save");
 		this.mnuSave.addActionListener(this);
+		this.mnuSave.setEnabled(false);
 		
 		this.mnuSaveAs = new JMenuItem(Messages.getString("menu.file.saveas"));
 		this.mnuSaveAs.setIcon(Icons.SAVEAS);
 		this.mnuSaveAs.setActionCommand("saveas");
 		this.mnuSaveAs.addActionListener(this);
+		this.mnuSaveAs.setEnabled(false);
 		
 		this.mnuOpen = new JMenuItem(Messages.getString("menu.file.open"));
 		this.mnuOpen.setIcon(Icons.OPEN);
 		this.mnuOpen.setActionCommand("open");
 		this.mnuOpen.addActionListener(this);
+		this.mnuOpen.setEnabled(false);
 		
 		this.mnuExport = new JMenuItem(Messages.getString("menu.file.export"));
 		this.mnuExport.setIcon(Icons.EXPORT);
 		this.mnuExport.setActionCommand("export");
 		this.mnuOpen.addActionListener(this);
-
+		this.mnuExport.setEnabled(false);
+		
 		this.mnuPrint = new JMenuItem(Messages.getString("menu.file.print"));
 		this.mnuPrint.setIcon(Icons.PRINT);
 		this.mnuPrint.setActionCommand("print");
 		this.mnuPrint.addActionListener(this);
+		this.mnuPrint.setEnabled(false);
 		
 		this.mnuExit = new JMenuItem(Messages.getString("menu.file.exit"));
 		this.mnuExit.setActionCommand("exit");
@@ -454,81 +461,81 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.mnuWindow.add(this.mnuLookAndFeel);
 		
 
-		menuItem = new JMenuItem(Messages.getString("menu.insert.point"));
-		menuItem.setIcon(Icons.ADDPOINT);
-		menuItem.setActionCommand("addpoint");
+		menuItem = new JMenuItem(Messages.getString("menu.insert.dataset"));
+		menuItem.setIcon(Icons.ADDDATASET);
+		menuItem.setActionCommand("load");
 		menuItem.addActionListener(this);
 		mnuInsert.add(menuItem);		
-		mnuInsert.addSeparator();
-		menuItem = new JMenuItem(Messages.getString("menu.insert.vector"));
-		menuItem.setIcon(Icons.ADDVECTOR);
-		menuItem.setActionCommand("addvector");
+//		mnuInsert.addSeparator();
+		menuItem = new JMenuItem(Messages.getString("menu.insert.pcanalysis"));
+		menuItem.setIcon(Icons.CM);
+		menuItem.setActionCommand("CMAnalysis");
 		menuItem.addActionListener(this);
 		mnuInsert.add(menuItem);		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.line"));
-		menuItem.setIcon(Icons.ADDLINE);
-		menuItem.setActionCommand("addline");
+		menuItem = new JMenuItem(Messages.getString("menu.insert.distance"));
+		menuItem.setIcon(Icons.DISTANCE);
+		menuItem.setActionCommand("distance");
 		menuItem.addActionListener(this);
 		mnuInsert.add(menuItem);	
-		mnuInsert.addSeparator();		
+//		mnuInsert.addSeparator();		
 		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.curve"));
-		menuItem.setIcon(Icons.ADDCURVE3D);
-		menuItem.setActionCommand("addcurve3d");
+		menuItem = new JMenuItem(Messages.getString("menu.insert.projection"));
+		menuItem.setIcon(Icons.PROJECTION);
+		menuItem.setActionCommand("addProjection");
 		menuItem.addActionListener(this);
 		mnuInsert.add(menuItem);	
-		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dexplicit"));
-		menuItem.setIcon(Icons.ADDCURVE2DCARTESIAN);
-		menuItem.setActionCommand("addcurve2dcartesian");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);	
-		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dimplicit"));
-		menuItem.setIcon(Icons.ADDCURVE2DIMPLICIT);
-		menuItem.setActionCommand("addcurve2dimplicit");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);	
-		mnuInsert.addSeparator();		
-		
-		//mnuInsert.addSeparator();
-		menuItem = new JMenuItem(Messages.getString("menu.insert.polygon"));
-		menuItem.setIcon(Icons.ADDPOLYGON);
-		menuItem.setActionCommand("addpolygon");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.insert.plane"));
-		menuItem.setIcon(Icons.ADDPLANE);
-		menuItem.setActionCommand("addplane");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);
-		mnuInsert.addSeparator();		
-	
-		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceexplicit"));
-		menuItem.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("addsurface");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);		
-		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceimplicit"));
-		menuItem.setIcon(Icons.ADDSURFACEIMPLICIT);
-		menuItem.setActionCommand("addsurfaceimplicit");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);		
-	
-		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceparametric"));
-		menuItem.setIcon(Icons.ADDSURFACEPARAMETRIC);
-		menuItem.setActionCommand("addsurfaceparametric");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);
-		mnuInsert.addSeparator();		
-		
-		menuItem = new JMenuItem(Messages.getString("menu.insert.premitive"));
-		menuItem.setIcon(Icons.ADDPREMITIVE);
-		menuItem.setActionCommand("addprimitive");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);		
-	
+//		
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dexplicit"));
+//		menuItem.setIcon(Icons.ADDCURVE2DCARTESIAN);
+//		menuItem.setActionCommand("addcurve2dcartesian");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);	
+//		
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dimplicit"));
+//		menuItem.setIcon(Icons.ADDCURVE2DIMPLICIT);
+//		menuItem.setActionCommand("addcurve2dimplicit");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);	
+//		mnuInsert.addSeparator();		
+//		
+//		//mnuInsert.addSeparator();
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.polygon"));
+//		menuItem.setIcon(Icons.ADDPOLYGON);
+//		menuItem.setActionCommand("addpolygon");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.plane"));
+//		menuItem.setIcon(Icons.ADDPLANE);
+//		menuItem.setActionCommand("addplane");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);
+//		mnuInsert.addSeparator();		
+//	
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceexplicit"));
+//		menuItem.setIcon(Icons.ADDSURFACE);
+//		menuItem.setActionCommand("addsurface");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);		
+//		
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceimplicit"));
+//		menuItem.setIcon(Icons.ADDSURFACEIMPLICIT);
+//		menuItem.setActionCommand("addsurfaceimplicit");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);		
+//	
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceparametric"));
+//		menuItem.setIcon(Icons.ADDSURFACEPARAMETRIC);
+//		menuItem.setActionCommand("addsurfaceparametric");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);
+//		mnuInsert.addSeparator();		
+//		
+//		menuItem = new JMenuItem(Messages.getString("menu.insert.premitive"));
+//		menuItem.setIcon(Icons.ADDPREMITIVE);
+//		menuItem.setActionCommand("addprimitive");
+//		menuItem.addActionListener(this);
+//		mnuInsert.add(menuItem);		
+//	
 		/*
 		this.mnuEvaluate = new JMenu(Messages.getString("menu.evaluate"));
 		menuItem = new JMenuItem(Messages.getString("menu.evaluate.pointvspoint"));
@@ -720,7 +727,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		
 		//Add main menu to menu bar
 		this.barMenu.add(this.mnuFile);
-		this.barMenu.add(this.mnuWindow);	
+//		this.barMenu.add(this.mnuWindow);	
 		this.barMenu.add(this.mnuInsert);	
 		//this.barMenu.add(this.mnuEvaluate);	
 		this.barMenu.add(this.mnuSettings);	
@@ -735,51 +742,58 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.btnNew.addActionListener(this);
 		this.btnNew.setActionCommand("new");
 		this.btnNew.setToolTipText(Messages.getString("toolbar.file.new"));
+		this.btnNew.setEnabled(false);
 		
-		this.btnLoad = new JButton(Icons.ADD);
+		this.btnLoad = new JButton(Icons.ADDDATASET);
 		this.btnLoad.addActionListener(this);
 		this.btnLoad.setActionCommand("load");
-		this.btnLoad.setToolTipText(Messages.getString("toolbar.file.load"));
+		this.btnLoad.setToolTipText("Add Dataset");
 		
 		this.btnCMAnalisys = new JButton(Icons.CM);
+		btnCMAnalisys.setToolTipText("Procrustes Analysis");
 		this.btnCMAnalisys.addActionListener(this);
 		this.btnCMAnalisys.setActionCommand("CMAnalysis");
-		this.btnLoad.setToolTipText("CM");
 		
-		this.btnRobAnalisys = new JButton(Icons.ROB);
+		
+		
+		this.btnRobAnalisys = new JButton(Icons.DISTANCE);
 		this.btnRobAnalisys.addActionListener(this);
 		this.btnRobAnalisys.setActionCommand("distance");
-		this.btnRobAnalisys.setToolTipText("Analisis Robusto");
+		this.btnRobAnalisys.setToolTipText("Calculate Distance");
 		
 		this.btnOpen = new JButton(Icons.OPEN);
 		this.btnOpen.addActionListener(this);
 		this.btnOpen.setActionCommand("open");
 		this.btnOpen.setToolTipText(Messages.getString("toolbar.file.open"));
+		this.btnOpen.setEnabled(false);
 		
 		this.btnSave = new JButton(Icons.SAVE);
 		this.btnSave.addActionListener(this);
 		this.btnSave.setActionCommand("save");
 		this.btnSave.setToolTipText(Messages.getString("toolbar.file.save"));
+		this.btnSave.setEnabled(false);
 		
 		this.btnPrint = new JButton(Icons.PRINT);
 		this.btnPrint.addActionListener(this);
 		this.btnPrint.setActionCommand("print");
 		this.btnPrint.setToolTipText(Messages.getString("toolbar.file.print"));
+		this.btnPrint.setEnabled(false);
 		
 		this.btnExport = new JButton(Icons.EXPORT);
 		this.btnExport.addActionListener(this);
 		this.btnExport.setActionCommand("export");
 		this.btnExport.setToolTipText(Messages.getString("toolbar.file.export"));
+		this.btnExport.setEnabled(false);
 		
-		this.btnZoomOut = new JButton(Icons.ZOOM_OUT);
-		this.btnZoomOut.setToolTipText(Messages.getString("toolbar.preferences.zoomOut"));
-		this.btnZoomOut.setActionCommand("zoomout");
-		this.btnZoomOut.addActionListener(this);
-		
-		this.btnZoomIn = new JButton(Icons.ZOOM_IN);
-		this.btnZoomIn.setToolTipText(Messages.getString("toolbar.preferences.zoomIn"));
-		this.btnZoomIn.setActionCommand("zoomin");
-		this.btnZoomIn.addActionListener(this);
+//		this.btnZoomOut = new JButton(Icons.ZOOM_OUT);
+//		this.btnZoomOut.setToolTipText(Messages.getString("toolbar.preferences.zoomOut"));
+//		this.btnZoomOut.setActionCommand("zoomout");
+//		this.btnZoomOut.addActionListener(this);
+//		
+//		this.btnZoomIn = new JButton(Icons.ZOOM_IN);
+//		this.btnZoomIn.setToolTipText(Messages.getString("toolbar.preferences.zoomIn"));
+//		this.btnZoomIn.setActionCommand("zoomin");
+//		this.btnZoomIn.addActionListener(this);
 		
 		this.btnReset = new JButton(Icons.RESET);
 		this.btnReset.setToolTipText(Messages.getString("toolbar.preferences.reset"));
@@ -814,21 +828,23 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		fileToolbar.add(this.btnCMAnalisys);
 		fileToolbar.add(this.btnRobAnalisys);
 		
-		btnP = new JButton("P");
+		btnP = new JButton(Icons.PROJECTION);
+		btnP.setToolTipText("Calculate Projection");
 		btnP.addActionListener(this);
 		btnP.setActionCommand("addProjection");
+		btnP.setToolTipText("Calculate Projection");
 		
 		
 		fileToolbar.add(btnP);
-		fileToolbar.addSeparator();
-		fileToolbar.add(this.btnZoomOut);
-		fileToolbar.add(this.btnZoomIn);
+//		fileToolbar.addSeparator();
+//		fileToolbar.add(this.btnZoomOut);
+//		fileToolbar.add(this.btnZoomIn);
 		
-		fileToolbar.add(this.btnReset);
-		fileToolbar.addSeparator();
-		fileToolbar.add(this.tglAxis);
-		fileToolbar.add(this.tglBox);
-		fileToolbar.add(this.tglGridXY);
+//		fileToolbar.add(this.btnReset);
+//		fileToolbar.addSeparator();
+//		fileToolbar.add(this.tglAxis);
+//		fileToolbar.add(this.tglBox);
+//		fileToolbar.add(this.tglGridXY);
 		
 		this.editToolbar = new JToolBar(Messages.getString("toolbar.edit"), SwingConstants.HORIZONTAL);
 		this.editToolbar.setFloatable(true);
@@ -979,7 +995,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		pnlToolBar = new JPanel();
 		pnlToolBar.setLayout(new GridLayout(2, 1));
 		pnlToolBar.add(fileToolbar);
-		pnlToolBar.add(editToolbar);
+		//pnlToolBar.add(editToolbar);
 		getContentPane().add(pnlToolBar,BorderLayout.NORTH);
 
 		
@@ -1026,7 +1042,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         this.btnPreferences.addActionListener(this);
         this.btnPreferences.setActionCommand("preferences");
         this.btnPreferences.setToolTipText(Messages.getString("toolbar.file.preferences"));
-        fileToolbar.add(btnPreferences);
+//        fileToolbar.add(btnPreferences);
         JScrollPane paneScrollPane = new JScrollPane(treeTable);
         paneScrollPane.setVerticalScrollBarPolicy(
                         ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -1079,7 +1095,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		getContentPane().add(pnlToolBar,BorderLayout.NORTH);
 		getContentPane().add(pneSplit,BorderLayout.CENTER);
 		
-		getContentPane().add(statusBar, BorderLayout.SOUTH);
+//		getContentPane().add(statusBar, BorderLayout.SOUTH);
 
 		//size everything
 		this.pack();
@@ -1215,7 +1231,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			result.setIcon(Icons.DATASET);
 			selected.addElement(result);
 			Element3DDataSet dataset3D = new Element3DDataSet(result);
-			this.addElement3D(dataset3D, null);
+			this.addElement3D(dataset3D, configuration);
 			treeTable.updateUI();
 			
 			ProcrustesFitDetalier detalier = new ProcrustesFitDetalier();
@@ -1251,8 +1267,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			}
 			projections.addElement(projection);
 			selected.addElement(projections);
-			this.addElement3D(new Element3DProjection(projection), configuration.getTabTitle());
-			
+//			this.addElement3D(new Element3DProjection(projection), configuration);
+			this.addElement3D(new Element3DProjection(projection), configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
 			reporter.writeReport("Projections: \n");
 			reporter.writeReport("Type of Projection: "+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "Least squares projection" : "Robusts projection")+'\n');
@@ -1302,7 +1318,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			if(dataset==null)return;
 			dataset.setIcon(Icons.DATASET);
 			this.addElement(dataset);
-			this.addElement3D(new Element3DDataSet(dataset), null);
+			this.addElement3D(new Element3DDataSet(dataset));
 			
 			DatasetDetails detailer = new DatasetDetails();
 			reporter.writeReport(detailer.getDetails(dataset));
@@ -1376,7 +1392,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	
 	}
 	
-	private void addElement3D(Element3D element, String tabTitle) {
+	private void addElement3D(Element3D element) {
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element);
     	Preferences preferences;
@@ -1416,7 +1432,52 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		pneSplit.setOneTouchExpandable(true);
 
 		
-        tabsManager.newTab(pneSplit, tabTitle==null?"new tab" : tabTitle);		
+        tabsManager.newTab(pneSplit,"new tab");		
+	}
+//	
+	public void addElement3D(Element3D element3D, DialogConfiguration configuration){
+		ArrayList<Element3D> list = new ArrayList<Element3D>();
+		list.add(element3D);
+    	Preferences preferences;
+	    Canvas3D newCanvas = this.createCanvas();
+		newCanvas.addSceneManager(new SceneManager());
+		newCanvas.getSceneManager().addElement(element3D);
+		configuration.setGraphPreferences(Commons.setPreferences(list));
+		preferences = configuration.getGraphPreferences();
+		preferences.setLookandFeel(Globalsettings.lookandFeel);
+		preferences.setBackColor(Color.WHITE);
+		applySettings(newCanvas,preferences,true,true);
+        updateTable();
+        dirty=false;
+        
+        Vector2D centroid = element3D.calculateCentroid();
+        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
+//		create treetable
+        JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
+        treeTableElem3d.setSize(120, 120);
+        treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
+        treeTableElem3d.setAutoscrolls(true);
+        treeTableElem3d.addMouseListener(this);
+        treeTableElem3d.setRootVisible(false);
+        treeTableElem3d.setVisible(true);
+        
+        treeTableElem3d.addTreeSelectionListener(new customSelectionListener(newCanvas));
+        
+        JScrollPane paneScrollPane = new JScrollPane(treeTableElem3d);
+        paneScrollPane.setVerticalScrollBarPolicy(
+                        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        paneScrollPane.setPreferredSize(new Dimension(250, 155));
+        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+        
+        
+		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, paneScrollPane);
+		pneSplit.setResizeWeight(1);
+		// setup the layout
+		pneSplit.setOneTouchExpandable(true);
+
+		
+        tabsManager.newTab(pneSplit, configuration==null?"new tab" : configuration.getTabTitle());		
 	}
 
 
@@ -1652,6 +1713,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		 canvas.getRenderer().setAntiAliasingEnabled(preferences.isAntiAliasingEnabled());
 		 this.tglPerspective.setSelected(preferences.isPerspectiveEnabled());
 		 canvas.getRenderer().setPerspectiveEnabled(preferences.isPerspectiveEnabled());
+		 canvas.getInteractonHandler().setMouseInteractionAviable(preferences.getMouseInteractionAviable());
 		 this.tgl3D.setSelected(preferences.isSteroscopyEnabled());
 		 canvas.stereoMode=preferences.getSteroscopicMode();
 		 canvas.stereoEnabled=preferences.isSteroscopyEnabled();

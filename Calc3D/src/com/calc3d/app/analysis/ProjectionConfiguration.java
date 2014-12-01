@@ -1,5 +1,7 @@
 package com.calc3d.app.analysis;
 
+import com.calc3d.app.Preferences;
+
 public class ProjectionConfiguration extends DialogConfiguration {
 
 	public static final int LEAST_SQR_PROJETION = 0;
@@ -31,6 +33,13 @@ public class ProjectionConfiguration extends DialogConfiguration {
 	
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	@Override
+	public Preferences getGraphPreferences(){
+		this.graphPreferences.setBoxVisible(false);
+		this.graphPreferences.setMousInteractionAviable(false);
+		return graphPreferences;
 	}
 
 }

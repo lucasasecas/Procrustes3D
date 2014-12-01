@@ -1879,6 +1879,8 @@ public final class Renderer implements BSPTreeTraverseListener{
 		this.settings = settings;
 		
 	}
+
+
 }
 	
 

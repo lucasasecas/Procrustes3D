@@ -36,26 +36,37 @@ public class ProjectionCalculatorAdapter {
 			
 		}
 		double[][] distArrayMat = new double[counter][counter];
+		String[] names = new String[counter];
 		int count = 0;
 		for(int i=0; i<counter; i++){
-			int j=0;
-			while(j!=i){
-				DistanceSimpleElement distance = dist.get(count);
-				count++;
-				distArrayMat[i][j] = distance.getDistance();
-				distArrayMat[j][i]= distance.getDistance();
-				j++;
+			if(i<counter-1)
+				names[i] = distSizes==0?"":dist.get(0).getElementA().getName();
+			else{
+				ArrayList<DistanceSimpleElement> dist2 = (ArrayList<DistanceSimpleElement>) distances.getAllElements();
+				DistanceSimpleElement auxDist =  dist2.get(distSizes-1);
+				names[i] = auxDist.getElementB().getName();
 			}
-			distArrayMat[i][j]=0;
-			
+			for(int j=i; j<counter; j++){
+				if(i!=j){
+					DistanceSimpleElement distance = dist.remove(0); 
+					distArrayMat[i][j] = distance.getDistance();
+					distArrayMat[j][i] = distance.getDistance();
+				}
+				else{
+					distArrayMat[i][j] = 0;
+					distArrayMat[j][i] = 0;
+				}
+					
+			}
 		}
+		
 		
 		ICalcProjection calculator = this.getCalculator();
 	 	ArrayList<Vector3D> resultRaw = calculator.execute(new SimpleMatrix(distArrayMat), SimpleMatrix.random(counter, configuration.getDimensions(), 0, 1, new Random()));
 		
 	 	ComposeSimpleElement result = new ComposeSimpleElement("projection");
 	 	for(int i=0; i<resultRaw.size(); i++){
-	 		LandmarkSimpleElement lm = new LandmarkSimpleElement("sample-"+i);
+	 		LandmarkSimpleElement lm = new LandmarkSimpleElement(names[i]);
 	 		lm.addCoordinate(resultRaw.get(i).toArray());
 	 		result.addElement(lm);
 	 	}

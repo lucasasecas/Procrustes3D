@@ -181,6 +181,8 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 			"Autorotate: Try to give Angular Impuse using mouse"
 			};
 
+	private boolean mouseInteractionAviable = true;
+
 	public void doReset() {
 		if (null != iSurface) {
 			Camera3D camera = iSurface.getCamera();
@@ -403,6 +405,7 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if(!mouseInteractionAviable) return;
 		int x = e.getX();
 		int y = e.getY();
         /*
@@ -438,6 +441,7 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 			
 			if (e.isAltDown()){
 				//translate viewPort
+				
 				iSurface.translateViewPort(iCameraAngles.iAngleY, iCameraAngles.iAngleX);
 			}else if (e.isShiftDown()) {
 				/*roll camera/rotate viewPort
@@ -610,6 +614,12 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
+	}
+
+
+	public void setMouseInteractionAviable(boolean mouseInteractionAviable) {
+		this.mouseInteractionAviable  = mouseInteractionAviable;
+		
 	}
 
 	
