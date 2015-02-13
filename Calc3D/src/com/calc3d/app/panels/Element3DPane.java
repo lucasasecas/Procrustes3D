@@ -247,6 +247,12 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 			this.addElements(elements);
 	}
 		
+	public Element3DPane(Element3DCollection collection, int indexSelected) {
+		this(collection);
+		this.comboBox.setSelectedIndex(indexSelected+2);
+//		this.changeElement(indexSelected+2, 0);
+		
+	}
 	public void addElements(Element3DCollection elements){
 		ArrayList<Element3D> subElements = elements.getContainedElements();
 		for(Element3D elem : subElements){

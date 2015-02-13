@@ -26,10 +26,10 @@ public class EditElement3DDialog extends JDialog implements ActionListener{
 	private JButton btnCancel;
 	private JButton btnAcept;
 	private boolean canceled = false; 
-	public EditElement3DDialog(Window owner, Element3DCollection collection, Element3D selected,String tabTitle){
+	public EditElement3DDialog(Window owner, Element3DCollection collection, int indexSelected,String tabTitle){
 		super(owner, "Edit elem", ModalityType.APPLICATION_MODAL);
 		this.colletcion = collection;
-		this.panel = new Element3DPane(collection);
+		this.panel = new Element3DPane(collection, indexSelected);
 		this.panel.setTabTitle(tabTitle);
 
 		
@@ -53,8 +53,8 @@ public class EditElement3DDialog extends JDialog implements ActionListener{
 		this.pack();
 	}
 	
-	public final static String show(Window owner,Element3DCollection root, Element3D selected, String tabTitle){
-		EditElement3DDialog dialog = new EditElement3DDialog(owner, root, selected, tabTitle);
+	public final static String show(Window owner,Element3DCollection root, int indexSelected, String tabTitle){
+		EditElement3DDialog dialog = new EditElement3DDialog(owner, root, indexSelected, tabTitle);
 		dialog.setLocationRelativeTo(owner);
 		dialog.setVisible(true);
 		return dialog.getPanel().getTabTitle();

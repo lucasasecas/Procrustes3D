@@ -2300,7 +2300,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			Element3D selectedNode = (Element3D) table.getPathForRow(i).getLastPathComponent();
 			Element3DTreeTableModel model = (Element3DTreeTableModel) table.getTreeTableModel();
 			Element3DCollection root = (Element3DCollection) model.rootElements.get(0);
-			String title = EditElement3DDialog.show(this, root, null, tabsManager.getCurrentTitle());
+			String title = EditElement3DDialog.show(this, root, i, tabsManager.getCurrentTitle());
 			tabsManager.setCurrentTitle(title);
 			Canvas3D current = tabsManager.getCurrentCanvas();
 			Scene3D scene = current.getSceneManager().createScene(true);
