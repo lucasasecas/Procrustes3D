@@ -118,7 +118,7 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 	@Override
 	public Vector3D getMaxBound(){
 		double maxX, maxY, maxZ;
-		maxX = maxY = maxZ = 0;
+		maxX = maxY = maxZ = Double.MIN_VALUE;
 		for(int i=0; i<_points.size(); i++){
 			Vector3D point = _points.get(i).getPoint();
 			maxX = maxX < point.getX() ? point.getX() : maxX;
@@ -131,7 +131,7 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 	@Override
 	public Vector3D getMinBound(){
 		double minX, minY, minZ;
-		minX = minY = minZ = 0;
+		minX = minY = minZ = Double.MAX_VALUE;
 		for(int i=0; i<_points.size(); i++){
 			Vector3D point = _points.get(i).getPoint();
 			minX = minX > point.getX() ? point.getX() : minX;
@@ -167,15 +167,15 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 		return aux;
 	}
 
-	@Override
-	public Vector2D calculateCentroid(){
-		double[] center = new double[2];
-        for(Element3DPoint elem : _points) {
-        	center[0] += elem.getPoint().getX();
-        	center[1] += elem.getPoint().getY();
-        }
-        return new Vector2D(center[0] / _points.size(), center[1]/_points.size());
-	}
+//	@Override
+//	public Vector2D calculateCentroid(){
+//		double[] center = new double[2];
+//        for(Element3DPoint elem : _points) {
+//        	center[0] += elem.getPoint().getX();
+//        	center[1] += elem.getPoint().getY();
+//        }
+//        return new Vector2D(center[0] / _points.size(), center[1]/_points.size());
+//	}
 	
 	public void select(boolean b){
 		for(Element3DPoint point : _points){

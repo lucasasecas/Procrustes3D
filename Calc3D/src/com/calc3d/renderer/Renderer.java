@@ -262,6 +262,7 @@ public final class Renderer implements BSPTreeTraverseListener{
 		 * where: a = (0.5 * width - 0.5) b = (0.5 * height - 0.5)
 		 */
 
+
 		float a = (float) Math
 				.floor(0.5f * iRasterSettings.iViewportDimensions.width - 0.5f);
 		float b = (float) Math
@@ -275,6 +276,7 @@ public final class Renderer implements BSPTreeTraverseListener{
 					 0,             b,	      0,     0,
 					 0, 	        0,        1,     0, 
 					 a-cx,          b-cy,     0,     1);
+//					 0,           0,     0,     1);
 	}
 
 	

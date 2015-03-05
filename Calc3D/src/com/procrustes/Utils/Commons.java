@@ -86,7 +86,8 @@ public class Commons {
 	public static Preferences setPreferences(ArrayList<Element3D> list) {
 		Preferences preferences = Globalsettings.getSettings();
 		double maxX, maxY, maxZ, minX, minY, minZ;
-		maxX = maxY = maxZ = minX = minY = minZ = 0;
+		maxX = maxY = maxZ = Double.MIN_VALUE;
+		minX = minY = minZ = Double.MAX_VALUE;
 		for(int i=0; i<list.size(); i++){
 			if(list.get(i).isVisible()){
 	 			Vector3D maxVal =  list.get(i).getMaxBound();
@@ -147,10 +148,6 @@ public class Commons {
 		for(int i=0; i<result.size()-1;i++){
 			SimpleMatrix m = result.get(i);
 			specimens.addElement(new SampleSimpleElement(elems.get(i).getName(), m));
-		}
-		if(result.size()!= 0){
-			SimpleMatrix consensus = result.get(result.size()-1);
-			specimens.addElement(new SampleSimpleElement("consensus", consensus));
 		}
 		return specimens;
 	}

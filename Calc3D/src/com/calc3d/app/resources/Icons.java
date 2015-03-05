@@ -211,4 +211,6 @@ public class Icons {
 
 	public static final ImageIcon PROJECTION = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/addProjection-icon.png");;
 	
+	public static final ImageIcon CLOSE = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/close.png");
+	
 }

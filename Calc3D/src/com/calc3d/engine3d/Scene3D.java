@@ -12,5 +12,7 @@ public class Scene3D {
 	  public void addObject3D(Object3D<Element> obj) {
 	        this.object3Ds.add(obj);
 	    }
+
+	
 	
 }

@@ -18,12 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.calc3d.anaglyph.AnaglyphFactory;
+import com.calc3d.app.Globalsettings;
 import com.calc3d.app.LocalSettings;
 import com.calc3d.app.SceneManager;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.engine3d.Camera3D;
 import com.calc3d.engine3d.Light3D;
 import com.calc3d.engine3d.Scene3D;
+import com.calc3d.geometry3d.Box3D;
 import com.calc3d.geometry3d.Element;
 import com.calc3d.geometry3d.Object3D;
 import com.calc3d.geometry3d.bsp.BSPTree;
@@ -87,8 +89,10 @@ public final class Canvas3D extends JPanel implements Printable
 		dbImage=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		
 		iRenderer.setLightCameraandImage(this,iLights,iCamera,dbImage);
+
 		iHandler = new InteractionHandler();
 		setInteractionHandler(iHandler);
+		
 		updateViewPort();
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -158,6 +162,14 @@ public final class Canvas3D extends JPanel implements Printable
 		for (Object3D<Element> obj : scene.object3Ds) 
 			for (Element e: obj.elements)elements.add(e);
 		currenttree=bspBuilder.build(elements);
+		
+		Box3D box = settings.getClipBox();
+		
+
+//		iCamera.reset();
+//		Vector3D vec = new Vector3D( box.getWidth()/2 + box.getMinX(),box.getHeight()/2 + box.getMinY(),0 );
+//		iCamera.eye = vec;
+//		this.iCamera.eye = vec;
 		refresh();
 	}
 
@@ -269,7 +281,7 @@ public final class Canvas3D extends JPanel implements Printable
 		cy+=deltaY;
 		updateViewPort();
 	}
-	
+
 	/**
 	 * Called whenever canvas resizes 
 	 */
@@ -278,8 +290,11 @@ public final class Canvas3D extends JPanel implements Printable
 		iDimensions.height = getHeight();
 		//cx, cy are centre coordinates of canvas
 		iRenderer.setupViewport(iDimensions,cx,cy);
+		
 		refresh();
 	}
+	
+
 	
 
 	/**
@@ -364,6 +379,7 @@ public final class Canvas3D extends JPanel implements Printable
 
 
 	public void addSceneManager(SceneManager sceneManager) {
+		
 		this.sceneManager = sceneManager;
 		
 	}
@@ -378,6 +394,24 @@ public final class Canvas3D extends JPanel implements Printable
 		this.settings = settings;
 		sceneManager.setSettings(settings);
 		this.iRenderer.setSettings(settings);
+		
+		this.setEyeAndCenter();
+		
+	}
+
+
+	private void setEyeAndCenter() {
+		Box3D box = settings.getClipBox();
+		double w = box!=null?box.getWidth():0;
+		double h = box!=null?box.getHeight():0;
+		double x0 = w - box.getMaxX(); 
+		double y0 = h - box.getMaxY();
+		double xc = w/2 - x0;
+		double yc = h/2 - y0;
+		
+		iCamera.originalEye.set(xc/w, yc/h, iCamera.originalEye.getZ());
+		iCamera.originalFocus.set(xc/w, yc/h, iCamera.originalFocus.getZ());
+		iCamera.reset();
 		
 	}
 

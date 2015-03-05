@@ -1235,13 +1235,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			result.setIcon(Icons.DATASET);
 			selected.addElement(result);
 			Element3DDataSet dataset3D = new Element3DDataSet(result);
+			
 			this.addElement3D(dataset3D, configuration);
 			treeTable.updateUI();
 			
 			ProcrustesFitDetalier detalier = new ProcrustesFitDetalier();
-			reporter.writeReport("New procrustes fit analysis generated"+'\n');
-			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
-			reporter.writeReport(detalier.getDetails(result)+'\n'+'\n'+'\n');
+//			reporter.writeReport("New procrustes fit analysis generated"+'\n');
+//			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
+			//reporter.writeReport(detalier.getDetails(result)+'\n'+'\n'+'\n');
 		}else if(command=="distance"){
 			int i=this.treeTable.getSelectedRow();
 			TreePath path = treeTable.getPathForRow(i);
@@ -1413,8 +1414,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         updateTable();
         dirty=false;
         
-        Vector2D centroid = element.calculateCentroid();
-        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
+//        Vector2D centroid = element.calculateCentroid();
+//        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
 //		create treetable
         JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
         treeTableElem3d.setSize(120, 120);
@@ -1460,8 +1461,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         updateTable();
         dirty=false;
         newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
-        Vector2D centroid = element3D.calculateCentroid();
-        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
+//        Vector2D centroid = element3D.calculateCentroid();
+//        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
 //		create treetable
         JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
         treeTableElem3d.setSize(120, 120);

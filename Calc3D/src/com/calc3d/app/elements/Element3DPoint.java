@@ -21,7 +21,7 @@ public class Element3DPoint extends Element3D {
 	 */
 	private static final long serialVersionUID = -7718288181668445927L;
 	private Vector3D point;
-	private int radius=5;
+	private int radius=2;
 	private String text;
 	public Element3DPoint(double x, double y, double z) {
 		element = new ElementPoint(x, y, z);

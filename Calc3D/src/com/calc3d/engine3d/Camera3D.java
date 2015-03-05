@@ -4,6 +4,8 @@ package com.calc3d.engine3d;
 
 import java.io.Serializable;
 
+import com.calc3d.app.SettingsDialog;
+import com.calc3d.geometry3d.Box3D;
 import com.calc3d.log.Logger;
 import com.calc3d.math.AffineTransform3D;
 import com.calc3d.math.Quat;
@@ -25,6 +27,9 @@ public class Camera3D implements Serializable{
 	 * (0,0,0))
 	 */
 	public Vector3D focus = new Vector3D();
+	
+	public Vector3D originalEye = new Vector3D(0, 0, 5.0f);
+	public Vector3D originalFocus = new Vector3D(0f, 0.0f, 0.0f); 
 	/**
 	 * direction of Up vector in world space (will become +Y in camera Space)
 	 * the roll angle (rotation in degrees) of the camera around it's view axis,
@@ -125,9 +130,20 @@ public class Camera3D implements Serializable{
 	 * N(z)  = [-1,0,0]
 	 * </pre>
 	 */
-	public void reset() {
-		eye.set(0.0f, 0.0f, 6.0f); // place camera at (0,0,4) for good perspective fell( as per mine)
-		focus.set(0.0f, 0.0f, 0.0f); // set focus to origin in world space
+
+
+public void reset() {
+		
+//		double w = dimentions!=null?dimentions.getWidth():0;
+//		double h = dimentions!=null?dimentions.getHeight():0;
+//		double x0 = w - dimentions.getMaxX(); 
+//		double y0 = h - dimentions.getMaxY();
+//		double xc = w/2 - x0;
+//		double yc = h/2 - y0;
+//		
+		
+		eye.set(this.originalEye); // place camera at (0,0,4) for good perspective fell( as per mine)
+		focus.set(this.originalFocus); // set focus to origin in world space
 		rollAngle = 0;
 		up.set( 0.0f, 1.0f, 0.0f ); // set up to +y axis of world space
 		//b=-1;t=1;l=-1;r=1;n=-1;f=-100;

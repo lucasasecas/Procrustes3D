@@ -21,6 +21,7 @@ public class AnalysisConfiguration extends DialogConfiguration{
 	private int type;
 	private ArrayList<? extends SimpleElement> elements;
 	private String name;
+	private boolean showConsensus = false;
 	/**
 	 * @param type
 	 * @param elements
@@ -61,6 +62,15 @@ public class AnalysisConfiguration extends DialogConfiguration{
 	public String getName(){
 		return name;
 	}
+	
+	public boolean getShowConsensus(){
+		return showConsensus;
+	}
+	
+	public void setShowConsensus(boolean show){
+		this.showConsensus = show;
+	}
+	
 	
 	
 	

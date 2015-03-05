@@ -257,8 +257,8 @@ import com.calc3d.math.Vector3D;
 		return new Vector3D(5,5,5);
 	}
 
-	public Vector2D calculateCentroid() {
-		return new Vector2D(0,0);
+	public double[] calculateCentroid() {
+		return new double[]{0,0,0};
 	}
 
 	public void select(boolean b) {

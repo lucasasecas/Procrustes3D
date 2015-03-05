@@ -32,11 +32,14 @@ public class Element3DDataSet extends Element3DCollection implements IMatrixable
 		ComposeSimpleElement specimens = ((ComposeSimpleElement) dataset.getElementByKey("specimens"));
 		if(specimens==null) return;
 		ArrayList<SampleSimpleElement> specimensList = (ArrayList<SampleSimpleElement>) specimens.getAllElements();
+		Element3DCollection specimens3D = new Element3DCollection();
+		specimens3D.setName("specimens");
 		for(int i=0; i<specimens.size(); i++){
 			SampleSimpleElement sample = specimensList.get(i);
 			Element3DEntity specimen3D = new Element3DEntity(sample);
 			this.add(specimen3D);
 		}
+		//this.add(specimens3D);
 		String name = dataset.getName(); 
 		this.setName(name);
 	}

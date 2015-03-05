@@ -146,17 +146,17 @@ public class Element3DCollection extends Element3D implements Collection {
 		}
 	}
 	
-	@Override
-	public Vector2D calculateCentroid(){
-		double[] center = new double[2];
-        for(Element3D elem : elements) {
-        	Vector2D auxCentroid = elem.calculateCentroid();
-        	center[0] += auxCentroid.getX();
-        	center[1] += auxCentroid.getY();
-        }
-        return new Vector2D(center[0] / elements.size(), center[1]/elements.size());
-
-	}
+//	@Override
+//	public Vector2D calculateCentroid(){
+//		double[] center = new double[2];
+//        for(Element3D elem : elements) {
+//        	Vector2D auxCentroid = elem.calculateCentroid();
+//        	center[0] += auxCentroid.getX();
+//        	center[1] += auxCentroid.getY();
+//        }
+//        return new Vector2D(center[0] / elements.size(), center[1]/elements.size());
+//
+//	}
 	
 	@Override
 	public void select(boolean b){

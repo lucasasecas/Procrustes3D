@@ -35,9 +35,12 @@ public class ProcrustesCalculatorAdapter  {
 		ComposeSimpleElement dataset = new ComposeSimpleElement(configuration.getName());
 
 		dataset.addElement(Commons.toPCEntity(result,elems));
+		if(result.size()!= 0){
+			SimpleMatrix consensus = result.get(result.size()-1);
+			dataset.addElement(new SampleSimpleElement("consensus", consensus));
+		}
 		return dataset;
-		
-		
+
 	}
 
 	private IProcrustesCalculator getCalculator() {
