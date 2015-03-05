@@ -116,6 +116,8 @@ import com.calc3d.engine3d.Camera3D;
 import com.calc3d.engine3d.Scene3D;
 import com.calc3d.geometry3d.Clip;
 import com.calc3d.geometry3d.ElementPoly;
+import com.calc3d.log.Logger;
+import com.calc3d.log.ReportWindowHandler;
 import com.calc3d.math.Vector3D;
 import com.calc3d.renderer.Canvas3D;
 import com.calc3d.renderer.InteractionHandler;
@@ -1077,6 +1079,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		centerTabPnl.add("Graphics", tabsCanvas);
 		centerTabPnl.add("Reports", reportPanel);
 		
+		
+		Logger.setReportWindowHandler(new ReportWindowHandler( ( (ReportPnl)reportPanel).getTextArea() ));
+		
+		com.calc3d.log.Logger.getLogger("info").info("entro");
 	    reporter = new ReportGenerator((ReportPnl)reportPanel);
 		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPane, centerTabPnl);
 		// setup the layout

@@ -31,8 +31,20 @@ public class ReportPnl extends JPanel {
 
 	}
 	
-	public void appendReport(String report){
+	public int appendReport(String report){
+		int lastLine = textArea.getLineCount();
 		textArea.append(report);
+		return textArea.getCaretPosition();
+	}
+	
+	public int setReport(String report, int start, int end){
+		textArea.replaceRange(report+'\n', start, end);
+		return textArea.getCaretPosition();
+	}
+
+	public JTextArea getTextArea() {
+		
+		return textArea;
 	}
 
 }

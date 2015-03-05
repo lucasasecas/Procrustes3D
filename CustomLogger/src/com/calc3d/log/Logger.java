@@ -12,6 +12,8 @@ public final class Logger
 	private static Level iMinimumLevel = Level.DEBUG;
 	
 	private String iCategory = null;
+
+	private static  ReportWindowHandler reportWindowHandler;
 	
 	
 	/**
@@ -141,7 +143,9 @@ public final class Logger
         log(aMessage, aException, Level.INFO);        
     }
 
-    
+    /**
+     * 
+     */
 
     /**
      * Log an object at {@link Level#WARN} priority.
@@ -267,7 +271,7 @@ public final class Logger
         out.append(iCategory);
         out.append(aMsg);
         
-        outputStream.println( out.toString() );
+        this.reportWindowHandler.addMessage(aMsg);
         
         if (null != aThrowable)
         {
@@ -276,6 +280,43 @@ public final class Logger
 	
 	}
 	
+	
+	public int setTextLog(String aMsg, Throwable aThrowable, Level aLevel, int beginPos, int endPos){
+		
+		if (aLevel.intValue() < iMinimumLevel.intValue())
+			return 0;
+		
+        PrintStream outputStream = System.out;
+
+        // are we printing an error instead?
+        if (Level.ERROR.intValue() <= aLevel.intValue())
+        {
+            outputStream = System.err;
+        }
+
+        if (null == aMsg && null != aThrowable)
+        {
+        	aMsg = aThrowable.toString();
+        }
+        
+        StringBuilder out = new StringBuilder();
+        out.append(aLevel);
+        out.append(iCategory);
+        out.append(aMsg);
+        
+        outputStream.println( out.toString() );
+        
+        if (null != aThrowable)
+        {
+        	aThrowable.printStackTrace(outputStream);
+        }
+		
+        return 0;
+	}
+	
+	public static void setReportWindowHandler(ReportWindowHandler handler){
+		reportWindowHandler = handler;
+	}
 }
 
 

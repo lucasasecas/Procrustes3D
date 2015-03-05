@@ -283,7 +283,7 @@ public class CommonUtils {
 			System.err.println(e);
 			System.err.println(r);
         }
-		System.out.println(aux);
+		//System.out.println(aux);
 		return aux;
 	}
 

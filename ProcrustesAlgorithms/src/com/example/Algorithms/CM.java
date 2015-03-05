@@ -13,27 +13,10 @@ public class CM implements IProcrustesCalculator{
 
 	public ArrayList<SimpleMatrix> proc2012cm(ArrayList<SimpleMatrix> entitiesMat){
 		
-//		f=size(B,1); 
-//		c=size(B,2);
-//		r=size(B,3);
-
 		int numRows = entitiesMat.get(0).numRows();
 		int numCols = entitiesMat.get(0).numCols();
 		int numEntities = entitiesMat.size();
-		 
-//		X=zeros(f,c,r); % Inicializo el "almacén config."
-//		t=zeros(r,c);   % Inicializo el "almacén trasla." (vect trasl=filas)
-//		J=zeros(c,c,r); % Inicializo el "almacén rot."
-//		ro=ones(1,r);   % Inicializo el "almacén escala"
-//		n=zeros(1,r);   % Inicializo el "almacén normas"
-//		C=zeros(c,c,r); % Se guardarán los productos Y'*X
-//		U=zeros(c,c,r); % Se guardarán las U
-//		V=zeros(c,c,r); % Se guardarán las V
-//		H=zeros(c,c,r); % Se guardarán las H 
-//		p=ones(1,r);    % Se guardarán los ro
-//		T=zeros(1,c);   % Se guardará el vector traslación promedio
-//		Y=zeros(f,c);   % Se guardará la config. promedio
-//		X0=zeros(f,c,r);% Se guardará la config. iniciales centradas
+
 		ArrayList<SimpleMatrix> X = MatrixConstructor.create(0, numRows, numCols, numEntities);
 		SimpleMatrix t = MatrixConstructor.create(0,numEntities, numCols);
 		ArrayList<SimpleMatrix> J = MatrixConstructor.create(0,numCols, numCols, numEntities);
@@ -79,6 +62,10 @@ public class CM implements IProcrustesCalculator{
 					.normF(), 2); 
 		}
 		SCD = sumatrazas;
+		
+		/**
+		 * O(n)
+		 */
 		for(int i = 0; i<numEntities; i++){
 //			X(:,:,k)=X(:,:,k)/sqrt(sumatrazas/r);  
 			X.get(i).set(X.get(i).divide(Math.sqrt(sumatrazas/numEntities)));

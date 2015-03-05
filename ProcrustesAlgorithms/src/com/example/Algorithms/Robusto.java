@@ -6,6 +6,7 @@ import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.apache.commons.math3.util.Pair;
 import org.ejml.simple.SimpleMatrix;
 
+import com.calc3d.log.Logger;
 import com.example.utils.CommonUtils;
 
 public class Robusto implements IProcrustesCalculator{
@@ -47,7 +48,7 @@ public class Robusto implements IProcrustesCalculator{
 			s = CommonUtils.medland(X.get(k), 2);
 			s = s==0 ? 0.01 : s;
 			X.set(k, X.get(k).divide(s));
-			X.get(k).print();
+			//X.get(k).print();
 		}
 		
 		Y = CommonUtils.spatialmed(X);
@@ -81,8 +82,10 @@ public class Robusto implements IProcrustesCalculator{
 		SimpleMatrix conteomed = MatrixConstructor.create(0, 1, numEntities);
 
 		while(z<=20 && CommonUtils.medland(Y.minus(W), 1) > tol){
-			System.out.println("Iteracion: "+ z);
-    		for(int k=0; k<numEntities; k++){    
+			int total=20*numEntities;
+    		for(int k=0; k<numEntities; k++){   
+    			System.out.println("z = " +z+", k= "+k+", total= "+total+", "+ Math.floor(z*(k+1)*100/total) + " % \n");
+//    			Logger.getLogger("info").info(Math.floor(z*(k+1)*100/total) + " % \n");
     			if(k==24 && z==4){
     				int a =0;
     			}
@@ -98,16 +101,16 @@ public class Robusto implements IProcrustesCalculator{
     			eje = (SimpleMatrix)solArray[0];
     			SimpleMatrix auxMatRot = CommonUtils.matrizRot3D(eje, tita);
     				H.set(k, auxMatRot);
-    			auxMatRot.print();
+    			//auxMatRot.print();
     			Aux.set(k, Aux.get(k)
     					.mult(H.get(k)));
     			SimpleMatrix prueba = Aux.get(k);
     			for(int i=0; i<prueba.numRows(); i++){
     				if(prueba.get(i, 2) != 0.0){
-    					System.out.println(prueba);
+    					//System.out.println(prueba);
     				}
     			}
-    			System.out.println(Aux.get(k));
+    			//System.out.println(Aux.get(k));
     			T = Y.minus(Aux.get(k));
     			SimpleMatrix t = MatrixConstructor.create(0, 1, numCols);
     			t = CustomMatrixUtils.median(T);
@@ -173,8 +176,8 @@ public class Robusto implements IProcrustesCalculator{
 //disp(['iteraciones: ',num2str(z)]);
 //disp(['La matriz consenso robusta final es:']);
 //disp(Y);
-		//System.out.println("La matriz consenso final es: ");
-		//System.out.println(Y);
+		////System.out.println("La matriz consenso final es: ");
+		////System.out.println(Y);
 //%disp(['Los individuos pos-ajuste robusto son:']);
 //%disp(X);
 //
