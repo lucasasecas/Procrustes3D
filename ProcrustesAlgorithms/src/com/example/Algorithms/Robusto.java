@@ -85,6 +85,7 @@ public class Robusto implements  IProcrustesCalculator{
 			int total=20*numEntities;
     		for(int k=0; k<numEntities; k++){   
     			int b = (int) Math.pow(10, z-1);
+    			
     			System.out.println("z = " +b+", k= "+k+", total= "+total+", "+ Math.floor(b*(k+1)*100/total) + " % \n");
 //    			Logger.getLogger("info").info(Math.floor(z*(k+1)*100/total) + " % \n");
     			if(k==24 && z==4){
