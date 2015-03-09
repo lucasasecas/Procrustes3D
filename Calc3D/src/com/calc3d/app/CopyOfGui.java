@@ -71,6 +71,7 @@ import com.calc3d.app.analysis.DistanceConfiguration;
 import com.calc3d.app.analysis.ProcrustesCalculatorAdapter;
 import com.calc3d.app.analysis.ProjectionCalculatorAdapter;
 import com.calc3d.app.analysis.ProjectionConfiguration;
+import com.calc3d.app.analysis.thread.ProcrustesAnalisysThread;
 import com.calc3d.app.dialogs.AboutDialog;
 import com.calc3d.app.dialogs.AddObjectDialog;
 import com.calc3d.app.dialogs.EditElement3DDialog;
@@ -124,6 +125,7 @@ import com.calc3d.renderer.InteractionHandler;
 import com.calc3d.renderer.Renderer;
 import com.calc3d.utils.ColorUtils;
 import com.example.Algorithms.CM;
+import com.example.Algorithms.IProcrustesCalculator;
 import com.example.Algorithms.Robusto;
 import com.example.Algorithms.distances.DistanceCalculator;
 import com.example.Algorithms.distances.MediumRepitedDistances;
@@ -1237,15 +1239,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			ProcrustesCalculatorAdapter calculator = new ProcrustesCalculatorAdapter();
 			calculator.setConfiguration(configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements();
-			ComposeSimpleElement result = calculator.calculate(specimens);
-			result.setIcon(Icons.DATASET);
-			selected.addElement(result);
-			Element3DDataSet dataset3D = new Element3DDataSet(result);
+			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens);
+			t1.start();
 			
-			this.addElement3D(dataset3D, configuration);
-			treeTable.updateUI();
 			
-			ProcrustesFitDetalier detalier = new ProcrustesFitDetalier();
+
 //			reporter.writeReport("New procrustes fit analysis generated"+'\n');
 //			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
 			//reporter.writeReport(detalier.getDetails(result)+'\n'+'\n'+'\n');
@@ -2314,6 +2312,22 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			current.setScene(scene);
 			current.refresh();	
 		}
+	}
+
+	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration) {
+		
+		int i=this.treeTable.getSelectedRow();
+		TreePath path = treeTable.getPathForRow(i);
+		ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
+		result2.setIcon(Icons.DATASET);
+		selected.addElement(result2);
+		Element3DDataSet dataset3D = new Element3DDataSet(result2);
+		
+		this.addElement3D(dataset3D, configuration);
+		treeTable.updateUI();
+		
+		ProcrustesFitDetalier detalier = new ProcrustesFitDetalier();
+		
 	}
 	 
 }

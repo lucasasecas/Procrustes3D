@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 import com.calc3d.log.Logger;
 import com.example.utils.CommonUtils;
 
-public class Robusto implements IProcrustesCalculator{
+public class Robusto implements  IProcrustesCalculator{
 
 	@Override
 	public ArrayList<SimpleMatrix> execute(ArrayList<SimpleMatrix> entitiesMat) {
@@ -74,7 +74,7 @@ public class Robusto implements IProcrustesCalculator{
 		
 		double residual = resme.elementSum();
 		double residualant = 0;
-		double z = 1;
+		int z = 1;
 		double tol = 0.0001;
 		for(int i=0; i<X.size(); i++)
 			Aux.set(i, X.get(i).copy());
@@ -84,7 +84,8 @@ public class Robusto implements IProcrustesCalculator{
 		while(z<=20 && CommonUtils.medland(Y.minus(W), 1) > tol){
 			int total=20*numEntities;
     		for(int k=0; k<numEntities; k++){   
-    			System.out.println("z = " +z+", k= "+k+", total= "+total+", "+ Math.floor(z*(k+1)*100/total) + " % \n");
+    			int b = (int) Math.pow(10, z-1);
+    			System.out.println("z = " +b+", k= "+k+", total= "+total+", "+ Math.floor(b*(k+1)*100/total) + " % \n");
 //    			Logger.getLogger("info").info(Math.floor(z*(k+1)*100/total) + " % \n");
     			if(k==24 && z==4){
     				int a =0;

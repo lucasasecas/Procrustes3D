@@ -14,7 +14,7 @@ import com.example.Algorithms.Robusto;
 import com.example.loaders.PCEntity;
 import com.procrustes.Utils.Commons;
 
-public class ProcrustesCalculatorAdapter  {
+public class ProcrustesCalculatorAdapter   {
 
 	AnalysisConfiguration configuration;
 	public ProcrustesCalculatorAdapter() {
@@ -49,6 +49,11 @@ public class ProcrustesCalculatorAdapter  {
 		else if(configuration.getType() == AnalysisConfiguration.ROBUST_FIT)
 			return new Robusto();
 		return null;
+	}
+
+	public AnalysisConfiguration getConfiguration() {
+		
+		return this.configuration;
 	}
 
 
