@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,16 +34,14 @@ import com.calc3d.renderer.Canvas3D;
 public class TabsManager implements Serializable {
 
 	JTabbedPane tabs;
-	ArrayList<JPanel> canvasList;
 	
 	public TabsManager(JTabbedPane tabs){
 		this.tabs = tabs;
-		this.canvasList = new ArrayList<JPanel>();
 	}
 	
-	public void newTab(final JSplitPane canvas, String title){
+	public void newTab(final JComponent panel, String title){
 		
-		Component c = tabs.add(canvas);
+		Component c = tabs.add(panel);
 		int count = tabs.getTabCount();
 		tabs.setTabComponentAt(count-1 , this.generateButton(title));
 	}
@@ -199,4 +198,8 @@ public class TabsManager implements Serializable {
             }
         }
     };
+
+	public void setTab(int tabIndex, JComponent pne) {
+		this.tabs.setTabComponentAt(tabIndex, pne);
+	}
 }

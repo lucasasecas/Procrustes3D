@@ -5,8 +5,8 @@ import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -53,16 +52,12 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.ejml.simple.SimpleMatrix;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.procrustes3d.serialize.xml.ProjectSerializer;
 
 import com.calc3d.app.analysis.AnalysisConfiguration;
 import com.calc3d.app.analysis.DialogConfiguration;
@@ -76,27 +71,11 @@ import com.calc3d.app.dialogs.AboutDialog;
 import com.calc3d.app.dialogs.AddObjectDialog;
 import com.calc3d.app.dialogs.EditElement3DDialog;
 import com.calc3d.app.dialogs.HelpDialog;
-import com.calc3d.app.dialogs.NewProcrustesAnalysisDialog;
 import com.calc3d.app.elements.Element3D;
 import com.calc3d.app.elements.Element3DCollection;
-import com.calc3d.app.elements.Element3DCurve;
 import com.calc3d.app.elements.Element3DDataSet;
 import com.calc3d.app.elements.Element3DFactory;
-import com.calc3d.app.elements.Element3DImplicit;
-import com.calc3d.app.elements.Element3DLine;
-import com.calc3d.app.elements.Element3DObject;
-import com.calc3d.app.elements.Element3DParametricSurface;
-import com.calc3d.app.elements.Element3DPlane;
-import com.calc3d.app.elements.Element3DPoint;
-import com.calc3d.app.elements.Element3DPolygon;
-import com.calc3d.app.elements.Element3DProcrustesResult;
 import com.calc3d.app.elements.Element3DProjection;
-import com.calc3d.app.elements.Element3DSurface;
-import com.calc3d.app.elements.Element3DVector;
-import com.calc3d.app.elements.Element3Dcartesian2D;
-import com.calc3d.app.elements.Element3Dfunction;
-import com.calc3d.app.elements.Element3Dimplicit2D;
-import com.calc3d.app.elements.dataset.DataSet;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.ProjectSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
@@ -104,6 +83,7 @@ import com.calc3d.app.elements.simpleelements.SimpleElement;
 import com.calc3d.app.fileload.FileLoader;
 import com.calc3d.app.fileload.LoaderFactory;
 import com.calc3d.app.panels.ColorIcon;
+import com.calc3d.app.panels.GraphicsPane;
 import com.calc3d.app.panels.ReportPnl;
 import com.calc3d.app.panels.StatusBarPanel;
 import com.calc3d.app.reports.DatasetDetails;
@@ -116,21 +96,12 @@ import com.calc3d.app.resources.Messages;
 import com.calc3d.engine3d.Camera3D;
 import com.calc3d.engine3d.Scene3D;
 import com.calc3d.geometry3d.Clip;
-import com.calc3d.geometry3d.ElementPoly;
 import com.calc3d.log.Logger;
 import com.calc3d.log.ReportWindowHandler;
-import com.calc3d.math.Vector3D;
 import com.calc3d.renderer.Canvas3D;
 import com.calc3d.renderer.InteractionHandler;
 import com.calc3d.renderer.Renderer;
 import com.calc3d.utils.ColorUtils;
-import com.example.Algorithms.CM;
-import com.example.Algorithms.IProcrustesCalculator;
-import com.example.Algorithms.Robusto;
-import com.example.Algorithms.distances.DistanceCalculator;
-import com.example.Algorithms.distances.MediumRepitedDistances;
-import com.example.Algorithms.projections.ICalcProjection;
-import com.example.Algorithms.projections.ProjectionFactory;
 import com.example.loaders.PCEntity;
 import com.procrustes.Utils.Commons;
 import com.procrustes.dataContainer.ProcrustesResult;
@@ -1236,6 +1207,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
 			AnalysisConfiguration configuration = (AnalysisConfiguration) AddObjectDialog.show(this,selected, Element3DFactory.PROCRUSTES_ELEMENT);
 			if(configuration == null)return;
+			
 			ProcrustesCalculatorAdapter calculator = new ProcrustesCalculatorAdapter();
 			calculator.setConfiguration(configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements();
@@ -1468,6 +1440,30 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 //        Vector2D centroid = element3D.calculateCentroid();
 //        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
 //		create treetable
+        
+        GraphicsPane gPane = new GraphicsPane(list, newCanvas, this);
+        
+       		
+        tabsManager.newTab(gPane, configuration==null?"new tab" : configuration.getTabTitle());		
+	}
+	
+	public void insertElement3D(Element3D element3D, DialogConfiguration configuration, int tabIndex){
+		ArrayList<Element3D> list = new ArrayList<Element3D>();
+		list.add(element3D);
+    	Preferences preferences;
+	    Canvas3D newCanvas = this.createCanvas();
+		newCanvas.addSceneManager(new SceneManager());
+		newCanvas.getSceneManager().addElement(element3D);
+		newCanvas.getSceneManager().setAxisVisible(true);
+		configuration.setGraphPreferences(Commons.setPreferences(list));
+		preferences = configuration.getGraphPreferences();
+		preferences.setLookandFeel(Globalsettings.lookandFeel);
+		preferences.setBackColor(Color.WHITE);
+		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
+		applySettings(newCanvas,preferences,true,true);
+        updateTable();
+        dirty=false;
+        newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
         JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
         treeTableElem3d.setSize(120, 120);
         treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
@@ -1490,9 +1486,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		pneSplit.setResizeWeight(1);
 		// setup the layout
 		pneSplit.setOneTouchExpandable(true);
-
 		
-        tabsManager.newTab(pneSplit, configuration==null?"new tab" : configuration.getTabTitle());		
+		tabsManager.setTab(tabIndex, pneSplit);
 	}
 
 
@@ -2158,7 +2153,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		}
 	}
  
-	class Element3DTreeTableModel extends AbstractTreeTableModel {
+	public class Element3DTreeTableModel extends AbstractTreeTableModel {
 
 		private Canvas3D canvas;
 		
