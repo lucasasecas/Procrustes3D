@@ -9,7 +9,7 @@ import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
 import com.example.Algorithms.CM;
-import com.example.Algorithms.IProcrustesCalculator;
+import com.example.Algorithms.ProcrustesCalculator;
 import com.example.Algorithms.Robusto;
 import com.example.loaders.PCEntity;
 import com.procrustes.Utils.Commons;
@@ -25,7 +25,7 @@ public class ProcrustesCalculatorAdapter   {
 	}
 
 	public ComposeSimpleElement calculate(ArrayList<SampleSimpleElement> elems) {
-		IProcrustesCalculator calculator = getCalculator();
+		ProcrustesCalculator calculator = getCalculator();
 		ArrayList<SimpleMatrix> elements = new ArrayList<SimpleMatrix>(); 
 		for(int i=0; i<elems.size(); i++){
 			SampleSimpleElement entity = elems.get(i);			
@@ -43,7 +43,7 @@ public class ProcrustesCalculatorAdapter   {
 
 	}
 
-	private IProcrustesCalculator getCalculator() {
+	private ProcrustesCalculator getCalculator() {
 		if(configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT)
 			return new CM();
 		else if(configuration.getType() == AnalysisConfiguration.ROBUST_FIT)

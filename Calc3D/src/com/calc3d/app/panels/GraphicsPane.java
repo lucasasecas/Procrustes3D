@@ -1,10 +1,12 @@
 package com.calc3d.app.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
@@ -39,11 +41,23 @@ public class GraphicsPane extends JPanel {
         paneScrollPane.setPreferredSize(new Dimension(250, 155));
         paneScrollPane.setMinimumSize(new Dimension(10, 10));
         
-        
-		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, paneScrollPane);
+        JProgressBar progressBar = new JProgressBar(0, 100);
+        progressBar.setPreferredSize(new Dimension(250,10 ))
+        ;
+        progressBar.setStringPainted(true);
+        JSplitPane pneSplitStatusBar = new JSplitPane(JSplitPane.VERTICAL_SPLIT, paneScrollPane, progressBar);
+        pneSplitStatusBar.setResizeWeight(1);
+		setLayout(new BorderLayout(0, 0));
+		
+		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, pneSplitStatusBar);
 		pneSplit.setResizeWeight(1);
+		
+		
 		// setup the layout
 		pneSplit.setOneTouchExpandable(true);
+		
+		
+		
 		
 		this.add(pneSplit);
 

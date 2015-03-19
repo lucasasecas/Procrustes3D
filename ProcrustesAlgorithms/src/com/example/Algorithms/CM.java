@@ -7,7 +7,7 @@ import org.ejml.simple.SimpleMatrix;
 import org.ejml.simple.SimpleSVD;
 import org.omg.CORBA.portable.IndirectionException;
 
-public class CM implements IProcrustesCalculator{ 
+public class CM extends ProcrustesCalculator{ 
 
 	
 

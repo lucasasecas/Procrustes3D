@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 import com.calc3d.log.Logger;
 import com.example.utils.CommonUtils;
 
-public class Robusto implements  IProcrustesCalculator{
+public class Robusto extends  ProcrustesCalculator{
 
 	@Override
 	public ArrayList<SimpleMatrix> execute(ArrayList<SimpleMatrix> entitiesMat) {

@@ -10,7 +10,7 @@ import com.calc3d.app.CopyOfGui;
 import com.calc3d.app.analysis.ProcrustesCalculatorAdapter;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
-import com.example.Algorithms.IProcrustesCalculator;
+import com.example.Algorithms.ProcrustesCalculator;
 
 public class ProcrustesAnalisysThread extends Thread {
 
