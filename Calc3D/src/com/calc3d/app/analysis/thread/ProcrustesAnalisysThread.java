@@ -18,16 +18,18 @@ public class ProcrustesAnalisysThread extends Thread {
 	private JFrame currentWindow;
 	private ProcrustesCalculatorAdapter calculator;
 	private ArrayList<SampleSimpleElement> elems;
+	private int tabIndex;
 
-	public ProcrustesAnalisysThread(JFrame window, ProcrustesCalculatorAdapter calculator, ArrayList<SampleSimpleElement> specimens){
+	public ProcrustesAnalisysThread(JFrame window, ProcrustesCalculatorAdapter calculator, ArrayList<SampleSimpleElement> specimens, int indexTab){
 		this.currentWindow = window;
 		this.calculator = calculator;
 		this.elems = specimens;
+		this.tabIndex = indexTab;
 	}
 	
 	@Override
 	public void run(){
 		ComposeSimpleElement result = calculator.calculate(elems);
-		((CopyOfGui)currentWindow).addProcrustesAnalisys(result, calculator.getConfiguration());
+		((CopyOfGui)currentWindow).addProcrustesAnalisys(result, calculator.getConfiguration(), this.tabIndex);
 	}
 }

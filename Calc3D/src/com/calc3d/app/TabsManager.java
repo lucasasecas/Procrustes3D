@@ -29,6 +29,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.jdesktop.swingx.JXTreeTable;
 
+import com.calc3d.app.panels.GraphicsPane;
 import com.calc3d.renderer.Canvas3D;
 
 public class TabsManager implements Serializable {
@@ -39,11 +40,12 @@ public class TabsManager implements Serializable {
 		this.tabs = tabs;
 	}
 	
-	public void newTab(final JComponent panel, String title){
+	public int newTab(final JComponent panel, String title){
 		
 		Component c = tabs.add(panel);
 		int count = tabs.getTabCount();
 		tabs.setTabComponentAt(count-1 , this.generateButton(title));
+		return tabs.getTabCount()-1;
 	}
 	
 	private Component generateButton(String title) {
@@ -201,5 +203,10 @@ public class TabsManager implements Serializable {
 
 	public void setTab(int tabIndex, JComponent pne) {
 		this.tabs.setTabComponentAt(tabIndex, pne);
+	}
+
+	public JPanel getTabAt(int index) {
+		Component c = tabs.getComponent(index);
+		return (JPanel) tabs.getComponent(index);
 	}
 }

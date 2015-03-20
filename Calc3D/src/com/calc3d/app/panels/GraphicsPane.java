@@ -2,6 +2,7 @@ package com.calc3d.app.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
@@ -21,6 +22,12 @@ import com.calc3d.renderer.Canvas3D;
 
 public class GraphicsPane extends JPanel {
 	private JXTreeTable treeTableElem3d;
+	private CopyOfGui listener;
+	
+	private JScrollPane paneScrollPane;
+	private JProgressBar progressBar;
+	private JSplitPane pneSplitStatusBar;
+	private JSplitPane pneSplit;
 
 	public GraphicsPane(ArrayList<Element3D> list, Canvas3D newCanvas, CopyOfGui listener) {
 		
@@ -34,22 +41,50 @@ public class GraphicsPane extends JPanel {
         
         treeTableElem3d.addTreeSelectionListener(new customSelectionListener(newCanvas));
         
-        JScrollPane paneScrollPane = new JScrollPane(treeTableElem3d);
+        paneScrollPane = new JScrollPane(treeTableElem3d);
         paneScrollPane.setVerticalScrollBarPolicy(
                         ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         
         paneScrollPane.setPreferredSize(new Dimension(250, 155));
         paneScrollPane.setMinimumSize(new Dimension(10, 10));
         
-        JProgressBar progressBar = new JProgressBar(0, 100);
-        progressBar.setPreferredSize(new Dimension(250,10 ))
-        ;
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setPreferredSize(new Dimension(250,10 ));
         progressBar.setStringPainted(true);
-        JSplitPane pneSplitStatusBar = new JSplitPane(JSplitPane.VERTICAL_SPLIT, paneScrollPane, progressBar);
+        pneSplitStatusBar = new JSplitPane(JSplitPane.VERTICAL_SPLIT, paneScrollPane, progressBar);
         pneSplitStatusBar.setResizeWeight(1);
 		setLayout(new BorderLayout(0, 0));
 		
-		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, pneSplitStatusBar);
+		pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, pneSplitStatusBar);
+		pneSplit.setResizeWeight(1);
+		
+		
+		// setup the layout
+		pneSplit.setOneTouchExpandable(true);
+
+		this.add(pneSplit);
+
+	}
+	
+public GraphicsPane(CopyOfGui listener) {
+		
+ 
+		this.listener = listener;
+        paneScrollPane = new JScrollPane();
+        paneScrollPane.setVerticalScrollBarPolicy(
+                        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        paneScrollPane.setPreferredSize(new Dimension(250, 155));
+        paneScrollPane.setMinimumSize(new Dimension(10, 10));
+        
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setPreferredSize(new Dimension(250,10 ));
+        progressBar.setStringPainted(true);
+        pneSplitStatusBar = new JSplitPane(JSplitPane.VERTICAL_SPLIT, paneScrollPane, progressBar);
+        pneSplitStatusBar.setResizeWeight(1);
+		setLayout(new BorderLayout(0, 0));
+		
+		pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JPanel(), pneSplitStatusBar);
 		pneSplit.setResizeWeight(1);
 		
 		
@@ -62,6 +97,23 @@ public class GraphicsPane extends JPanel {
 		this.add(pneSplit);
 
 	}
+
+public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
+	  treeTableElem3d = new JXTreeTable(listener.new Element3DTreeTableModel(elementsList, canvas));
+	  treeTableElem3d.setSize(120, 120);
+	  treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
+	  treeTableElem3d.setAutoscrolls(true);
+	  treeTableElem3d.addMouseListener(listener);
+	  treeTableElem3d.setRootVisible(false);
+	  treeTableElem3d.setVisible(true);
+	  treeTableElem3d.addTreeSelectionListener(new customSelectionListener(canvas));
+      
+	  paneScrollPane.add(treeTableElem3d);
+	  pneSplit.setLeftComponent(canvas);
+	  
+//  
+	
+}
 	
 
 }

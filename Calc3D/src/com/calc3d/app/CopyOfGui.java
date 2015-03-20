@@ -1211,10 +1211,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			ProcrustesCalculatorAdapter calculator = new ProcrustesCalculatorAdapter();
 			calculator.setConfiguration(configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements();
-			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens);
+			
+			int tabIndex = this.createEmptyTab(configuration);
+			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens, tabIndex);
 			t1.start();
-			
-			
 
 //			reporter.writeReport("New procrustes fit analysis generated"+'\n');
 //			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
@@ -1367,6 +1367,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	  				
 		if (command.startsWith("add"))updateTable();
 	}
+	/**
+	 * Create and
+	 * @param configuration
+	 */
+	public int createEmptyTab(AnalysisConfiguration configuration){
+		return tabsManager.newTab(new GraphicsPane(this), configuration.getName());
+	}
 	
 	public void addElement(SimpleElement elem){
 		ArrayList<SimpleElement> list = new ArrayList<SimpleElement>();
@@ -1389,10 +1396,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
         dirty=false;
-        
-//        Vector2D centroid = element.calculateCentroid();
-//        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
-//		create treetable
+
         JXTreeTable treeTableElem3d = new JXTreeTable(new Element3DTreeTableModel(list, newCanvas));
         treeTableElem3d.setSize(120, 120);
         treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
@@ -1414,9 +1418,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, newCanvas, paneScrollPane);
 		pneSplit.setResizeWeight(1);
 		// setup the layout
-		pneSplit.setOneTouchExpandable(true);
 
-		
         tabsManager.newTab(pneSplit,"new tab");		
 	}
 //	
@@ -2309,20 +2311,47 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		}
 	}
 
-	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration) {
+	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
 		
+		//Generate 3dElements
 		int i=this.treeTable.getSelectedRow();
 		TreePath path = treeTable.getPathForRow(i);
 		ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
 		result2.setIcon(Icons.DATASET);
 		selected.addElement(result2);
 		Element3DDataSet dataset3D = new Element3DDataSet(result2);
+		GraphicsPane graphicPane = (GraphicsPane) tabsManager.getTabAt(index);
 		
+//		Populate graphicsPane with elements
+		Canvas3D newCanvas = this.createAndPopulateCanvas(dataset3D, configuration);
+		ArrayList<Element3D> elementsList = new ArrayList<Element3D>();
+		elementsList.add(dataset3D);
+		graphicPane.addElements3D(elementsList, newCanvas);
 		this.addElement3D(dataset3D, configuration);
 		treeTable.updateUI();
 		
-		ProcrustesFitDetalier detalier = new ProcrustesFitDetalier();
-		
+	}
+
+	private Canvas3D createAndPopulateCanvas(Element3DCollection element3D, AnalysisConfiguration configuration) {
+		ArrayList<Element3D> list = new ArrayList<Element3D>();
+		list.add(element3D);
+    	Preferences preferences;
+	    Canvas3D newCanvas = this.createCanvas();
+		newCanvas.addSceneManager(new SceneManager());
+		newCanvas.getSceneManager().addElement(element3D);
+		newCanvas.getSceneManager().setAxisVisible(true);
+		configuration.setGraphPreferences(Commons.setPreferences(list));
+		preferences = configuration.getGraphPreferences();
+		preferences.setLookandFeel(Globalsettings.lookandFeel);
+		preferences.setBackColor(Color.WHITE);
+		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
+		applySettings(newCanvas,preferences,true,true);
+        updateTable();
+        dirty=false;
+        newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
+	
+       
+		return newCanvas;
 	}
 	 
 }
