@@ -206,7 +206,12 @@ public class TabsManager implements Serializable {
 	}
 
 	public JPanel getTabAt(int index) {
-		Component c = tabs.getComponent(index);
-		return (JPanel) tabs.getComponent(index);
+		GraphicsPane panel = (GraphicsPane) tabs.getComponentAt(index);
+		return panel;
+	}
+
+	public void setTitleTabAt(int index, String title) {
+		this.tabs.setTitleAt(index, title);
+		tabs.updateUI();
 	}
 }

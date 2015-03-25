@@ -2327,8 +2327,9 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		ArrayList<Element3D> elementsList = new ArrayList<Element3D>();
 		elementsList.add(dataset3D);
 		graphicPane.addElements3D(elementsList, newCanvas);
-		this.addElement3D(dataset3D, configuration);
+		//this.addElement3D(dataset3D, configuration);
 		treeTable.updateUI();
+		tabsManager.setTitleTabAt(index, configuration.getTabTitle());
 		
 	}
 
