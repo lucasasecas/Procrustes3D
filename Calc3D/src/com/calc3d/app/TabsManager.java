@@ -212,6 +212,5 @@ public class TabsManager implements Serializable {
 
 	public void setTitleTabAt(int index, String title) {
 		this.tabs.setTitleAt(index, title);
-		tabs.updateUI();
 	}
 }

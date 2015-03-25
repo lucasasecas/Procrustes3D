@@ -29,6 +29,9 @@ public class GraphicsPane extends JPanel {
 	private JSplitPane pneSplitStatusBar;
 	private JSplitPane pneSplit;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public GraphicsPane(ArrayList<Element3D> list, Canvas3D newCanvas, CopyOfGui listener) {
 		
 		treeTableElem3d = new JXTreeTable(listener.new Element3DTreeTableModel(list, newCanvas));
@@ -95,21 +98,25 @@ public GraphicsPane(CopyOfGui listener) {
 		
 		
 		this.add(pneSplit);
+		  this.updateUI();
 
 	}
 
 public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
 	  treeTableElem3d = new JXTreeTable(listener.new Element3DTreeTableModel(elementsList, canvas));
-	  treeTableElem3d.setSize(120, 120);
-	  treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
+	  treeTableElem3d.setSize(250, 900);
+	  treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(250, 900));
 	  treeTableElem3d.setAutoscrolls(true);
 	  treeTableElem3d.addMouseListener(listener);
 	  treeTableElem3d.setRootVisible(false);
 	  treeTableElem3d.setVisible(true);
 	  treeTableElem3d.addTreeSelectionListener(new customSelectionListener(canvas));
       
-	  paneScrollPane.add(treeTableElem3d);
+	  
+	  paneScrollPane.setViewportView(treeTableElem3d);
 	  pneSplit.setLeftComponent(canvas);
+	  
+	  this.updateUI();
 	  
 //  
 	

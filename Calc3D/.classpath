@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="Resources/jaxb-2_0-final-api.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ProcrustesAlgorithms"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/Lucas/Documents/workspace/Calc3D/ProcrustesAlgorithms/resurces/commons-math3-3.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lmarquez/Documents/GitHub/Procrustes3D/ProcrustesAlgorithms/resurces/commons-math3-3.3.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CustomLogger"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

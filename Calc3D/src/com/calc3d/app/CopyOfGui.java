@@ -1372,7 +1372,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	 * @param configuration
 	 */
 	public int createEmptyTab(AnalysisConfiguration configuration){
-		return tabsManager.newTab(new GraphicsPane(this), configuration.getName());
+		return tabsManager.newTab(new GraphicsPane(this), configuration.getTabTitle());
 	}
 	
 	public void addElement(SimpleElement elem){
@@ -2328,8 +2328,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		elementsList.add(dataset3D);
 		graphicPane.addElements3D(elementsList, newCanvas);
 		//this.addElement3D(dataset3D, configuration);
-		treeTable.updateUI();
 		tabsManager.setTitleTabAt(index, configuration.getTabTitle());
+		
 		
 	}
 
