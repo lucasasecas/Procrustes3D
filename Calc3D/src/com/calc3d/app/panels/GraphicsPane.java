@@ -121,6 +121,10 @@ public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
 //  
 	
 }
+
+public JProgressBar getProgressBar() {
+	return progressBar;
+}
 	
 
 }

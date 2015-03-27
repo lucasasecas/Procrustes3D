@@ -67,6 +67,7 @@ import com.calc3d.app.analysis.ProcrustesCalculatorAdapter;
 import com.calc3d.app.analysis.ProjectionCalculatorAdapter;
 import com.calc3d.app.analysis.ProjectionConfiguration;
 import com.calc3d.app.analysis.thread.ProcrustesAnalisysThread;
+import com.calc3d.app.analysis.thread.ProcrustesAnalisysWorker;
 import com.calc3d.app.dialogs.AboutDialog;
 import com.calc3d.app.dialogs.AddObjectDialog;
 import com.calc3d.app.dialogs.EditElement3DDialog;
@@ -1210,11 +1211,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			
 			ProcrustesCalculatorAdapter calculator = new ProcrustesCalculatorAdapter();
 			calculator.setConfiguration(configuration);
+			
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements();
 			
 			int tabIndex = this.createEmptyTab(configuration);
-			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens, tabIndex);
-			t1.start();
+			GraphicsPane gp = (GraphicsPane) tabsManager.getTabAt(tabIndex);
+			ProcrustesAnalisysWorker worker = new ProcrustesAnalisysWorker(this, calculator, specimens, tabIndex, gp.getProgressBar());
+//			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens, tabIndex);
+			worker.execute();
 
 //			reporter.writeReport("New procrustes fit analysis generated"+'\n');
 //			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');

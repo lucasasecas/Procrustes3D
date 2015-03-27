@@ -81,12 +81,21 @@ public class Robusto extends  ProcrustesCalculator{
 		SimpleMatrix conteo = MatrixConstructor.create(0, numRows +1, numEntities);
 		SimpleMatrix conteomed = MatrixConstructor.create(0, 1, numEntities);
 
+		double lastProgressStatus = 0;
+		int counter =0;
 		while(z<=20 && CommonUtils.medland(Y.minus(W), 1) > tol){
 			int total=20*numEntities;
     		for(int k=0; k<numEntities; k++){   
     			int b = (int) Math.pow(10, z-1);
     			
-    			System.out.println("z = " +b+", k= "+k+", total= "+total+", "+ Math.floor(b*(k+1)*100/total) + " % \n");
+    			counter++;
+    			double newProgressStatus =(counter*100/total);
+    			System.out.println(newProgressStatus + "%");
+    			if(lastProgressStatus != newProgressStatus)
+    				this.setChanged();
+    			lastProgressStatus = newProgressStatus;
+    			notifyObservers(newProgressStatus);
+    			
 //    			Logger.getLogger("info").info(Math.floor(z*(k+1)*100/total) + " % \n");
     			if(k==24 && z==4){
     				int a =0;
