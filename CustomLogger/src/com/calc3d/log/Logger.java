@@ -143,9 +143,7 @@ public final class Logger
         log(aMessage, aException, Level.INFO);        
     }
 
-    /**
-     * 
-     */
+
 
     /**
      * Log an object at {@link Level#WARN} priority.
@@ -271,7 +269,7 @@ public final class Logger
         out.append(iCategory);
         out.append(aMsg);
         
-        this.reportWindowHandler.addMessage(aMsg);
+        //this.reportWindowHandler.addMessage(aMsg);
         
         if (null != aThrowable)
         {

@@ -8,6 +8,7 @@ public class Element3DFactory {
 	public final static int PROJECTION_ELEMENT = 0;
 	public final static int DISTANCE_ELEMENT = 1;
 	public final static int PROCRUSTES_ELEMENT = 2;
+	public final static int DATASET_ELEMENT = 3;
 	
 
 
@@ -22,6 +23,9 @@ public class Element3DFactory {
 			return null;
 		}
 		if(elementType == PROCRUSTES_ELEMENT){
+			return new Element3DDataSet((ComposeSimpleElement) simpleElement);
+		}
+		if(elementType == DATASET_ELEMENT){
 			return new Element3DDataSet((ComposeSimpleElement) simpleElement);
 		}
 		return null;

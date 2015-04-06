@@ -6,6 +6,7 @@ import com.calc3d.app.elements.Element3D;
 import com.calc3d.app.elements.Element3DCollection;
 import com.calc3d.app.panels.Element3DPane;
 import com.calc3d.app.panels.Element3DPanelEditor;
+import com.calc3d.app.panels.GraphicsPane;
 
 import javax.swing.JPanel;
 
@@ -53,9 +54,9 @@ public class EditElement3DDialog extends JDialog implements ActionListener{
 		this.pack();
 	}
 	
-	public final static String show(Window owner,Element3DCollection root, int indexSelected, String tabTitle){
-		EditElement3DDialog dialog = new EditElement3DDialog(owner, root, indexSelected, tabTitle);
-		dialog.setLocationRelativeTo(owner);
+	public final static String show(Window window,Element3DCollection root, int indexSelected, String tabTitle){
+		EditElement3DDialog dialog = new EditElement3DDialog(window, root, indexSelected, tabTitle);
+		dialog.setLocationRelativeTo(window);
 		dialog.setVisible(true);
 		return dialog.getPanel().getTabTitle();
 		

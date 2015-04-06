@@ -61,12 +61,10 @@ public class TabsManager implements Serializable {
 		return pnl;
 	}
 
-	public JXTreeTable getCurrentTreeTable(){
+	public Component getCurrentTab(){
 		try{
-			JSplitPane split = ((JSplitPane)tabs.getSelectedComponent());
-			JScrollPane c = (JScrollPane)split.getComponent(1);
-			JXTreeTable result = (JXTreeTable) c.getViewport().getView();
-			return result;
+
+			return tabs.getSelectedComponent();
 		}catch(Exception e){
 			
 		}

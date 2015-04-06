@@ -3,6 +3,7 @@ package com.calc3d.app.panels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
@@ -11,16 +12,20 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTreeTable;
 
 import com.calc3d.app.CopyOfGui;
 import com.calc3d.app.customSelectionListener;
 import com.calc3d.app.CopyOfGui.Element3DTreeTableModel;
+import com.calc3d.app.dialogs.EditElement3DDialog;
 import com.calc3d.app.elements.Element3D;
+import com.calc3d.app.elements.Element3DCollection;
+import com.calc3d.engine3d.Scene3D;
 import com.calc3d.renderer.Canvas3D;
 
-public class GraphicsPane extends JPanel {
+public class GraphicsPane extends JPanel implements MouseListener {
 	private JXTreeTable treeTableElem3d;
 	private CopyOfGui listener;
 	
@@ -28,6 +33,8 @@ public class GraphicsPane extends JPanel {
 	private JProgressBar progressBar;
 	private JSplitPane pneSplitStatusBar;
 	private JSplitPane pneSplit;
+	
+	private Canvas3D canvas;
 
 	/**
 	 * @wbp.parser.constructor
@@ -38,7 +45,7 @@ public class GraphicsPane extends JPanel {
         treeTableElem3d.setSize(120, 120);
         treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(120, 120));
         treeTableElem3d.setAutoscrolls(true);
-        treeTableElem3d.addMouseListener(listener);
+        treeTableElem3d.addMouseListener(this);
         treeTableElem3d.setRootVisible(false);
         treeTableElem3d.setVisible(true);
         
@@ -66,6 +73,8 @@ public class GraphicsPane extends JPanel {
 		pneSplit.setOneTouchExpandable(true);
 
 		this.add(pneSplit);
+		
+		this.canvas  = newCanvas;
 
 	}
 	
@@ -107,7 +116,7 @@ public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
 	  treeTableElem3d.setSize(250, 900);
 	  treeTableElem3d.setPreferredScrollableViewportSize(new Dimension(250, 900));
 	  treeTableElem3d.setAutoscrolls(true);
-	  treeTableElem3d.addMouseListener(listener);
+	  treeTableElem3d.addMouseListener(this);
 	  treeTableElem3d.setRootVisible(false);
 	  treeTableElem3d.setVisible(true);
 	  treeTableElem3d.addTreeSelectionListener(new customSelectionListener(canvas));
@@ -115,6 +124,7 @@ public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
 	  
 	  paneScrollPane.setViewportView(treeTableElem3d);
 	  pneSplit.setLeftComponent(canvas);
+	  this.canvas = canvas;
 	  
 	  this.updateUI();
 	  
@@ -124,6 +134,50 @@ public void addElements3D(ArrayList<Element3D> elementsList, Canvas3D canvas) {
 
 public JProgressBar getProgressBar() {
 	return progressBar;
+}
+
+public JXTreeTable getTreeTable(){
+	return treeTableElem3d;
+}
+
+@Override
+public void mouseClicked(MouseEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void mouseEntered(MouseEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void mouseExited(MouseEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void mousePressed(MouseEvent e) {
+	if (e.getClickCount()==2){
+		if(this.treeTableElem3d == null ) return;
+		int i = this.treeTableElem3d.getSelectedRow();
+		Element3D selectedNode = (Element3D) this.treeTableElem3d.getPathForRow(i).getLastPathComponent();
+		Element3DTreeTableModel model = (Element3DTreeTableModel) this.treeTableElem3d.getTreeTableModel();
+		Element3DCollection root = (Element3DCollection) model.rootElements.get(0);
+		String title = EditElement3DDialog.show(SwingUtilities.getWindowAncestor(this), root, i, " ");
+		Scene3D scene = this.canvas.getSceneManager().createScene(true);
+		this.canvas.setScene(scene);
+		this.canvas.refresh();	
+	}
+	
+}
+
+@Override
+public void mouseReleased(MouseEvent arg0) {
+	// TODO Auto-generated method stub
+	
 }
 	
 

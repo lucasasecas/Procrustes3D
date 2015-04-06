@@ -39,14 +39,11 @@ public class ProjectionConfiguration extends DialogConfiguration {
 	
 	@Override
 	public Preferences getGraphPreferences(){
-		this.graphPreferences.setBoxVisible(true);
+		this.graphPreferences.setBoxVisible(false);
 		this.graphPreferences.setMousInteractionAviable(this.dimentions==2?false:true);
 		this.graphPreferences.setXyGridVisible(true);
 		this.graphPreferences.setzAxisVisible(this.dimentions==2?false:true);
 		this.graphPreferences.setAxisColor(Color.black);
-//		this.graphPreferences.setxAxisVisible(true);
-//		this.graphPreferences.setyAxisVisible(true);
-//		this.graphPreferences.setzAxisVisible(true);
 		return graphPreferences;
 	}
 

@@ -25,6 +25,7 @@ import com.calc3d.app.elements.simpleelements.SimpleElement;
 import com.calc3d.app.panels.AnalysisPane;
 import com.calc3d.app.panels.CartesianCurve2DPanel;
 import com.calc3d.app.panels.Curve3DPanel;
+import com.calc3d.app.panels.DatasetPane;
 import com.calc3d.app.panels.DistancePanel;
 import com.calc3d.app.panels.ImplicitCurve2DPanel;
 import com.calc3d.app.panels.Line3DPanel;
@@ -261,6 +262,9 @@ public class commonUtils {
 		}
 		if(type==Element3DFactory.PROCRUSTES_ELEMENT){
 			return new AnalysisPane();
+		}
+		if(type==Element3DFactory.DATASET_ELEMENT){
+			return new DatasetPane();
 		}
 		return null;
 	}

@@ -60,6 +60,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 
 import com.calc3d.app.analysis.AnalysisConfiguration;
+import com.calc3d.app.analysis.DatasetConfiguration;
 import com.calc3d.app.analysis.DialogConfiguration;
 import com.calc3d.app.analysis.DistanceCalculatorAdapter;
 import com.calc3d.app.analysis.DistanceConfiguration;
@@ -1220,9 +1221,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 //			ProcrustesAnalisysThread t1 = new ProcrustesAnalisysThread(this, calculator, specimens, tabIndex);
 			worker.execute();
 
-//			reporter.writeReport("New procrustes fit analysis generated"+'\n');
-//			reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
-			//reporter.writeReport(detalier.getDetails(result)+'\n'+'\n'+'\n');
+
 		}else if(command=="distance"){
 			int i=this.treeTable.getSelectedRow();
 			TreePath path = treeTable.getPathForRow(i);
@@ -1299,11 +1298,12 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		}
 		else if(command=="load"){
 			
-			ComposeSimpleElement dataset = (ComposeSimpleElement)loadFromFile();
+			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog.show(this,null, Element3DFactory.DATASET_ELEMENT);
+			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration.getSrc());
 			if(dataset==null)return;
 			dataset.setIcon(Icons.DATASET);
 			this.addElement(dataset);
-			this.addElement3D(new Element3DDataSet(dataset));
+			this.addElement3D(new Element3DDataSet(dataset), configuration);
 			this.tabsManager.setCurrentTitle(dataset.getName());
 			DatasetDetails detailer = new DatasetDetails();
 			reporter.writeReport(detailer.getDetails(dataset));
@@ -1429,24 +1429,24 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	public void addElement3D(Element3D element3D, DialogConfiguration configuration){
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element3D);
-    	Preferences preferences;
+    	Preferences preferences  =Globalsettings.getSettings();
 	    Canvas3D newCanvas = this.createCanvas();
 		newCanvas.addSceneManager(new SceneManager());
 		newCanvas.getSceneManager().addElement(element3D);
 		newCanvas.getSceneManager().setAxisVisible(true);
-		configuration.setGraphPreferences(Commons.setPreferences(list));
-		preferences = configuration.getGraphPreferences();
+		if(configuration!=null){
+			configuration.setGraphPreferences(Commons.setPreferences(list));
+			preferences = configuration.getGraphPreferences();
+		}
+		
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
 		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
         dirty=false;
-        newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
-//        Vector2D centroid = element3D.calculateCentroid();
-//        Vector3D cent2 = newCanvas.getRenderer().ProjectToScreen(new Vector3D(centroid.getX(), centroid.getY(), 0));
-//		create treetable
-        
+        newCanvas.setSettings(new LocalSettings(preferences));       
+
         GraphicsPane gPane = new GraphicsPane(list, newCanvas, this);
         
        		
@@ -2300,7 +2300,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount()==2){
-			JXTreeTable table = tabsManager.getCurrentTreeTable();
+			//start extract treetable from panel
+			JXTreeTable table = null;
+			try{
+				GraphicsPane graphicsPanel = (GraphicsPane) tabsManager.getCurrentTab();
+				table = graphicsPanel.getTreeTable();
+			}catch(Exception err){
+				err.printStackTrace();
+			}
 			if(table == null ) return;
 			int i = table.getSelectedRow();
 			Element3D selectedNode = (Element3D) table.getPathForRow(i).getLastPathComponent();
@@ -2333,7 +2340,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		graphicPane.addElements3D(elementsList, newCanvas);
 		//this.addElement3D(dataset3D, configuration);
 		tabsManager.setTitleTabAt(index, configuration.getTabTitle());
-		
+		ProcrustesFitDetalier detailer = new ProcrustesFitDetalier();
+		reporter.writeReport("New procrustes fit analysis generated"+'\n');
+		reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
+		reporter.writeReport(detailer.getDetails(result2)+'\n'+'\n'+'\n');
 		
 	}
 
@@ -2354,8 +2364,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         updateTable();
         dirty=false;
         newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
-	
-       
+        
 		return newCanvas;
 	}
 	 

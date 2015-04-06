@@ -97,9 +97,7 @@ public class Robusto extends  ProcrustesCalculator{
     			notifyObservers(newProgressStatus);
     			
 //    			Logger.getLogger("info").info(Math.floor(z*(k+1)*100/total) + " % \n");
-    			if(k==24 && z==4){
-    				int a =0;
-    			}
+
 
     			E = CommonUtils.escala(Aux.get(k), Y);
     			double ro = CommonUtils.medianarep(E);

@@ -87,9 +87,19 @@ public class CM extends ProcrustesCalculator{
 		System.out.println("SCE: "+ SCE);
 		System.out.println("Residual inicial: " + residual);
 		int z = 0;
+		double lastProgressStatus = 0;
 		while(Math.abs(residual-residualLat)>0.0001 && z<=100){
 			SimpleMatrix auxX;
-			System.out.println("Iteracion nro: " + z);
+			
+			
+			double newProgressStatus =(z);
+			System.out.println(newProgressStatus + "%");
+			
+			if(lastProgressStatus != newProgressStatus)
+				this.setChanged();
+			lastProgressStatus = newProgressStatus;
+			notifyObservers(newProgressStatus);
+			
 			residualLat = residual;
 			residual = 0;
 			sumatrazas = 0;
