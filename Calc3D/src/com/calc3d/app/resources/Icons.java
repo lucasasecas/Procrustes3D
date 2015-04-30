@@ -209,6 +209,8 @@ public class Icons {
 	
 	public static final ImageIcon DATASET = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/dataset.png");
 
+	public static final ImageIcon EXPORTDATASET = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/exportDataset.png"); 
+	
 	public static final ImageIcon PROJECTION = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/addProjection-icon.png");;
 	
 	public static final ImageIcon CLOSE = ImageUtils.getIconFromClassPathSuppressExceptions("/com/calc3d/app/resources/close.png");

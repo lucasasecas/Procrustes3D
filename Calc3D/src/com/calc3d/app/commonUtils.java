@@ -1,5 +1,7 @@
 package com.calc3d.app;
 
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 import com.calc3d.app.elements.Element3D;
@@ -21,6 +23,8 @@ import com.calc3d.app.elements.Element3DPolygon;
 import com.calc3d.app.elements.Element3Dfunction;
 import com.calc3d.app.elements.Element3DImplicit;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
+import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
+import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
 import com.calc3d.app.panels.AnalysisPane;
 import com.calc3d.app.panels.CartesianCurve2DPanel;
@@ -266,6 +270,26 @@ public class commonUtils {
 		if(type==Element3DFactory.DATASET_ELEMENT){
 			return new DatasetPane();
 		}
+		return null;
+	}
+	public static int[][] getLinksMatrix(ComposeSimpleElement wireframe) {
+		int[][] links;
+		try{
+			
+			ArrayList<SampleSimpleElement> elements = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)wireframe.getElementByKey("specimens")).getAllElements();
+			links = new int[elements.size()][2];
+			int counter =0;
+			for(SampleSimpleElement element : elements){
+				LandmarkSimpleElement lm = (LandmarkSimpleElement) element.getContainedElement(0);
+				links[counter][0] = (int) lm.getCoords()[0];
+				links[counter][1] = (int) lm.getCoords()[1];
+				counter++;
+			}
+			return links;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 }

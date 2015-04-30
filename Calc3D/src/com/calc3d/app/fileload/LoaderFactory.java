@@ -6,7 +6,7 @@ public class LoaderFactory {
 		if(ext.endsWith(".tps")){
 			return new TpsLoader();
 		}
-		if(ext.endsWith(".nts")){
+		if(ext.endsWith(".nts") || ext.endsWith(".NTS")){
 			return new NtsLoader();
 		}
 		if(ext.endsWith(".txt")){

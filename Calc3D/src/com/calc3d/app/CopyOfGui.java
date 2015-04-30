@@ -78,6 +78,7 @@ import com.calc3d.app.elements.Element3DCollection;
 import com.calc3d.app.elements.Element3DDataSet;
 import com.calc3d.app.elements.Element3DFactory;
 import com.calc3d.app.elements.Element3DProjection;
+import com.calc3d.app.elements.Element3DWireframe;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.ProjectSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
@@ -105,6 +106,7 @@ import com.calc3d.renderer.InteractionHandler;
 import com.calc3d.renderer.Renderer;
 import com.calc3d.utils.ColorUtils;
 import com.example.loaders.PCEntity;
+import com.example.utils.CommonUtils;
 import com.procrustes.Utils.Commons;
 import com.procrustes.dataContainer.ProcrustesResult;
 
@@ -339,6 +341,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	private TabsManager tabsManager;
 
 	private ProjectSimpleElement project;
+
+	private JMenuItem mnuNewDataset;
+
+	private JMenuItem mnuExportDataset;
 	public CopyOfGui(){
 	    super();
 		this.setTitle("Calc3D-A 3D calculus Visualizer");	
@@ -351,11 +357,25 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		// file menu
 		this.mnuFile = new JMenu(Messages.getString("menu.file"));
 		
+		//newdataset file menu item
+		this.mnuNewDataset = new JMenuItem(Messages.getString("menu.file.newdataset"));
+		this.mnuNewDataset.setIcon(Icons.DATASET);
+		this.mnuNewDataset.setActionCommand("load");
+		this.mnuNewDataset.addActionListener(this);
+		this.mnuNewDataset.setEnabled(true);
+		
+		//exportdataset file menu item
+		this.mnuExportDataset = new JMenuItem(Messages.getString("menu.file.exportdataset"));
+		this.mnuExportDataset.setIcon(Icons.EXPORTDATASET);
+		this.mnuExportDataset.setActionCommand("exportDataset");
+		this.mnuExportDataset.addActionListener(this);
+		this.mnuExportDataset.setEnabled(true);
+		
 		this.mnuNew = new JMenuItem(Messages.getString("menu.file.new"));
 		this.mnuNew.setIcon(Icons.NEW);
 		this.mnuNew.setActionCommand("new");
 		this.mnuNew.addActionListener(this);
-		this.mnuNew.setEnabled(false);
+//		this.mnuNew.setEnabled(false);
 		
 		this.mnuSave = new JMenuItem(Messages.getString("menu.file.save"));
 		this.mnuSave.setIcon(Icons.SAVE);
@@ -367,7 +387,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.mnuSaveAs.setIcon(Icons.SAVEAS);
 		this.mnuSaveAs.setActionCommand("saveas");
 		this.mnuSaveAs.addActionListener(this);
-		this.mnuSaveAs.setEnabled(true);
+//		this.mnuSaveAs.setEnabled(true);
 		
 		this.mnuOpen = new JMenuItem(Messages.getString("menu.file.open"));
 		this.mnuOpen.setIcon(Icons.OPEN);
@@ -379,24 +399,27 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.mnuExport.setIcon(Icons.EXPORT);
 		this.mnuExport.setActionCommand("export");
 		this.mnuOpen.addActionListener(this);
-		this.mnuExport.setEnabled(false);
+//		this.mnuExport.setEnabled(false);
 		
 		this.mnuPrint = new JMenuItem(Messages.getString("menu.file.print"));
 		this.mnuPrint.setIcon(Icons.PRINT);
 		this.mnuPrint.setActionCommand("print");
 		this.mnuPrint.addActionListener(this);
-		this.mnuPrint.setEnabled(false);
+//		this.mnuPrint.setEnabled(false);
 		
 		this.mnuExit = new JMenuItem(Messages.getString("menu.file.exit"));
 		this.mnuExit.setActionCommand("exit");
 		this.mnuExit.addActionListener(this);
 		
+		
+		this.mnuFile.add(this.mnuNewDataset);
 		this.mnuFile.add(this.mnuNew);
 		this.mnuFile.add(this.mnuOpen);
 		this.mnuFile.addSeparator();
 		this.mnuFile.add(this.mnuSave);
 		this.mnuFile.add(this.mnuSaveAs);
 		this.mnuFile.add(this.mnuExport);
+		this.mnuFile.add(this.mnuExportDataset);
 		this.mnuFile.addSeparator();
 		this.mnuFile.add(this.mnuPrint);
 		this.mnuFile.addSeparator();
@@ -440,12 +463,6 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.mnuWindow.addSeparator();
 		this.mnuWindow.add(this.mnuLookAndFeel);
 		
-
-		menuItem = new JMenuItem(Messages.getString("menu.insert.dataset"));
-		menuItem.setIcon(Icons.ADDDATASET);
-		menuItem.setActionCommand("load");
-		menuItem.addActionListener(this);
-		mnuInsert.add(menuItem);		
 //		mnuInsert.addSeparator();
 		menuItem = new JMenuItem(Messages.getString("menu.insert.pcanalysis"));
 		menuItem.setIcon(Icons.CM);
@@ -1015,7 +1032,9 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         treeTable.setAutoscrolls(true);
         treeTable.setRootVisible(true);
         treeTable.setVisible(true);
-        treeTable.addTreeSelectionListener(new LeftTableSelectionListener(editorPane));
+        LeftTableSelectionListener treeListener = new LeftTableSelectionListener(editorPane, treeTable, this);
+        treeTable.addTreeSelectionListener(treeListener);
+        treeTable.addMouseListener(treeListener);
         //treeTable.addTreeSelectionListener(new customSelectionListener(this.btnP));
         
         this.btnPreferences = new JButton(Icons.PREFERENCES);
@@ -1257,6 +1276,19 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			reporter.writeReport("Projections: \n");
 			reporter.writeReport("Type of Projection: "+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "Least squares projection" : "Robusts projection")+'\n');
 			reporter.writeReport(detailer.getDetails(projection));
+		}else if(command=="addWireframe"){
+			int i=this.treeTable.getSelectedRow();
+			TreePath path = treeTable.getPathForRow(i);
+			ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
+			ComposeSimpleElement wireframe = (ComposeSimpleElement) this.loadFromFile(getFileName(false, ".nts", "Add wireframe"));
+			int[][] links = commonUtils.getLinksMatrix(wireframe);
+			if(selected.getElementByKey("specimens") != null){
+				for(SampleSimpleElement elem : (ArrayList<SampleSimpleElement>)((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements() ){
+					Element3DWireframe wireframe3D = new Element3DWireframe(elem, links);
+					
+				}
+			}
+			
 		}else if(command=="remove"){
 			  if (table.getSelectedRowCount()>0){ 
 				if (JOptionPane.showConfirmDialog(this,"Are you sure you wan to delete the selected elements from list")== 0 ){	
@@ -1643,6 +1675,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	        	return loadedFile;
 	        	
 			 } catch (Exception e) {
+				 e.printStackTrace();
 				  JOptionPane.showMessageDialog(this,e.getMessage()+fileName,"Error",JOptionPane.ERROR_MESSAGE);
 			 }
 	        return null;
@@ -2140,8 +2173,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		 
 		TreePath path = treeTable.getPathForRow(i);
 		SimpleElement node = (SimpleElement) path.getLastPathComponent();
-//		  editorPane.setText(commonUtils.getobject3DInfoHTML(node));
-//		  editorPane.updateUI();
+
+//		if(arg0.isMetaDown()){
+//			JMenu menu = LeftTableMenuFactory.createMenu(node, this);
+//			menu.setAlignmentX(arg0.getX());
+//			menu.setAlignmentY(arg0.getY());
+//			menu.show();
+//			
+//		}
 	}
 	
 	class TreeCellRenderer extends DefaultTreeCellRenderer{
@@ -2320,6 +2359,23 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			current.setScene(scene);
 			current.refresh();	
 		}
+//		}else if (e.isMetaDown()){
+//			TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+//			 int i=treeTable.getSelectedRow();
+//			 if (i<0)return;
+//			 
+//			TreePath path = treeTable.getPathForRow(i);
+//			SimpleElement node = (SimpleElement) path.getLastPathComponent();
+//
+//			if(e.isMetaDown()){
+//				JMenu menu = LeftTableMenuFactory.createMenu(node, this);
+//				menu.setAlignmentX(e.getX());
+//				menu.setAlignmentY(e.getY());
+//				menu.show();
+//				
+//			}
+
+			
 	}
 
 	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
