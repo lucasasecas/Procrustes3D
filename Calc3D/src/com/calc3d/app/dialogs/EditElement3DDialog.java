@@ -31,8 +31,6 @@ public class EditElement3DDialog extends JDialog implements ActionListener{
 		super(owner, "Edit elem", ModalityType.APPLICATION_MODAL);
 		this.colletcion = collection;
 		this.panel = new Element3DPane(collection, indexSelected);
-		this.panel.setTabTitle(tabTitle);
-
 		
 		getContentPane().add((Component) panel, BorderLayout.CENTER);
 		
@@ -58,7 +56,7 @@ public class EditElement3DDialog extends JDialog implements ActionListener{
 		EditElement3DDialog dialog = new EditElement3DDialog(window, root, indexSelected, tabTitle);
 		dialog.setLocationRelativeTo(window);
 		dialog.setVisible(true);
-		return dialog.getPanel().getTabTitle();
+		return "";
 		
 		
 		

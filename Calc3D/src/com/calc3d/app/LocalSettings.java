@@ -1,10 +1,11 @@
 package com.calc3d.app;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 import com.calc3d.geometry3d.Box3D;
 
-public class LocalSettings {
+public class LocalSettings  implements Serializable{
 public  double minX=-5;
 public  double maxX=5;
 public  double minY=-5;

@@ -52,6 +52,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
@@ -69,6 +71,7 @@ import com.calc3d.app.analysis.ProjectionCalculatorAdapter;
 import com.calc3d.app.analysis.ProjectionConfiguration;
 import com.calc3d.app.analysis.thread.ProcrustesAnalisysThread;
 import com.calc3d.app.analysis.thread.ProcrustesAnalisysWorker;
+import com.calc3d.app.contextcommands.ContextMenuCommand;
 import com.calc3d.app.dialogs.AboutDialog;
 import com.calc3d.app.dialogs.AddObjectDialog;
 import com.calc3d.app.dialogs.EditElement3DDialog;
@@ -110,7 +113,8 @@ import com.example.utils.CommonUtils;
 import com.procrustes.Utils.Commons;
 import com.procrustes.dataContainer.ProcrustesResult;
 
-public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
+public class CopyOfGui extends JFrame implements ActionListener,  MouseListener, ChangeListener{
+	
 	/** The app version */
 	public static final String VERSION = "1.0.0";
 	
@@ -391,7 +395,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		
 		this.mnuOpen = new JMenuItem(Messages.getString("menu.file.open"));
 		this.mnuOpen.setIcon(Icons.OPEN);
-		this.mnuOpen.setActionCommand("open");
+		this.mnuOpen.setActionCommand("openproject");
 		this.mnuOpen.addActionListener(this);
 //		this.mnuOpen.setEnabled(false);
 		
@@ -739,7 +743,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.btnNew.addActionListener(this);
 		this.btnNew.setActionCommand("new");
 		this.btnNew.setToolTipText(Messages.getString("toolbar.file.new"));
-		this.btnNew.setEnabled(false);
+		this.btnNew.setEnabled(true);
 		
 		this.btnLoad = new JButton(Icons.ADDDATASET);
 		this.btnLoad.addActionListener(this);
@@ -760,15 +764,15 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		
 		this.btnOpen = new JButton(Icons.OPEN);
 		this.btnOpen.addActionListener(this);
-		this.btnOpen.setActionCommand("open");
+		this.btnOpen.setActionCommand("openproject");
 		this.btnOpen.setToolTipText(Messages.getString("toolbar.file.open"));
 //		this.btnOpen.setEnabled(false);
 		
 		this.btnSave = new JButton(Icons.SAVE);
 		this.btnSave.addActionListener(this);
-		this.btnSave.setActionCommand("save");
+		this.btnSave.setActionCommand("saveas");
 		this.btnSave.setToolTipText(Messages.getString("toolbar.file.save"));
-		this.btnSave.setEnabled(false);
+		this.btnSave.setEnabled(true);
 		
 		this.btnPrint = new JButton(Icons.PRINT);
 		this.btnPrint.addActionListener(this);
@@ -782,15 +786,15 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.btnExport.setToolTipText(Messages.getString("toolbar.file.export"));
 		this.btnExport.setEnabled(false);
 		
-//		this.btnZoomOut = new JButton(Icons.ZOOM_OUT);
-//		this.btnZoomOut.setToolTipText(Messages.getString("toolbar.preferences.zoomOut"));
-//		this.btnZoomOut.setActionCommand("zoomout");
-//		this.btnZoomOut.addActionListener(this);
-//		
-//		this.btnZoomIn = new JButton(Icons.ZOOM_IN);
-//		this.btnZoomIn.setToolTipText(Messages.getString("toolbar.preferences.zoomIn"));
-//		this.btnZoomIn.setActionCommand("zoomin");
-//		this.btnZoomIn.addActionListener(this);
+		this.btnZoomOut = new JButton(Icons.ZOOM_OUT);
+		this.btnZoomOut.setToolTipText(Messages.getString("toolbar.preferences.zoomOut"));
+		this.btnZoomOut.setActionCommand("zoomout");
+		this.btnZoomOut.addActionListener(this);
+		
+		this.btnZoomIn = new JButton(Icons.ZOOM_IN);
+		this.btnZoomIn.setToolTipText(Messages.getString("toolbar.preferences.zoomIn"));
+		this.btnZoomIn.setActionCommand("zoomin");
+		this.btnZoomIn.addActionListener(this);
 		
 		this.btnReset = new JButton(Icons.RESET);
 		this.btnReset.setToolTipText(Messages.getString("toolbar.preferences.reset"));
@@ -819,8 +823,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		fileToolbar.add(this.btnNew);
 		fileToolbar.add(this.btnOpen);
 		fileToolbar.add(this.btnSave);
-		fileToolbar.add(this.btnPrint);
-		fileToolbar.add(this.btnExport);
+//		fileToolbar.add(this.btnPrint);
+//		fileToolbar.add(this.btnExport);
 		fileToolbar.add(this.btnLoad);
 		fileToolbar.add(this.btnCMAnalisys);
 		fileToolbar.add(this.btnRobAnalisys);
@@ -833,78 +837,81 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		
 		
 		fileToolbar.add(btnP);
-//		fileToolbar.addSeparator();
-//		fileToolbar.add(this.btnZoomOut);
-//		fileToolbar.add(this.btnZoomIn);
 		
-//		fileToolbar.add(this.btnReset);
-//		fileToolbar.addSeparator();
-//		fileToolbar.add(this.tglAxis);
-//		fileToolbar.add(this.tglBox);
-//		fileToolbar.add(this.tglGridXY);
 		
 		this.editToolbar = new JToolBar(Messages.getString("toolbar.edit"), SwingConstants.HORIZONTAL);
 		this.editToolbar.setFloatable(true);
-		this.btnAddPoint = new JButton(Icons.ADDPOINT);
-		this.btnAddPoint.addActionListener(this);
-		this.btnAddPoint.setActionCommand("addpoint");
-		this.btnAddPoint.setToolTipText(Messages.getString("toolbar.edit.addpoint"));
 		
-		this.btnAddVector = new JButton(Icons.ADDVECTOR);
-		this.btnAddVector.addActionListener(this);
-		this.btnAddVector.setActionCommand("addvector");
-		this.btnAddVector.setToolTipText(Messages.getString("toolbar.edit.addvector"));
+//		editToolbar.addSeparator();
+		editToolbar.add(this.btnZoomOut);
+		editToolbar.add(this.btnZoomIn);
 		
-		this.btnAddLine = new JButton(Icons.ADDLINE);
-		this.btnAddLine.addActionListener(this);
-		this.btnAddLine.setActionCommand("addline");
-		this.btnAddLine.setToolTipText(Messages.getString("toolbar.edit.addline"));
-				
-		this.btnAddPolygon = new JButton(Icons.ADDPOLYGON);
-		this.btnAddPolygon.addActionListener(this);
-		this.btnAddPolygon.setActionCommand("addpolygon");
-		this.btnAddPolygon.setToolTipText(Messages.getString("toolbar.edit.addpolygon"));
-		
-		this.btnAddPlane = new JButton(Icons.ADDPLANE);
-		this.btnAddPlane.addActionListener(this);
-		this.btnAddPlane.setActionCommand("addplane");
-		this.btnAddPlane.setToolTipText(Messages.getString("toolbar.edit.addplane"));
-		
-		this.btnAddCurve3d = new JButton(Icons.ADDCURVE3D);
-		this.btnAddCurve3d.addActionListener(this);
-		this.btnAddCurve3d.setActionCommand("addcurve3d");
-		this.btnAddCurve3d.setToolTipText(Messages.getString("toolbar.edit.addcurve3d"));
-		
-		this.btnAddCurve2d_cartesian = new JButton(Icons.ADDCURVE2DCARTESIAN);
-		this.btnAddCurve2d_cartesian.addActionListener(this);
-		this.btnAddCurve2d_cartesian.setActionCommand("addcurve2dcartesian");
-		this.btnAddCurve2d_cartesian.setToolTipText(Messages.getString("toolbar.edit.addcurve2dcartesian"));
-		
-		this.btnAddCurve2d_implicit = new JButton(Icons.ADDCURVE2DIMPLICIT);
-		this.btnAddCurve2d_implicit.addActionListener(this);
-		this.btnAddCurve2d_implicit.setActionCommand("addcurve2dimplicit");
-		this.btnAddCurve2d_implicit.setToolTipText(Messages.getString("toolbar.edit.addcurve2dimplicit"));
-		
-		this.btnAddSurface_Explicit = new JButton(Icons.ADDSURFACE);
-		this.btnAddSurface_Explicit.addActionListener(this);
-		this.btnAddSurface_Explicit.setActionCommand("addsurface");
-		this.btnAddSurface_Explicit.setToolTipText(Messages.getString("toolbar.edit.addsurface"));
-		
-		this.btnAddPrimitive = new JButton(Icons.ADDPREMITIVE);
-		this.btnAddPrimitive.addActionListener(this);
-		this.btnAddPrimitive.setActionCommand("addprimitive");
-		this.btnAddPrimitive.setToolTipText(Messages.getString("toolbar.edit.addprimitive"));
-			
-		this.btnAddSurface_Parametric = new JButton(Icons.ADDSURFACEPARAMETRIC);
-		this.btnAddSurface_Parametric.addActionListener(this);
-		this.btnAddSurface_Parametric.setActionCommand("addsurfaceparametric");
-		this.btnAddSurface_Parametric.setToolTipText(Messages.getString("toolbar.edit.addsurfaceparametric"));
-	
-		this.btnAddSurface_Implicit = new JButton(Icons.ADDSURFACEIMPLICIT);
-		this.btnAddSurface_Implicit.addActionListener(this);
-		this.btnAddSurface_Implicit.setActionCommand("addsurfaceimplicit");
-		this.btnAddSurface_Implicit.setToolTipText(Messages.getString("toolbar.edit.addsurfaceimplicit"));
-			
+		editToolbar.add(this.btnReset);
+		editToolbar.addSeparator();
+		editToolbar.add(this.tglAxis);
+		editToolbar.add(this.tglBox);
+		editToolbar.add(this.tglGridXY);
+//		
+//		this.btnAddPoint = new JButton(Icons.ADDPOINT);
+//		this.btnAddPoint.addActionListener(this);
+//		this.btnAddPoint.setActionCommand("addpoint");
+//		this.btnAddPoint.setToolTipText(Messages.getString("toolbar.edit.addpoint"));
+//		
+//		this.btnAddVector = new JButton(Icons.ADDVECTOR);
+//		this.btnAddVector.addActionListener(this);
+//		this.btnAddVector.setActionCommand("addvector");
+//		this.btnAddVector.setToolTipText(Messages.getString("toolbar.edit.addvector"));
+//		
+//		this.btnAddLine = new JButton(Icons.ADDLINE);
+//		this.btnAddLine.addActionListener(this);
+//		this.btnAddLine.setActionCommand("addline");
+//		this.btnAddLine.setToolTipText(Messages.getString("toolbar.edit.addline"));
+//				
+//		this.btnAddPolygon = new JButton(Icons.ADDPOLYGON);
+//		this.btnAddPolygon.addActionListener(this);
+//		this.btnAddPolygon.setActionCommand("addpolygon");
+//		this.btnAddPolygon.setToolTipText(Messages.getString("toolbar.edit.addpolygon"));
+//		
+//		this.btnAddPlane = new JButton(Icons.ADDPLANE);
+//		this.btnAddPlane.addActionListener(this);
+//		this.btnAddPlane.setActionCommand("addplane");
+//		this.btnAddPlane.setToolTipText(Messages.getString("toolbar.edit.addplane"));
+//		
+//		this.btnAddCurve3d = new JButton(Icons.ADDCURVE3D);
+//		this.btnAddCurve3d.addActionListener(this);
+//		this.btnAddCurve3d.setActionCommand("addcurve3d");
+//		this.btnAddCurve3d.setToolTipText(Messages.getString("toolbar.edit.addcurve3d"));
+//		
+//		this.btnAddCurve2d_cartesian = new JButton(Icons.ADDCURVE2DCARTESIAN);
+//		this.btnAddCurve2d_cartesian.addActionListener(this);
+//		this.btnAddCurve2d_cartesian.setActionCommand("addcurve2dcartesian");
+//		this.btnAddCurve2d_cartesian.setToolTipText(Messages.getString("toolbar.edit.addcurve2dcartesian"));
+//		
+//		this.btnAddCurve2d_implicit = new JButton(Icons.ADDCURVE2DIMPLICIT);
+//		this.btnAddCurve2d_implicit.addActionListener(this);
+//		this.btnAddCurve2d_implicit.setActionCommand("addcurve2dimplicit");
+//		this.btnAddCurve2d_implicit.setToolTipText(Messages.getString("toolbar.edit.addcurve2dimplicit"));
+//		
+//		this.btnAddSurface_Explicit = new JButton(Icons.ADDSURFACE);
+//		this.btnAddSurface_Explicit.addActionListener(this);
+//		this.btnAddSurface_Explicit.setActionCommand("addsurface");
+//		this.btnAddSurface_Explicit.setToolTipText(Messages.getString("toolbar.edit.addsurface"));
+//		
+//		this.btnAddPrimitive = new JButton(Icons.ADDPREMITIVE);
+//		this.btnAddPrimitive.addActionListener(this);
+//		this.btnAddPrimitive.setActionCommand("addprimitive");
+//		this.btnAddPrimitive.setToolTipText(Messages.getString("toolbar.edit.addprimitive"));
+//			
+//		this.btnAddSurface_Parametric = new JButton(Icons.ADDSURFACEPARAMETRIC);
+//		this.btnAddSurface_Parametric.addActionListener(this);
+//		this.btnAddSurface_Parametric.setActionCommand("addsurfaceparametric");
+//		this.btnAddSurface_Parametric.setToolTipText(Messages.getString("toolbar.edit.addsurfaceparametric"));
+//	
+//		this.btnAddSurface_Implicit = new JButton(Icons.ADDSURFACEIMPLICIT);
+//		this.btnAddSurface_Implicit.addActionListener(this);
+//		this.btnAddSurface_Implicit.setActionCommand("addsurfaceimplicit");
+//		this.btnAddSurface_Implicit.setToolTipText(Messages.getString("toolbar.edit.addsurfaceimplicit"));
+//			
 		this.btnRemoveElement = new JButton(Icons.REMOVE);
 		this.btnRemoveElement.addActionListener(this);
 		this.btnRemoveElement.setActionCommand("remove");
@@ -933,33 +940,34 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		this.tglLight.setActionCommand("light");
 		this.tglLight.addActionListener(this);
 		this.tglLight.setSelected(true);//Preferences.isAntiAliasingEnabled());
-		editToolbar.add(btnAddPoint);
-		editToolbar.add(btnAddVector);
-		editToolbar.add(btnAddLine);
+//		editToolbar.add(btnAddPoint);
+//		editToolbar.add(btnAddVector);
+//		editToolbar.add(btnAddLine);
+//		editToolbar.addSeparator();
+//		
+//		editToolbar.add(btnAddCurve3d);
+//		editToolbar.add(btnAddCurve2d_cartesian);
+//		editToolbar.add(btnAddCurve2d_implicit);
+//		editToolbar.addSeparator();
+//		
+//		editToolbar.add(btnAddPolygon);
+//		editToolbar.add(btnAddPlane);
+//		editToolbar.add(btnAddSurface_Explicit);
+//		
+//		editToolbar.addSeparator();
+//		editToolbar.add(btnAddSurface_Parametric);
+//		editToolbar.add(btnAddSurface_Implicit);
+//		
+//		editToolbar.add(btnAddPrimitive);
+//		editToolbar.add(btnRemoveElement);
+//		editToolbar.addSeparator();
+//		editToolbar.add(this.tglAntialias);
+//		editToolbar.add(this.tglLight);
+//		editToolbar.add(this.tgl3D);
+//		editToolbar.add(this.tglPerspective);
+		
 		editToolbar.addSeparator();
 		
-		editToolbar.add(btnAddCurve3d);
-		editToolbar.add(btnAddCurve2d_cartesian);
-		editToolbar.add(btnAddCurve2d_implicit);
-		editToolbar.addSeparator();
-		
-		editToolbar.add(btnAddPolygon);
-		editToolbar.add(btnAddPlane);
-		editToolbar.add(btnAddSurface_Explicit);
-		
-		editToolbar.addSeparator();
-		editToolbar.add(btnAddSurface_Parametric);
-		editToolbar.add(btnAddSurface_Implicit);
-		
-		editToolbar.add(btnAddPrimitive);
-		editToolbar.add(btnRemoveElement);
-		editToolbar.addSeparator();
-		editToolbar.add(this.tglAntialias);
-		editToolbar.add(this.tglLight);
-		editToolbar.add(this.tgl3D);
-		editToolbar.add(this.tglPerspective);
-		
-		editToolbar.addSeparator();
 		
 		JLabel lblDrawMode=new JLabel(Icons.DRAWMODE);
 		lblDrawMode.setText("");
@@ -992,7 +1000,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		pnlToolBar = new JPanel();
 		pnlToolBar.setLayout(new GridLayout(2, 1));
 		pnlToolBar.add(fileToolbar);
-		//pnlToolBar.add(editToolbar);
+		pnlToolBar.add(editToolbar);
 		getContentPane().add(pnlToolBar,BorderLayout.NORTH);
 
 		
@@ -1065,10 +1073,9 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	    tabsCanvas = new JTabbedPane();
 	    //tabsCanvas.add(canvas3D);
 	    this.tabsManager = new TabsManager(tabsCanvas);
-	    
+
+	    this.tabsManager.addChangeListener(this);
 		reportPanel = new ReportPnl();
-	    
-	    
 		centerTabPnl = new JTabbedPane();
 		centerTabPnl.add("Graphics", tabsCanvas);
 		centerTabPnl.add("Reports", reportPanel);
@@ -1081,19 +1088,6 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		JSplitPane pneSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPane, centerTabPnl);
 		// setup the layout
 		pneSplit.setOneTouchExpandable(true);
-		/*
-		Container container = this.getContentPane();
-		
-		GroupLayout layout = new GroupLayout(container);
-		
-		container.setLayout(layout);
-			layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(pnlToolBar, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(pneSplit));
-		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addComponent(pnlToolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(pneSplit));
-		*/
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(pnlToolBar,BorderLayout.NORTH);
 		getContentPane().add(pneSplit,BorderLayout.CENTER);
@@ -1118,8 +1112,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		bgColorIcon.setActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+				SceneManager sceneManager = canvas3D.getSceneManager();
+				
 				canvas3D.getRenderer().setBackgroundColor(bgColorIcon.getBackground());
-				Globalsettings.backgroundColor=bgColorIcon.getBackground();
+				sceneManager.getSettings().backgroundColor = bgColorIcon.getBackground();
+				
+//				Globalsettings.backgroundColor=bgColorIcon.getBackground();
 			}
 			
 		});
@@ -1137,6 +1136,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	    });
 		
 		this.setVisible(true);
+		
 	}
 
 	/**
@@ -1289,6 +1289,29 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 				}
 			}
 			
+		}else if(command=="box"){
+			  Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			  SceneManager sceneManager = canvas3D.getSceneManager();
+			  sceneManager.getSettings().boxVisible= !sceneManager.getSettings().boxVisible;
+			  canvas3D.setScene(sceneManager.createScene(false));
+//			  Globalsettings.boxVisible=!Globalsettings.boxVisible;
+			  this.tglBox.setSelected(Globalsettings.boxVisible);
+			  canvas3D.refresh();
+		}else if(command=="axis"){
+			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			SceneManager sceneManager = canvas3D.getSceneManager();
+			sceneManager.setAxisVisible(!sceneManager.isAxisVisible());
+      	  canvas3D.setScene(sceneManager.createScene(false));
+      	  this.tglAxis.setSelected(sceneManager.isAxisVisible());
+      	  canvas3D.refresh();
+		}else if(command=="gridxy"){
+			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			SceneManager sceneManager = canvas3D.getSceneManager();
+			sceneManager.setGridXYVisible(!sceneManager.isGridXYVisible());
+    	    canvas3D.setScene(sceneManager.createScene(false));
+    	    this.tglGridXY.setSelected(sceneManager.isGridXYVisible());
+    	    canvas3D.refresh();
+		
 		}else if(command=="remove"){
 			  if (table.getSelectedRowCount()>0){ 
 				if (JOptionPane.showConfirmDialog(this,"Are you sure you wan to delete the selected elements from list")== 0 ){	
@@ -1305,15 +1328,19 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 				}
 			  }
 		}else if(command=="zoomin"){
-			  canvas3D.iCamera.setFov((canvas3D.iCamera.getFov() + 359) % 360);
-			  if (Globalsettings.steroscopyEnabled){
+			 Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			 SceneManager sceneManager = canvas3D.getSceneManager();
+			 canvas3D.iCamera.setFov((canvas3D.iCamera.getFov() + 359) % 360);
+			 if (Globalsettings.steroscopyEnabled){
 				  canvas3D.iCameraL.setFov(canvas3D.iCamera.getFov());
 				  canvas3D.iCameraR.setFov(canvas3D.iCamera.getFov());
 		      }
 			  Globalsettings.fov=canvas3D.iCamera.getFov();
 			  canvas3D.refresh();
 		}else if(command=="zoomout"){
-			  canvas3D.iCamera.setFov((canvas3D.iCamera.getFov() + 1) % 360);
+			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			 SceneManager sceneManager = canvas3D.getSceneManager();  
+			canvas3D.iCamera.setFov((canvas3D.iCamera.getFov() + 1) % 360);
 			  if (Globalsettings.steroscopyEnabled){
 				  canvas3D.iCameraL.setFov(canvas3D.iCamera.getFov());
 				  canvas3D.iCameraR.setFov(canvas3D.iCamera.getFov());
@@ -1321,6 +1348,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			  Globalsettings.fov=canvas3D.iCamera.getFov();
 			  canvas3D.refresh();
 		}else if(command=="reset"){
+			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
 			  canvas3D.iCamera.reset();
 	 	      canvas3D.refresh();
 		}else if (command=="export"){
@@ -1339,7 +1367,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			this.tabsManager.setCurrentTitle(dataset.getName());
 			DatasetDetails detailer = new DatasetDetails();
 			reporter.writeReport(detailer.getDetails(dataset));
-		}else if(command=="open"){
+		}else if(command=="openproject"){
+			initProject();
 			loadProjectFromFile();
 		}
 		else if(command=="save"){
@@ -1375,15 +1404,21 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		      canvas3D.stereoMode= Globalsettings.steroscopicMode;
 		      canvas3D.refresh();
 	    }else if(command=="axissettings"){
-	    	  Preferences preferences;
-		      preferences=SettingsDialog.show(this,Globalsettings.getSettings(),3);
-			  if (null==preferences)return;
-			  applySettings(preferences,false,preferences.getClipBox().equals(Globalsettings.getClipBox()));
+	    	Canvas3D canvas3d = tabsManager.getCurrentCanvas();
+	    	if(canvas3d != null){
+	    	  Preferences localSettings = canvas3d.getSceneManager().getSettings().getSettings();
+	    	  localSettings=SettingsDialog.show(this,localSettings,3);
+			  if (null==localSettings)return;
+			  applySettings(canvas3d, localSettings,false,localSettings.getClipBox().equals(Globalsettings.getClipBox()));
+	    	}
 	    }else if(command=="scenesettings"){
-	    	  Preferences preferences;
-		      preferences=SettingsDialog.show(this,Globalsettings.getSettings(),2);
+	    	Canvas3D canvas3d = tabsManager.getCurrentCanvas();
+	    	if(canvas3d != null){
+	    		Preferences preferences;
+		      preferences=SettingsDialog.show(this,canvas3d.getSceneManager().getSettings().getSettings(),2);
 			  if (null==preferences)return;
-			  applySettings(preferences,false,preferences.getClipBox().equals(Globalsettings.getClipBox()));
+			  applySettings(canvas3d,preferences,false,preferences.getClipBox().equals(Globalsettings.getClipBox()));
+	    	}
 	    }else if(command=="content" ){
 	    	  HelpDialog helpDialog=new HelpDialog(this,"About Calc3D","about.html");
 	    	  helpDialog.show();
@@ -1403,6 +1438,18 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	  				
 		if (command.startsWith("add"))updateTable();
 	}
+	
+	/**
+	 * Initializate a new project
+	 * 
+	 */
+	private void initProject() {
+		this.tabsManager.reset();
+		TreeTableModel treeTableModel = (TreeTableModel) this.treeTable.getTreeTableModel();
+		treeTableModel.reset();
+		
+	}
+
 	/**
 	 * Create and
 	 * @param configuration
@@ -1603,7 +1650,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
      * Exit
      */
     private void close() {
-        if (!isDirty("Do you want to save before exit?")) System.exit(0);
+        if (!isDirty("Do you want to save before exit?")) 
+        	        	System.exit(0);
     }
     
     /**
@@ -1611,7 +1659,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
      */
     private void newFile() {
     	if (!isDirty("Do you want to save before creating a new file?")) {
-
+    		
 //    		
 //             sceneManager.getElement3DList().clear();
 //             canvas3D.setScene(sceneManager.createScene(true));
@@ -1676,7 +1724,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	        	
 			 } catch (Exception e) {
 				 e.printStackTrace();
-				  JOptionPane.showMessageDialog(this,e.getMessage()+fileName,"Error",JOptionPane.ERROR_MESSAGE);
+				 JOptionPane.showMessageDialog(this,e.getMessage()+fileName,"Error",JOptionPane.ERROR_MESSAGE);
 			 }
 	        return null;
 	 }
@@ -1702,10 +1750,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 		   		      for(int i=0; i<countOfTabs; i++){
 		   		    	ArrayList<Element3D> elems = (ArrayList<Element3D>) is.readObject();
 		   		    	DialogConfiguration conf = new DialogConfiguration();
+		   		    	
 		   		    	conf = (DialogConfiguration) is.readObject();
 		   		    	
 		   		    	this.addElement3D(elems.get(0), conf);
-		   		    	 // os.writeObject(tabsManager.getCanvasAt(i).getSceneManager().getElement3DList());
+		   		    	LocalSettings settings = (LocalSettings) is.readObject();
+		   		    	this.applySettings(tabsManager.getCurrentCanvas(),settings.getSettings(), false, true);
+		   		    	
+		   		    	// os.writeObject(tabsManager.getCanvasAt(i).getSceneManager().getElement3DList());
 		   		      }
 		    		  
 //		    		  ArrayList<Element3D> list=(ArrayList<Element3D>) is.readObject();
@@ -1734,12 +1786,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	 private boolean saveToFile(boolean askName) {
         String fileName;
         //if (sceneManager.getElementCount()<1)return false;
-        if (askName || lastFileName==null) fileName=getFileName(true,".c3d","Save file as ...");
+        if (askName || lastFileName==null) fileName=getFileName(true,".p3d","Save file as ...");
         else fileName=lastFileName;
         if (fileName==null) return false;
         
    	    try {
    		      ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
+   		      this.project.setName(fileName.substring(fileName.lastIndexOf("\\")+1, fileName.lastIndexOf(".p3d")));
    		      os.writeObject(project);
    		      int countTabs = tabsManager.getCountOfTabs();
    		      
@@ -1750,12 +1803,12 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
    		    	  conf.setTabTitle(tabsManager.getTitleAt(i));
    		    	  conf.setGraphPreferences(tabsManager.getCanvasAt(i).getSettings().getSettings());
    		    	  os.writeObject(conf);
+   		    	  os.writeObject(tabsManager.getCanvasAt(i).getSceneManager().getSettings());
    		      }
-//	    	  os.writeObject(sceneManager.getElement3DList());
-//	    	  os.writeObject(Globalsettings.getSettings());
-//   		      ProjectSerializer.serialize(this.project, os);
+   		      
 	    	  dirty=false;
 	    	  setLastFileName(fileName);
+	    	  updateTable();
 	 	} catch (IOException e) {
 	 		e.printStackTrace();
 			  JOptionPane.showMessageDialog(this,"Could not save to file "+fileName,"Warning",JOptionPane.WARNING_MESSAGE);
@@ -1781,10 +1834,6 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
     		Checkbox checkbox = new Checkbox();
     		checkbox.setVisible(elem.isVisible());
     		rowData.add(checkbox);
-//     	   data[acum][0]  =commonUtils.getobject3DIcon(sceneManager.getElement3D(i));
-//     	   data[acum][1]  =sceneManager.getElement3D(i).getName();
-//     	   data[acum][2]  =sceneManager.getElement3D(i).isVisible();
-//     	   acum++;
     		data.add(rowData);
 
 
@@ -1921,6 +1970,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
      */
     public void applySettings(Preferences preferences, boolean skipGuiChanges, boolean reCreateScene){
 		
+    	Canvas3D canvas3D = tabsManager.getCurrentCanvas();
 		 this.tglAntialias.setSelected(preferences.isAntiAliasingEnabled());
 		 canvas3D.getRenderer().setAntiAliasingEnabled(preferences.isAntiAliasingEnabled());
 		 this.tglPerspective.setSelected(preferences.isPerspectiveEnabled());
@@ -2008,10 +2058,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 				preferences.setObjectToolbarVisible(Globalsettings.objectToolbarVisible);
 				preferences.setStatusbarVisible(Globalsettings.statusbarVisible);
 		}
-	  	Globalsettings.saveSettings(preferences); 
-	    sceneManager.setClip(new Clip(Globalsettings.mappedClipBox));
+//	  	Globalsettings.saveSettings(preferences);
+		 
+	    canvas3D.getSceneManager().setClip(new Clip(Globalsettings.mappedClipBox));
 		canvas3D.setScene(sceneManager.createScene(reCreateScene));
-       canvas3D.refresh();    
+         canvas3D.refresh();    
 			
 	}
 	
@@ -2045,6 +2096,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 	
 	class TreeTableModel extends AbstractTreeTableModel{
 
+		
 		private String[] columnNames = {
                 "Element3D"};
 		
@@ -2054,6 +2106,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			super(elem);
 		}
 		
+		public void reset() {
+			root=null;
+			
+		}
+
 		public void setRoot(ProjectSimpleElement project) {
 			this.root = project;
 			
@@ -2141,6 +2198,39 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			return container.getAllElements().indexOf(containded);
 			
 		}
+		
+//		class TreeTableCustomElement {
+//			SimpleElement element;
+//			ArrayList<ContextMenuCommand> commands;
+//			
+//			/**
+//			 * Constructor of TreeTableCustomElement class
+//			 * @param element SimpleElement 
+//			 * @param commands
+//			 */
+//			public TreeTableCustomElement(SimpleElement element,
+//					ArrayList<ContextMenuCommand> commands) {
+//				this.element = element;
+//				this.commands = commands;
+//			}
+//
+//			public SimpleElement getElement() {
+//				return element;
+//			}
+//
+//			public void setElement(SimpleElement element) {
+//				this.element = element;
+//			}
+//
+//			public ArrayList<ContextMenuCommand> getCommands() {
+//				return commands;
+//			}
+//
+//			public void setCommands(ArrayList<ContextMenuCommand> commands) {
+//				this.commands = commands;
+//			}
+//
+//		}
 		
 		
 	}
@@ -2358,24 +2448,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
 			Scene3D scene = current.getSceneManager().createScene(true);
 			current.setScene(scene);
 			current.refresh();	
-		}
-//		}else if (e.isMetaDown()){
-//			TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
-//			 int i=treeTable.getSelectedRow();
-//			 if (i<0)return;
-//			 
-//			TreePath path = treeTable.getPathForRow(i);
-//			SimpleElement node = (SimpleElement) path.getLastPathComponent();
-//
-//			if(e.isMetaDown()){
-//				JMenu menu = LeftTableMenuFactory.createMenu(node, this);
-//				menu.setAlignmentX(e.getX());
-//				menu.setAlignmentY(e.getY());
-//				menu.show();
-//				
-//			}
-
-			
+		}		
 	}
 
 	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
@@ -2422,6 +2495,19 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener{
         newCanvas.setSettings(new LocalSettings(configuration.getGraphPreferences()));       
         
 		return newCanvas;
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		Canvas3D canvas3d = this.tabsManager.getCurrentCanvas();
+		if(canvas3d != null){
+			SceneManager sceneManager = canvas3d.getSceneManager();
+			
+			this.tglGridXY.setSelected(sceneManager.isGridXYVisible());
+			this.tglAxis.setSelected(sceneManager.isAxisVisible());
+			this.tglBox.setSelected(sceneManager.isBoxVisible());
+			bgColorIcon.setBackground(canvas3d.getRenderer().getBackgroundColor());
+		}
 	}
 	 
 }

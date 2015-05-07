@@ -44,8 +44,6 @@ import javax.swing.JCheckBox;
  */
 public class Element3DPane extends JPanel implements ActionListener, Element3DPanelEditor{
 	private JTextField textFieldLabel;
-	private JTextField textFieldTabTitle;
-	private JLabel lblTabTitle;
 	private JLabel lblLabel;
 	private JLabel lblRadious;
 	private JLabel lblBorderColor;
@@ -55,7 +53,6 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 	private JSpinner spinnerRadious;
 	private JButton btnSelectBorderColor;
 	private JButton btnSelectBackColor;
-	private JSeparator separator;
 	private ArrayList<Element3D> elements;
 	private JComboBox comboBox;
 	private ArrayList<Element3DPointModel> pointModels;
@@ -73,8 +70,6 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 	public Element3DPane(boolean editable) {
 		
 		this.configModels = new ArrayList<Element3DCollectionModel>();
-		
-		lblTabTitle = new JLabel("Tab title");
 		
 		lblLabel = new JLabel("Label");
 		
@@ -96,9 +91,6 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 		textFieldLabel.setColumns(10);
 		textFieldLabel.setEnabled(editable);
 		
-		textFieldTabTitle = new JTextField();
-		textFieldTabTitle.setColumns(10);
-		
 		
 		btnSelectBorderColor = new JButton("Select");
 		btnSelectBorderColor.addActionListener(this);
@@ -111,8 +103,6 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 4));
-		
-		separator = new JSeparator();
 		
 		JLabel lblConfiguration = new JLabel("Configuration");
 		
@@ -144,63 +134,48 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 318, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblTabTitle)
-							.addGap(44)
-							.addComponent(textFieldTabTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(123, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblConfiguration)
-								.addComponent(lblLandmark))
+							.addComponent(lblConfiguration)
 							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(comboBox, 0, 172, Short.MAX_VALUE)
-									.addGap(64))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lmComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())))
+							.addComponent(comboBox, 0, 293, Short.MAX_VALUE)
+							.addGap(64))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblBorderWidth)
-										.addComponent(lblLabel)
-										.addComponent(lblRadious))
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(textFieldLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(chckbxShow))
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(spinnerRadious, Alignment.LEADING)
-											.addComponent(spinnerBorderWidth, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblBorderColor)
-										.addComponent(lblBackColor))
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnSelectBackColor)
-										.addComponent(btnSelectBorderColor))
-									.addGap(18)
-									.addComponent(panel, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)))
-							.addContainerGap(54, Short.MAX_VALUE))))
+									.addComponent(lblLandmark)
+									.addGap(37)
+									.addComponent(lmComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 112, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblBorderWidth)
+											.addComponent(lblLabel)
+											.addComponent(lblRadious))
+										.addGap(18)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(textFieldLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(chckbxShow))
+											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(spinnerRadious, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(spinnerBorderWidth, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblBorderColor)
+											.addComponent(lblBackColor))
+										.addGap(18)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(btnSelectBackColor)
+											.addComponent(btnSelectBorderColor))
+										.addGap(18)
+										.addComponent(panel, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))))
+							.addContainerGap(209, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTabTitle)
-						.addComponent(textFieldTabTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblConfiguration)
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
@@ -231,8 +206,8 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblBackColor)
 								.addComponent(btnSelectBackColor)))
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(39, Short.MAX_VALUE))
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(81, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 		
@@ -536,11 +511,6 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 	}
 
 
-	@Override
-	public String getTabTitle() {
-		return this.textFieldTabTitle.getText();
-	}
-
 
 	@Override
 	public void saveResult() {
@@ -551,9 +521,5 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 		}
 		
 	}
-	@Override
-	public void setTabTitle(String tabTitle) {
-		this.textFieldTabTitle.setText(tabTitle);
-		
-	}
+
 }

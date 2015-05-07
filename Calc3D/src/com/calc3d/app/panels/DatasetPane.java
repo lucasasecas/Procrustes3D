@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import com.calc3d.app.analysis.DatasetConfiguration;
 import com.calc3d.app.analysis.DialogConfiguration;
 import com.calc3d.app.fileload.FileLoader;
+import com.calc3d.app.resources.Messages;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -32,9 +33,9 @@ public class DatasetPane extends JPanel implements SimpleElementCreatePanel, Act
 	
 	public DatasetPane() {
 		
-		lblName = new JLabel("Name:");
+		lblName = new JLabel(Messages.getString("panel.dataset.caption.tabname"));
 		
-		lblLocation = new JLabel("Location:");
+		lblLocation = new JLabel(Messages.getString("panel.dataset.caption.datasetlocation"));
 		
 		src = new JTextField();
 		src.setColumns(10);
@@ -54,18 +55,16 @@ public class DatasetPane extends JPanel implements SimpleElementCreatePanel, Act
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLocation)
+						.addComponent(lblName))
+					.addGap(55)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblName)
-							.addGap(68)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblLocation)
-							.addGap(55)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(src, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnBrowse))))
-					.addContainerGap(84, Short.MAX_VALUE))
+							.addComponent(src, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnBrowse))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(43, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -113,6 +112,10 @@ public class DatasetPane extends JPanel implements SimpleElementCreatePanel, Act
 			try{
 				String path = FileLoader.getFileName(false, "", null, this);
 				this.src.setText(path);
+				String name = this.textField.getText();
+				if(this.textField.getText().isEmpty() || this.textField.getText()==null){
+					this.textField.setText(path.substring(path.lastIndexOf("\\")+1, path.lastIndexOf(".")));
+				}
 			
 			}catch(Exception e){
 				e.printStackTrace();

@@ -54,6 +54,7 @@ public class TpsLoader extends DataSetLoader{
 					counter++;
 				}else if(currentLine.startsWith("ID") || currentLine.startsWith("id")){
 					newSpecimen.setName(currentLine.split("=")[1]);
+					newSpecimen.setDescription("Sample " + currentLine.split("=")[1]);
 				}
 				
 				

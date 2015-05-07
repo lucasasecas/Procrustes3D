@@ -25,7 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.metal.MetalTabbedPaneUI.TabbedPaneLayout;
 
 import org.jdesktop.swingx.JXTreeTable;
 
@@ -45,7 +47,9 @@ public class TabsManager implements Serializable {
 		Component c = tabs.add(panel);
 		int count = tabs.getTabCount();
 		tabs.setTabComponentAt(count-1 , this.generateButton(title));
-		return tabs.getTabCount()-1;
+		int newIndex = tabs.getTabCount()-1;
+		this.tabs.setSelectedIndex(newIndex);
+		return newIndex;
 	}
 	
 	private Component generateButton(String title) {
@@ -73,10 +77,10 @@ public class TabsManager implements Serializable {
 	
 	public Canvas3D getCurrentCanvas(){
 		try{
-			JSplitPane split = ((JSplitPane)tabs.getSelectedComponent());
-			Canvas3D c = (Canvas3D) split.getComponent(0);
+			GraphicsPane graphicsPane = ((GraphicsPane)tabs.getSelectedComponent());
+			Canvas3D canvas = graphicsPane.getCanvas();
 
-			return c;
+			return canvas;
 		}catch(Exception e){
 			
 		}
@@ -85,12 +89,13 @@ public class TabsManager implements Serializable {
 	
 	public Canvas3D getCanvasAt(int index){
 		try{
-			JSplitPane split = ((JSplitPane)tabs.getComponent(index));
-			Canvas3D c = (Canvas3D) split.getComponent(0);
+			GraphicsPane graphicsPane = ((GraphicsPane)tabs.getComponent(index)); 
+			
+			Canvas3D c = graphicsPane.getCanvas();
 
 			return c;
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -115,7 +120,7 @@ public class TabsManager implements Serializable {
 	}
 
 	public int getCountOfTabs() {
-		return tabs.getComponentCount();
+		return tabs.getTabCount();
 	}
 
 	public String getTitleAt(int i) {
@@ -210,5 +215,14 @@ public class TabsManager implements Serializable {
 
 	public void setTitleTabAt(int index, String title) {
 		this.tabs.setTitleAt(index, title);
+	}
+
+	public void reset() {
+		tabs.removeAll();
+		
+	}
+
+	public void addChangeListener(ChangeListener changeListener) {
+		this.tabs.addChangeListener(changeListener);		
 	}
 }

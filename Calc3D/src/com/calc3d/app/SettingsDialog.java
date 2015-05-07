@@ -22,7 +22,7 @@ public class SettingsDialog extends JDialog {
 	/** The dialog canceled flag */
 	private boolean canceled = true;
 	
-	private Gui guiOwner;
+	private CopyOfGui guiOwner;
     /**
      * Creates new form NewJFrame
      */
@@ -32,7 +32,7 @@ public class SettingsDialog extends JDialog {
     
     public SettingsDialog(Window owner,Preferences preferences, int index){ 
     	 super(owner, "Preferences", ModalityType.APPLICATION_MODAL);
-    	 guiOwner=(Gui) owner;
+    	 guiOwner=(CopyOfGui) owner;
     	 initComponents();
          loadSettings(preferences);
          jTabbedPane1.setSelectedIndex(index);

@@ -351,11 +351,11 @@ public class SceneManager  {
 		createAxes();
 		//createBox(Color.blue);
 		createXYGrid(Color.green.darker().darker());
-		if (axisVisible)	for (Element e:axis3D.elements)	object3D.addElement(e);
+		if (this.isAxisVisible())	for (Element e:axis3D.elements)	object3D.addElement(e);
 		
 		//if (boxVisible)		for (Element e:box3D.elements)	object3D.addElement(e);
 		
-		if (gridXYVisible)	for (Element e:gridXY.elements)	object3D.addElement(e);
+		if (this.isGridXYVisible())	for (Element e:gridXY.elements)	object3D.addElement(e);
 		
 		//Add plane first so that number of intersection of polygons in bsp may be minimum
 //		for(Element3D element3D:element3Ds){
@@ -839,7 +839,9 @@ public class SceneManager  {
 	 * Returns true if axes will be rendered.
 	 */
 	public boolean isAxisVisible() {
-		return axisVisible;
+		if(this.settings != null)
+			return this.settings.xAxisVisible && this.settings.yAxisVisible && this.settings.zAxisVisible;
+		return false;
 	}
 	
 	/**
@@ -847,7 +849,8 @@ public class SceneManager  {
 	 * @param flag true if axis are to be displayed
 	 */
 	public void setAxisVisible(boolean axisVisible) {
-		this.axisVisible = axisVisible;
+		if(this.settings != null)
+			this.settings.xAxisVisible = this.settings.yAxisVisible = this.settings.zAxisVisible = axisVisible;
 	}
 
 	/**
@@ -866,11 +869,11 @@ public class SceneManager  {
 	}
 
 	public boolean isGridXYVisible() {
-		return gridXYVisible;
+		return settings.xyGridVisible;
 	}
 
 	public void setGridXYVisible(boolean gridXYVisible) {
-		this.gridXYVisible = gridXYVisible;
+		this.settings.xyGridVisible = gridXYVisible;
 	}
 
 	/**
@@ -889,6 +892,11 @@ public class SceneManager  {
 
 	public void setSettings(LocalSettings settings) {
 		this.settings = settings;
+		
+	}
+
+	public LocalSettings getSettings() {
+		return settings;
 		
 	}
 	

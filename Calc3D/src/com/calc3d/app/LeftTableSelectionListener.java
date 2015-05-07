@@ -38,26 +38,26 @@ public class LeftTableSelectionListener implements TreeSelectionListener, MouseL
 			  editorPane.setText(commonUtils.getobject3DInfoHTML(((SimpleElement) obj)));
 			  editorPane.updateUI();
 
-			
 		}
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		TreeTableModel model = (TreeTableModel) table.getTreeTableModel();
-		 int i=table.getSelectedRow();
-		 if (i<0)return;
-		 
-		TreePath path = table.getPathForRow(i);
-		SimpleElement node = (SimpleElement) path.getLastPathComponent();
-
-		if(e.isMetaDown()){
-			JPopupMenu menu = LeftTableMenuFactory.createMenu(node, this, actionListener);
-			
-			menu.show(e.getComponent() ,e.getY(), e.getY() );
-			
-		}
+		
+//		TreeTableModel model = (TreeTableModel) table.getTreeTableModel();
+//		 int i=table.getSelectedRow();
+//		 if (i<0)return;
+//		 
+//		TreePath path = table.getPathForRow(i);
+//		SimpleElement node = (SimpleElement) path.getLastPathComponent();
+//
+//		if(e.isMetaDown()){
+//			JPopupMenu menu = LeftTableMenuFactory.createMenu(node, this, actionListener);
+//			
+//			menu.show(e.getComponent() ,e.getY(), e.getY() );
+//			
+//		}
 		
 	}
 

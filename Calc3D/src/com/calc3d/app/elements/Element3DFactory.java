@@ -1,7 +1,11 @@
 package com.calc3d.app.elements;
 
+import java.awt.Image;
+
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.resources.Icons;
+import com.calc3d.app.resources.Messages;
 
 public class Element3DFactory {
 
@@ -27,6 +31,44 @@ public class Element3DFactory {
 		}
 		if(elementType == DATASET_ELEMENT){
 			return new Element3DDataSet((ComposeSimpleElement) simpleElement);
+		}
+		return null;
+	}
+
+
+
+	public static String getTypeStr(int elementType) {
+		
+		if(elementType == PROJECTION_ELEMENT){
+			return Messages.getString("common.element.projection");
+		}
+		if(elementType == DISTANCE_ELEMENT){
+			return Messages.getString("common.element.distance");
+		}
+		if(elementType == PROCRUSTES_ELEMENT){
+			return Messages.getString("common.element.procrustesanalysis");
+		}
+		if(elementType == DATASET_ELEMENT){
+			return Messages.getString("common.element.dataset");
+		}
+		return null;
+		
+	}
+
+
+
+	public static Image getNewElementIcon(int typeElement) {
+		if(typeElement == PROJECTION_ELEMENT){
+			return Icons.PROJECTION.getImage();
+		}
+		if(typeElement == DISTANCE_ELEMENT){
+			return Icons.DISTANCE.getImage();
+		}
+		if(typeElement == PROCRUSTES_ELEMENT){
+			return Icons.CM.getImage();
+		}
+		if(typeElement == DATASET_ELEMENT){
+			 return Icons.ADDDATASET.getImage();
 		}
 		return null;
 	}
