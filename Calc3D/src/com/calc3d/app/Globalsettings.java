@@ -59,8 +59,8 @@ public static boolean xyGridVisible=false;
 public static Box3D axesBox=new Box3D(-5,5,-5,5,-5,5);
 public static int axisTicks=5;
 public static int axisWidth=2;
-public static Color axisColor=Color.white;//new Color(132,145,135).brighter();
-public static Color planeColor=Color.white;//new Color(190,240,220);
+public static Color axisColor=Color.black;//new Color(132,145,135).brighter();
+public static Color planeColor=Color.black;//new Color(190,240,220);
 public static Color gridColor=planeColor.darker();
 
 public static double fov=50;

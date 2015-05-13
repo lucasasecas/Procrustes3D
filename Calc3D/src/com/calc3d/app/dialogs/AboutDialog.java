@@ -4,6 +4,9 @@ import java.awt.Window;
 import java.io.IOException;
 
 import javax.swing.JDialog;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
 *
@@ -37,7 +40,7 @@ public class AboutDialog extends JDialog {
 
        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
-       lblApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/calc3d/app/resources/pic.png"))); // NOI18N
+       lblApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/calc3d/app/resources/TheseusProcrustes.jpg"))); // NOI18N
 
        editorPane.setFocusable(false);
        jScrollPane2.setViewportView(editorPane);
@@ -58,30 +61,30 @@ public class AboutDialog extends JDialog {
            }
        });
        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-       getContentPane().setLayout(layout);
        layout.setHorizontalGroup(
-           layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-           .addGroup(layout.createSequentialGroup()
-               .addContainerGap()
-               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                       .addComponent(lblApp, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                       .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,500, Short.MAX_VALUE))
-                   .addComponent(btnOk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-               .addContainerGap())
+       	layout.createParallelGroup(Alignment.TRAILING)
+       		.addGroup(layout.createSequentialGroup()
+       			.addContainerGap()
+       			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+       				.addGroup(layout.createSequentialGroup()
+       					.addComponent(lblApp, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+       					.addPreferredGap(ComponentPlacement.RELATED)
+       					.addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
+       				.addComponent(btnOk, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE))
+       			.addContainerGap())
        );
        layout.setVerticalGroup(
-           layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-           .addGroup(layout.createSequentialGroup()
-               .addContainerGap()
-               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                   .addComponent(jScrollPane2)
-                   .addComponent(lblApp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-               .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-               .addComponent(btnOk, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-               .addContainerGap())
+       	layout.createParallelGroup(Alignment.LEADING)
+       		.addGroup(layout.createSequentialGroup()
+       			.addContainerGap()
+       			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+       				.addComponent(lblApp, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+       				.addComponent(jScrollPane2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+       			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+       			.addComponent(btnOk, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+       			.addContainerGap())
        );
+       getContentPane().setLayout(layout);
       // editorPane.setMinimumSize(getSize());
       // editorPane.setPreferredSize(getSize());
        

@@ -89,7 +89,8 @@ public class TabsManager implements Serializable {
 	
 	public Canvas3D getCanvasAt(int index){
 		try{
-			GraphicsPane graphicsPane = ((GraphicsPane)tabs.getComponent(index)); 
+			int count = tabs.getTabCount();
+			GraphicsPane graphicsPane = ((GraphicsPane)tabs.getComponentAt(index)); 
 			
 			Canvas3D c = graphicsPane.getCanvas();
 

@@ -351,7 +351,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	private JMenuItem mnuExportDataset;
 	public CopyOfGui(){
 	    super();
-		this.setTitle("Calc3D-A 3D calculus Visualizer");	
+		this.setTitle("RESISTIRE-A 3D calculus Visualizer");	
 		// make sure tooltips and menus show up on top of the heavy weight canvas
 		ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
@@ -711,7 +711,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 
 		this.mnuCheckUpdate = new JMenuItem(	Messages.getString("menu.help.checkUpdates"));
 		mnuCheckUpdate.setIcon(Icons.CHECKUPDATE);
-		mnuCheckUpdate.setActionCommand("about");
+		mnuCheckUpdate.setActionCommand("checkupdates");
 		mnuCheckUpdate.addActionListener(this);
 
 		this.mnuAbout = new JMenuItem(	Messages.getString("menu.help.about"));
@@ -1353,8 +1353,9 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	 	      canvas3D.refresh();
 		}else if (command=="export"){
 			  exportPNG();
-		}else if (command=="new")	 { 
+		}else if (command=="new"){ 
 			  newFile();
+			  initProject();
 		}
 		else if(command=="load"){
 			
@@ -1420,7 +1421,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			  applySettings(canvas3d,preferences,false,preferences.getClipBox().equals(Globalsettings.getClipBox()));
 	    	}
 	    }else if(command=="content" ){
-	    	  HelpDialog helpDialog=new HelpDialog(this,"About Calc3D","about.html");
+	    	  HelpDialog helpDialog=new HelpDialog(this,"About RESISTIRE","about.html");
 	    	  helpDialog.show();
 	    }else if(command=="about" ){
 	    	  AboutDialog aboutDialog=new AboutDialog(this);
@@ -1428,7 +1429,16 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	    }else if(command=="homepage"){
 	    	 try {
 	             //Set your page url in this string. For eg, I m using URL for Google Search engine
-	             String url = "http://code.google.com/p/calc3d/";
+	             String url = "http://lucasasecas.github.io/Procrustes3D/";
+	             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+	           }
+	           catch (java.io.IOException e){ 
+	               System.out.println(e.getMessage());
+	           }
+	    }else if(command=="checkupdates"){
+	    	 try {
+	             //Set your page url in this string. For eg, I m using URL for Google Search engine
+	             String url = "https://github.com/lucasasecas/Procrustes3D";
 	             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
 	           }
 	           catch (java.io.IOException e){ 
@@ -1635,7 +1645,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
     private void setLastFileName(String string){ 
         lastFileName=string;
         if (string==null)string="Untitled Document";
-        this.setTitle("Calc3D-"+string.substring(string.lastIndexOf(File.separatorChar)+1));
+        this.setTitle("RESISTIRE-"+string.substring(string.lastIndexOf(File.separatorChar)+1));
 
         /*
         final String title="3D Graph Explorer";
@@ -1659,15 +1669,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
      */
     private void newFile() {
     	if (!isDirty("Do you want to save before creating a new file?")) {
-    		
-//    		
-//             sceneManager.getElement3DList().clear();
-//             canvas3D.setScene(sceneManager.createScene(true));
-//             canvas3D.refresh();
-//             updateTable();
-//             dirty=false;
-//             lastFileName=null;
-//             setLastFileName(null);
+    		initProject();
     	}
     }
     
@@ -1733,7 +1735,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		 * Shows load dialog and loads file if dialogue is not canceled
 		 */
 		 private void loadProjectFromFile() {
-		        loadProjectFromFile(getFileName(false,"p3d","Open new file..."));
+		        loadProjectFromFile(getFileName(false,"ppf","Open new file..."));
 		 }
 		    
 		 /**
@@ -1786,13 +1788,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	 private boolean saveToFile(boolean askName) {
         String fileName;
         //if (sceneManager.getElementCount()<1)return false;
-        if (askName || lastFileName==null) fileName=getFileName(true,".p3d","Save file as ...");
+        if (askName || lastFileName==null) fileName=getFileName(true,".ppf","Save file as ...");
         else fileName=lastFileName;
         if (fileName==null) return false;
         
    	    try {
    		      ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
-   		      this.project.setName(fileName.substring(fileName.lastIndexOf("\\")+1, fileName.lastIndexOf(".p3d")));
+   		      this.project.setName(fileName.substring(fileName.lastIndexOf("\\")+1, fileName.lastIndexOf(".")));
    		      os.writeObject(project);
    		      int countTabs = tabsManager.getCountOfTabs();
    		      
@@ -2098,7 +2100,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 
 		
 		private String[] columnNames = {
-                "Element3D"};
+                "Project item list"};
 		
 		ArrayList<SimpleElement> rootElements;
 		
@@ -2293,7 +2295,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		private Canvas3D canvas;
 		
 		private String[] columnNames = {
-                "Element3D", 
+                "Element", 
                 "Show"};
 		
 		public ArrayList<Element3D> rootElements;
