@@ -1248,14 +1248,20 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			DistanceConfiguration configuration = (DistanceConfiguration) AddObjectDialog.show(this,null, Element3DFactory.DISTANCE_ELEMENT); 			
 			DistanceCalculatorAdapter calc = new DistanceCalculatorAdapter(configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement)selected.getElementByKey("specimens")).getAllElements();
-			ComposeSimpleElement distances  = calc.calculate(specimens);
+			ComposeSimpleElement distances  = (ComposeSimpleElement) selected.getElementByKey("distances");
+			ComposeSimpleElement newDistance = calc.calculate(specimens); 
+			if(distances == null){
+				distances = new ComposeSimpleElement("distances");
+			}
+			distances.addElement(newDistance);
+			
 			selected.addElement(distances);
 			treeTable.updateUI();
 			
 			DistancesDetailer detailer = new DistancesDetailer();
 			reporter.writeReport("Matrix of distances generated: \n");
 			reporter.writeReport("Type of analysis: "+ (configuration.getType() == DistanceConfiguration.MIN_SQR_DISTANCE ? "Least squares distance" : "Robusts distance")+'\n');
-			reporter.writeReport(detailer.getDetails(distances));
+			reporter.writeReport(detailer.getDetails(newDistance));
 			
 		}else if(command=="addProjection"){
 			int i=this.treeTable.getSelectedRow();
@@ -1271,6 +1277,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			projections.addElement(projection);
 			selected.addElement(projections);
 //			this.addElement3D(new Element3DProjection(projection), configuration);
+			this.treeTable.updateUI();
+			
 			this.addElement3D(new Element3DProjection(projection), configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
 			reporter.writeReport("Projections: \n");

@@ -13,7 +13,7 @@ public class ProjectionConfiguration extends DialogConfiguration {
 	private String name =""; 
 	
 	public ProjectionConfiguration(int i) {
-		this.type = type;
+		this.type = i;
 	}
 
 	public int getType(){

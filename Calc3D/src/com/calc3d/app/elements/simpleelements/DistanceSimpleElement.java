@@ -13,6 +13,8 @@ public class DistanceSimpleElement extends SimpleElement {
 		this.distance = d;
 		this.element1 = sampleSimpleElement;
 		this.element2 = sampleSimpleElement2;
+		
+		this.description = distance + "";
 	}
 	
 	public double getDistance(){
@@ -26,8 +28,7 @@ public class DistanceSimpleElement extends SimpleElement {
 	public SampleSimpleElement getElementB(){
 		return element2;
 	}
-	
-	
+
 		
 
 }

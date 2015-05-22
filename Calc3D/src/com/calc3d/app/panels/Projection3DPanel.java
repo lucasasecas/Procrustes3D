@@ -136,11 +136,10 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 	@Override
 	public DialogConfiguration getConfiguration() {
 		ProjectionConfiguration configuration = new ProjectionConfiguration(rdbtnLeastSqe.isSelected()?ProjectionConfiguration.LEAST_SQR_PROJETION : ProjectionConfiguration.ROBUST_PROJECTION);
-		
+		int a =0;
 		int type = this.rdbtnLeastSqe.isSelected() ? ProjectionConfiguration.LEAST_SQR_PROJETION : ProjectionConfiguration.ROBUST_PROJECTION;
 		String nName = type==ProjectionConfiguration.LEAST_SQR_PROJETION?Messages.getString("tab.name.prefix.fmds"):Messages.getString("tab.name.prefix.rmds");
-		configuration.setTabTitle(nName+"-"+this.txtName.getText());
-		
+				
 		configuration.setDimensions(rdbtn2D.isSelected() ? 2 : 3);
 		configuration.setName(this.txtName.getText());
 		return configuration;

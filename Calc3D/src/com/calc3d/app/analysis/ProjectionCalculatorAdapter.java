@@ -25,8 +25,8 @@ public class ProjectionCalculatorAdapter {
 
 	public ComposeSimpleElement calculate(
 			ComposeSimpleElement distances) {
-		ArrayList<DistanceSimpleElement> dist = (ArrayList<DistanceSimpleElement>) distances.getAllElements();
-		int distSizes = distances.getElementByKey("projections")==null?dist.size():dist.size()-1;
+		ArrayList<DistanceSimpleElement> dist = (ArrayList<DistanceSimpleElement>) ((ComposeSimpleElement) distances.getElementByKey("values")).getAllElements();
+		int distSizes = dist.size();
 		SimpleMatrix distancesMat;
 		int counter = 0;
 		while(true){
@@ -42,7 +42,7 @@ public class ProjectionCalculatorAdapter {
 			if(i<counter-1)
 				names[i] = distSizes==0?"":dist.get(0).getElementA().getName();
 			else{
-				ArrayList<DistanceSimpleElement> dist2 = (ArrayList<DistanceSimpleElement>) distances.getAllElements();
+				ArrayList<DistanceSimpleElement> dist2 =  (ArrayList<DistanceSimpleElement>)((ComposeSimpleElement) distances.getElementByKey("values")).getAllElements();
 				DistanceSimpleElement auxDist =  dist2.get(distSizes-1);
 				names[i] = auxDist.getElementB().getName();
 			}
@@ -70,7 +70,9 @@ public class ProjectionCalculatorAdapter {
 	 		lm.addCoordinate(resultRaw.get(i).toArray());
 	 		result.addElement(lm);
 	 	}
-	 	result.setName(configuration.getName());
+	 	String prefix = configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "fMDS-" : "rMDS-";
+	 	result.setName(prefix + configuration.getName() + "-" + configuration.getDimensions() + "D");
+	 	configuration.setTabTitle(result.getName());
 	 	
 		return result;
 	}

@@ -1,8 +1,12 @@
 package com.calc3d.app.reports;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
+
+
+import java.util.Arrays;
 
 import org.ejml.simple.SimpleMatrix;
 
@@ -16,17 +20,18 @@ public class DistancesDetailer implements DataDetailer{
 	@Override
 	public String getDetails(SimpleElement data) {
 		String report = "";
-		
-		ArrayList<DistanceSimpleElement> distances= (ArrayList<DistanceSimpleElement>) ((ComposeSimpleElement) data).getAllElements();
-		int numberOfElements = this.getCountOfElements(distances.size());
+		ComposeSimpleElement distanceElement = (ComposeSimpleElement) data;
+		ArrayList<DistanceSimpleElement> dist = (ArrayList<DistanceSimpleElement>) ((ComposeSimpleElement) distanceElement.getElementByKey("values")).getAllElements();
+		int distSizes = dist.size();
+		int numberOfElements = this.getCountOfElements(dist.size());
 		String names = "";
 		double[][] distArrayMat = new double[numberOfElements][numberOfElements];
 		int count = 0; 
 		for(int i=0; i<numberOfElements; i++){
-			names += distances.size()==0?"":distances.get(0).getElementA().getName()+ "   ";
+			names += dist.size()==0?"":dist.get(0).getElementA().getName()+ "   ";
 			for(int j=i; j<numberOfElements; j++){
 				if(i!=j){
-					DistanceSimpleElement distance = distances.remove(0); 
+					DistanceSimpleElement distance = dist.remove(0); 
 					distArrayMat[i][j] = distance.getDistance();
 					distArrayMat[j][i] = distance.getDistance();
 				}
@@ -34,16 +39,16 @@ public class DistancesDetailer implements DataDetailer{
 					distArrayMat[i][j] = 0;
 					distArrayMat[j][i] = 0;
 				}
-					
 			}
 		}
-		names += ((ComposeSimpleElement) data).size()==0?"":((DistanceSimpleElement)((ComposeSimpleElement) data).getContainedElement(((ComposeSimpleElement) data).size()-1)).getElementA().getName();
-		
+
 		report += "Count of elements: "+numberOfElements+'\n';
 		report += "Order of elements: \n";
 		report += names;
 		report += "Distances Matrix: \n";
-		report += new SimpleMatrix(distArrayMat).toString();
+		String mat = new SimpleMatrix(distArrayMat).toString();
+		report += mat;
+
 		return report+"\n\n\n";
 	}
 
