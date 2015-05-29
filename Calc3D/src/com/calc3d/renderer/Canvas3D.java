@@ -404,13 +404,15 @@ public final class Canvas3D extends JPanel implements Printable
 		Box3D box = settings.getClipBox();
 		double w = box!=null?box.getWidth():0;
 		double h = box!=null?box.getHeight():0;
-		double x0 = w - box.getMaxX(); 
-		double y0 = h - box.getMaxY();
+		double x0 = w/2 + box.getMaxX(); 
+		double y0 = h/2 + box.getMinY();
 		double xc = w/2 - x0;
-		double yc = h/2 - y0;
+//		double yc = h/2 - y0;
 		
-		iCamera.originalEye.set(xc/w, yc/h, iCamera.originalEye.getZ());
-		iCamera.originalFocus.set(xc/w, yc/h, iCamera.originalFocus.getZ());
+		double totalW = box.getMinX() < 0 ? w : w + box.getMinX(); 
+//		
+		iCamera.originalEye.set(x0/totalW,box.getMinY()/h, iCamera.originalEye.getZ());
+		iCamera.originalFocus.set(0.3, box.getMinY()/h, iCamera.originalFocus.getZ());
 		iCamera.reset();
 		
 	}

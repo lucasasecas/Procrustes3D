@@ -349,11 +349,12 @@ public class SceneManager  {
 		Object3D<Element> object3D =new Object3D<Element>();
 		//Add axes whichever enable
 		createAxes();
+
 		//createBox(Color.blue);
 		createXYGrid(Color.green.darker().darker());
 		if (this.isAxisVisible())	for (Element e:axis3D.elements)	object3D.addElement(e);
 		
-		//if (boxVisible)		for (Element e:box3D.elements)	object3D.addElement(e);
+		if (boxVisible)		for (Element e:box3D.elements)	object3D.addElement(e);
 		
 		if (this.isGridXYVisible())	for (Element e:gridXY.elements)	object3D.addElement(e);
 		

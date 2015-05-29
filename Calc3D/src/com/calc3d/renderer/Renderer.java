@@ -441,7 +441,7 @@ public final class Renderer implements BSPTreeTraverseListener{
 			maxY=box.getMaxY();
 			minZ=box.getMinZ();
 			maxZ=box.getMaxZ();
-		Vector3D vo=ProjectToScreen(new Vector3D());
+		Vector3D vo=ProjectToScreen(new Vector3D(0,0,0));
 		Vector3D vx=ProjectToScreen(new Vector3D(maxX,0,0));
 		Vector3D vy=ProjectToScreen(new Vector3D(0,maxY,0));
 		Vector3D vz=ProjectToScreen(new Vector3D(0,0,maxZ));
@@ -492,7 +492,7 @@ public final class Renderer implements BSPTreeTraverseListener{
 		minZ=box.getMinZ();
 		maxZ=box.getMaxZ();
 
-		Vector3D vo=ProjectToScreen(new Vector3D());
+		Vector3D vo=ProjectToScreen(new Vector3D(0, 0, 0));
 		Vector3D vx=ProjectToScreen(new Vector3D(maxX,0,0));
 		Vector3D vy=ProjectToScreen(new Vector3D(0,maxY,0));
 		Vector3D vz=ProjectToScreen(new Vector3D(0,0,maxZ));

@@ -103,7 +103,7 @@ public class Commons {
 		double min, max;
 		max = Math.max(Math.max(maxX, maxY), maxZ);
 		min = Math.min(Math.min(minX, minY), minZ);
-		Box3D axesBox = new Box3D(min, max, min, max, min, max);
+		Box3D axesBox = new Box3D(minX, maxX, minY, maxY, minZ, maxZ);
 		preferences.setAxesBox(axesBox);
 		preferences.setClipBox(axesBox);
 		return preferences;

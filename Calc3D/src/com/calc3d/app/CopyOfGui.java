@@ -1538,11 +1538,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
-		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
+		newCanvas.setSettings(new LocalSettings(preferences));
+//		newCanvas.getSceneManager().setSettings();
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
         dirty=false;
-        newCanvas.setSettings(new LocalSettings(preferences));       
 
         GraphicsPane gPane = new GraphicsPane(list, newCanvas, this);
         

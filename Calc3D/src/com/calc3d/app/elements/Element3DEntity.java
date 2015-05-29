@@ -118,7 +118,7 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 	@Override
 	public Vector3D getMaxBound(){
 		double maxX, maxY, maxZ;
-		maxX = maxY = maxZ = Double.MIN_VALUE;
+		maxX = maxY = maxZ = Double.NEGATIVE_INFINITY;
 		for(int i=0; i<_points.size(); i++){
 			Vector3D point = _points.get(i).getPoint();
 			maxX = maxX < point.getX() ? point.getX() : maxX;
