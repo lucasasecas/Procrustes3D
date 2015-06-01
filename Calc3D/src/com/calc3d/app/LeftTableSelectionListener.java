@@ -1,8 +1,10 @@
 package com.calc3d.app;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -44,6 +46,20 @@ public class LeftTableSelectionListener implements TreeSelectionListener, MouseL
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount()==2){
+			TreeTableModel model = (TreeTableModel) table.getTreeTableModel();
+			int i=table.getSelectedRow();
+			if (i<0)return;
+			 
+			TreePath path = table.getPathForRow(i);
+			SimpleElement node = (SimpleElement) path.getLastPathComponent();
+			
+			for(String ac : node.getAllActions()){
+				if(ac == "showpanel"){
+					actionListener.actionPerformed(new ActionEvent(this, 1, "showpanel"));
+				}
+			}
+		}
 		
 //		TreeTableModel model = (TreeTableModel) table.getTreeTableModel();
 //		 int i=table.getSelectedRow();

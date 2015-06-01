@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -37,9 +38,11 @@ import com.calc3d.renderer.Canvas3D;
 public class TabsManager implements Serializable {
 
 	JTabbedPane tabs;
+	HashMap<String, GraphicsPane> closedTabs;
 	
 	public TabsManager(JTabbedPane tabs){
 		this.tabs = tabs;
+		this.closedTabs = new HashMap<String, GraphicsPane>();
 	}
 	
 	public int newTab(final JComponent panel, String title){
@@ -47,6 +50,7 @@ public class TabsManager implements Serializable {
 		Component c = tabs.add(panel);
 		int count = tabs.getTabCount();
 		tabs.setTabComponentAt(count-1 , this.generateButton(title));
+		tabs.setTitleAt(count-1, title);
 		int newIndex = tabs.getTabCount()-1;
 		this.tabs.setSelectedIndex(newIndex);
 		return newIndex;
@@ -159,6 +163,11 @@ public class TabsManager implements Serializable {
         public void actionPerformed(ActionEvent e) {
             int i = tabs.getSelectedIndex();
             if (i != -1) {
+            	GraphicsPane pane = (GraphicsPane) tabs.getSelectedComponent();
+            	JTabbedPane tbs = tabs;
+            	String title = tabs.getTitleAt(i); 
+            	HashMap closed = closedTabs;
+            	closedTabs.put(title, pane);
                 tabs.remove(i);
             }
         }
@@ -167,7 +176,7 @@ public class TabsManager implements Serializable {
         public void updateUI() {
         }
  
-        //paint the cross
+        //paint the cross	
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g.create();
@@ -225,5 +234,15 @@ public class TabsManager implements Serializable {
 
 	public void addChangeListener(ChangeListener changeListener) {
 		this.tabs.addChangeListener(changeListener);		
+	}
+
+	public void showTab(String name) {
+		GraphicsPane pane = closedTabs.get(name);
+				
+		if(pane!=null){
+			closedTabs.remove(name);
+			this.newTab(pane, name);
+		}
+		
 	}
 }

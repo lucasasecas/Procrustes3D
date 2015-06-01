@@ -12,6 +12,7 @@ import com.calc3d.app.elements.dataset.DataSet;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.resources.Messages;
 import com.example.Algorithms.CM;
 import com.example.Algorithms.ProcrustesCalculator;
 import com.example.Algorithms.Robusto;
@@ -41,7 +42,8 @@ public class ProcrustesCalculatorAdapter   {
 			elements.add(new SimpleMatrix(entity.toMatrix()));
 		}
 		ArrayList<SimpleMatrix> result = calculator.execute(elements);
-		ComposeSimpleElement dataset = new ComposeSimpleElement(configuration.getName());
+		String prefix = configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "GLSP-" : "GRP-";
+		ComposeSimpleElement dataset = new ComposeSimpleElement(prefix + configuration.getName());
 
 		dataset.addElement(Commons.toPCEntity(result,elems));
 		if(result.size()!= 0){

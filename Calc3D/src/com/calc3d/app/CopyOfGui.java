@@ -1274,6 +1274,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			if(projections==null){
 				projections = new ComposeSimpleElement("projections");
 			}
+			projection.addAction("showpanel");
 			projections.addElement(projection);
 			selected.addElement(projections);
 //			this.addElement3D(new Element3DProjection(projection), configuration);
@@ -1366,10 +1367,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			  initProject();
 		}
 		else if(command=="load"){
-			
 			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog.show(this,null, Element3DFactory.DATASET_ELEMENT);
 			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration.getSrc());
 			if(dataset==null)return;
+			dataset.addAction("showpanel");
 			dataset.setIcon(Icons.DATASET);
 			this.addElement(dataset);
 			this.addElement3D(new Element3DDataSet(dataset), configuration);
@@ -1443,7 +1444,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	           catch (java.io.IOException e){ 
 	               System.out.println(e.getMessage());
 	           }
-	    }else if(command=="checkupdates"){
+	    }else if(command=="showpanel"){
+	    	int row = treeTable.getSelectedRow();
+	    	TreePath path = treeTable.getPathForRow(row);
+	    	SimpleElement node = (SimpleElement) path.getLastPathComponent();
+	    	this.tabsManager.showTab(node.getName());    	
+	    }
+	    else if(command=="checkupdates"){
 	    	 try {
 	             //Set your page url in this string. For eg, I m using URL for Google Search engine
 	             String url = "https://github.com/lucasasecas/Procrustes3D";
@@ -2464,6 +2471,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
 		
 		//Generate 3dElements
+		result2.addAction("showpanel");
 		int i=this.treeTable.getSelectedRow();
 		TreePath path = treeTable.getPathForRow(i);
 		ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
