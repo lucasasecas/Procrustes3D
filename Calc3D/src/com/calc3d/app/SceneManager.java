@@ -449,134 +449,134 @@ public class SceneManager  {
 	}
 	
 	private ElementCollection createAxes() {
-	    Color color=Globalsettings.axisColor;
+	    Color color=settings.axisColor;
 	    
         double minX,maxX,minY,maxY,minZ,maxZ;
-        Box3D box=Globalsettings.axesBox;
-        minX=Globalsettings.inverseMapX(box.getMinX());
-		maxX=Globalsettings.inverseMapX(box.getMaxX());
-		minY=Globalsettings.inverseMapX(box.getMinY());
-		maxY=Globalsettings.inverseMapX(box.getMaxY());
-		minZ=Globalsettings.inverseMapX(box.getMinZ());
-		maxZ=Globalsettings.inverseMapX(box.getMaxZ());
+        Box3D box=settings.axesBox;
+        minX=settings.inverseMapX(box.getMinX());
+		maxX=settings.inverseMapX(box.getMaxX());
+		minY=settings.inverseMapX(box.getMinY());
+		maxY=settings.inverseMapX(box.getMaxY());
+		minZ=settings.inverseMapX(box.getMinZ());
+		maxZ=settings.inverseMapX(box.getMaxZ());
 	    double n=10; //no of parts axis is divided
 	    int i;
 		axis3D = new ElementCollection();
-		if (Globalsettings.xAxisVisible & (maxX>0)){
+		if (settings.xAxisVisible & (maxX>0)){
 			for ( i = 0; i < n-1; i++) {
-				ElementCurve ex = new ElementCurve(new Vector3D(i/n*maxX, 0, 0),new Vector3D((i+1)/n*maxX, 0, 0));
+				ElementCurve ex = new ElementCurve(new Vector3D(i/n*maxX, minY, minZ),new Vector3D((i+1)/n*maxX, minY, minZ));
 				ex.setLineColor(color);
-				ex.setCurveWidth(Globalsettings.axisWidth);
+				ex.setCurveWidth(settings.axisWidth);
 				ex.setFillColor(color);
 				axis3D.addElement(ex);
 			}
-			ElementArrow ex = new ElementArrow(new Vector3D(i/n*maxX, 0, 0),new Vector3D((i+1)/n*maxX, 0, 0));
+			ElementArrow ex = new ElementArrow(new Vector3D(i/n*maxX, minY, minZ),new Vector3D((i+1)/n*maxX, minY, minZ));
 			ex.setLineColor(color);
-			ex.setCurveWidth(Globalsettings.axisWidth);
+			ex.setCurveWidth(settings.axisWidth);
 			ex.setFillColor(color);
 			ex.setArrowSize(3);
 			axis3D.addElement(ex);
 			axis3D.addElement(new ElementString("x", new Vector3D(maxX + 0.1, 0, 0),new Vector3D(maxX + 0.2, 0,0), color));
 		}
 			
-		if (Globalsettings.yAxisVisible & (maxY>0)){
+		if (settings.yAxisVisible & (maxY>0)){
 			for ( i = 0; i < n-1; i++) {
-				ElementCurve ey = new ElementCurve(new Vector3D(0,i/n*maxY, 0),new Vector3D(0,(i+1)/n*maxY, 0));
+				ElementCurve ey = new ElementCurve(new Vector3D(minX,i/n*maxY, minZ),new Vector3D(minX,(i+1)/n*maxY, minZ));
 				ey.setLineColor(color);
-				ey.setCurveWidth(Globalsettings.axisWidth);
+				ey.setCurveWidth(settings.axisWidth);
 				ey.setFillColor(color);
 				axis3D.addElement(ey);
 			}
-			ElementArrow ey = new ElementArrow(new Vector3D(0,i/n*maxY, 0),new Vector3D(0,(i+1)/n*maxY, 0));
+			ElementArrow ey = new ElementArrow(new Vector3D(minX,i/n*maxY, minZ),new Vector3D(minX,(i+1)/n*maxY, minZ));
 			ey.setLineColor(color);
-			ey.setCurveWidth(Globalsettings.axisWidth);
+			ey.setCurveWidth(settings.axisWidth);
 			ey.setFillColor(color);
 			ey.setArrowSize(3);
 			axis3D.addElement(ey);
-			axis3D.addElement(new ElementString("y", new Vector3D(0,maxY + 0.1, 0),new Vector3D(0,maxY + 0.2, 0), color));
+			axis3D.addElement(new ElementString("y", new Vector3D(minX,maxY + 0.1, minZ),new Vector3D(minX,maxY + 0.2, minZ), color));
 		}
 		
-		if (Globalsettings.zAxisVisible & (maxZ>0)){
+		if (settings.zAxisVisible & (maxZ>0)){
 			for ( i = 0; i < n-1; i++) {
-				ElementCurve ez = new ElementCurve(new Vector3D(0,0,i/n*maxZ),new Vector3D(0, 0,(i+1)/n*maxZ));
+				ElementCurve ez = new ElementCurve(new Vector3D(minX,minY,i/n*maxZ),new Vector3D(minX, minY,(i+1)/n*maxZ));
 				ez.setLineColor(color);
-				ez.setCurveWidth(Globalsettings.axisWidth);
+				ez.setCurveWidth(settings.axisWidth);
 				ez.setFillColor(color);
 				axis3D.addElement(ez);
 			}
-			ElementArrow ez = new ElementArrow(new Vector3D(0, 0,i/n*maxZ),new Vector3D(0, 0,(i+1)/n*maxZ));
+			ElementArrow ez = new ElementArrow(new Vector3D(minX, minY,i/n*maxZ),new Vector3D(minX, minY,(i+1)/n*maxZ));
 			ez.setLineColor(color);
-			ez.setCurveWidth(Globalsettings.axisWidth);
+			ez.setCurveWidth(settings.axisWidth);
 			ez.setFillColor(color);
 			ez.setArrowSize(3);
 			axis3D.addElement(ez);
-			axis3D.addElement(new ElementString("z", new Vector3D(0, 0,maxZ + 0.1),new Vector3D(0, 0,maxZ + 0.2), color));
+			axis3D.addElement(new ElementString("z", new Vector3D(minX, minY,maxZ + 0.1),new Vector3D(minX, minY,maxZ + 0.2), color));
 		}
 		
-		if (Globalsettings.xAxisVisible & (minX<0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ex = new ElementCurve(new Vector3D(-i/n*Math.abs(minX), 0, 0),new Vector3D(-(i+1)/n*Math.abs(minX), 0, 0));
+		if (settings.xAxisVisible & (minX<0)){
+			for ( i = 0; i < n; i++) {
+				ElementCurve ex = new ElementCurve(new Vector3D(-i/n*Math.abs(minX), minY, minZ),new Vector3D(-(i+1)/n*Math.abs(minX), minY, minZ));
 				ex.setLineColor(color);
-				ex.setCurveWidth(Globalsettings.axisWidth);
+				ex.setCurveWidth(settings.axisWidth);
 				ex.setFillColor(color);
 				axis3D.addElement(ex);
 			}
-			ElementArrow ex = new ElementArrow(new Vector3D(-i/n*Math.abs(minX), 0, 0),new Vector3D(-(i+1)/n*Math.abs(minX), 0, 0));
-			ex.setLineColor(color);
-			ex.setCurveWidth(Globalsettings.axisWidth);
-			ex.setFillColor(color);
-			ex.setArrowSize(3);
-			axis3D.addElement(ex);
-			axis3D.addElement(new ElementString("-x", new Vector3D(-Math.abs(minX) - 0.1, 0, 0),new Vector3D(-Math.abs(minX) - 0.2, 0,0), color));
+//			ElementArrow ex = new ElementArrow(new Vector3D(-i/n*Math.abs(minX), minY, minZ),new Vector3D(-(i+1)/n*Math.abs(minX), minY, minZ));
+//			ex.setLineColor(color);
+//			ex.setCurveWidth(settings.axisWidth);
+//			ex.setFillColor(color);
+//			ex.setArrowSize(3);
+//			axis3D.addElement(ex);
+//			axis3D.addElement(new ElementString("-x", new Vector3D(-Math.abs(minX) - 0.1, minY, minZ),new Vector3D(-Math.abs(minX) - 0.2, minY, minZ), color));
 		}
 		
-		if (Globalsettings.yAxisVisible & (minY<0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ey = new ElementCurve(new Vector3D(0,-i/n*Math.abs(minY), 0),new Vector3D(0,-(i+1)/n*Math.abs(minY), 0));
+		if (settings.yAxisVisible & (minY<0)){
+			for ( i = 0; i < n; i++) {
+				ElementCurve ey = new ElementCurve(new Vector3D(minX,-i/n*Math.abs(minY), minZ),new Vector3D(minX,-(i+1)/n*Math.abs(minY), minZ));
 				ey.setLineColor(color);
-				ey.setCurveWidth(Globalsettings.axisWidth);
+				ey.setCurveWidth(settings.axisWidth);
 				ey.setFillColor(color);
 				axis3D.addElement(ey);
 			}
-			ElementArrow ey = new ElementArrow(new Vector3D(0,-i/n*Math.abs(minY), 0),new Vector3D(0,-(i+1)/n*Math.abs(minY), 0));
-			ey.setLineColor(color);
-			ey.setCurveWidth(Globalsettings.axisWidth);
-			ey.setFillColor(color);
-			ey.setArrowSize(3);
-			axis3D.addElement(ey);
-			axis3D.addElement(new ElementString("-y", new Vector3D(0,-Math.abs(minY) - 0.1, 0),new Vector3D(0,-Math.abs(minY) - 0.2, 0), color));
+//			ElementArrow ey = new ElementArrow(new Vector3D(minX,-i/n*Math.abs(minY), minZ),new Vector3D(minX,-(i+1)/n*Math.abs(minY), minZ));
+//			ey.setLineColor(color);
+//			ey.setCurveWidth(settings.axisWidth);
+//			ey.setFillColor(color);
+//			ey.setArrowSize(3);
+//			axis3D.addElement(ey);
+//			axis3D.addElement(new ElementString("-y", new Vector3D(minX,-Math.abs(minY) - 0.1, minZ),new Vector3D(minX,-Math.abs(minY) - 0.2, minZ), color));
 		}
 		
-		if (Globalsettings.zAxisVisible & (minZ<0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ez = new ElementCurve(new Vector3D(0,0,-i/n*Math.abs(minZ)),new Vector3D(0, 0,-(i+1)/n*Math.abs(minZ)));
+		if (settings.zAxisVisible & (minZ<0)){
+			for ( i = 0; i < n; i++) {
+				ElementCurve ez = new ElementCurve(new Vector3D(minX,minY,-i/n*Math.abs(minZ)),new Vector3D(minX, minY,-(i+1)/n*Math.abs(minZ)));
 				ez.setLineColor(color);
-				ez.setCurveWidth(Globalsettings.axisWidth);
+				ez.setCurveWidth(settings.axisWidth);
 				ez.setFillColor(color);
 				axis3D.addElement(ez);
 			}
-			ElementArrow ez = new ElementArrow(new Vector3D(0, 0,-i/n*Math.abs(minZ)),new Vector3D(0, 0,-(i+1)/n*Math.abs(minZ)));
-			ez.setLineColor(color);
-			ez.setCurveWidth(Globalsettings.axisWidth);
-			ez.setFillColor(color);
-			ez.setArrowSize(3);
-			axis3D.addElement(ez);
-			axis3D.addElement(new ElementString("-z", new Vector3D(0, 0,-Math.abs(minZ) - 0.1),new Vector3D(0, 0,-Math.abs(minZ) - 0.2), color));
+//			ElementArrow ez = new ElementArrow(new Vector3D(minX, minY,-i/n*Math.abs(minZ)),new Vector3D(minX, minY,-(i+1)/n*Math.abs(minZ)));
+//			ez.setLineColor(color);
+//			ez.setCurveWidth(settings.axisWidth);
+//			ez.setFillColor(color);
+//			ez.setArrowSize(3);
+//			axis3D.addElement(ez);
+//			axis3D.addElement(new ElementString("-z", new Vector3D(minX, minY,-Math.abs(minZ) - 0.1),new Vector3D(minX, minY,-Math.abs(minZ) - 0.2), color));
 		}
 		
 		/*
 		 * Draw ticks
 		
-		if (Globalsettings.xAxisVisible & (maxX>0)){
-		    n=Globalsettings.axisTicks;
+		if (settings.xAxisVisible & (maxX>0)){
+		    n=settings.axisTicks;
 		    for ( i = 1; i < n; i++) {
-		    ElementCurve e = new ElementCurve(new Vector3D(-0.035, 0,i/n*Globalsettings.inverseMapZ(maxZ)),new Vector3D(0.035, 0,i/n*Globalsettings.inverseMapZ(maxZ)));
+		    ElementCurve e = new ElementCurve(new Vector3D(-0.035, 0,i/n*settings.inverseMapZ(maxZ)),new Vector3D(0.035, 0,i/n*settings.inverseMapZ(maxZ)));
 			e.setLineColor(color);
 			axis3D.addElement(e);
-			  e = new ElementCurve(new Vector3D(i/n*Globalsettings.inverseMapZ(maxZ),-0.035,0),new Vector3D(i/n*Globalsettings.inverseMapZ(maxZ),0.035, 0));
+			  e = new ElementCurve(new Vector3D(i/n*settings.inverseMapZ(maxZ),-0.035,0),new Vector3D(i/n*settings.inverseMapZ(maxZ),0.035, 0));
 				e.setLineColor(color);
 				axis3D.addElement(e);
-				 e = new ElementCurve(new Vector3D(-0.035,i/n*Globalsettings.inverseMapZ(maxZ),0),new Vector3D(0.035,i/n*Globalsettings.inverseMapZ(maxZ), 0));
+				 e = new ElementCurve(new Vector3D(-0.035,i/n*settings.inverseMapZ(maxZ),0),new Vector3D(0.035,i/n*settings.inverseMapZ(maxZ), 0));
 					e.setLineColor(color);
 					axis3D.addElement(e);
 				 
@@ -740,7 +740,7 @@ public class SceneManager  {
 			    ElementCurve c=new ElementCurve(new Vector3D(-1+(i*subdiv+j)*delta,-1,-1),new Vector3D(-1+(i*subdiv+j)*delta,-1+ticklength,-1));
 			    c.setLineColor(color);
 			    box3D.addElement(c);
-			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",Globalsettings.mapX(-1+(i*subdiv+j)*delta)),new Vector3D(-1+(i*subdiv+j)*delta,-1,-1),new Vector3D(0,0,0),color.darker()));
+			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",settings.mapX(-1+(i*subdiv+j)*delta)),new Vector3D(-1+(i*subdiv+j)*delta,-1,-1),new Vector3D(0,0,0),color.darker()));
 			}
 			ElementCurve c=new ElementCurve(new Vector3D(1,-1,-1),new Vector3D(1,-1+0.07,-1));
 			box3D.addElement(c);
@@ -752,7 +752,7 @@ public class SceneManager  {
 			    ElementCurve c=new ElementCurve(new Vector3D(-1,-1+(i*subdiv+j)*delta,-1),new Vector3D(-1+ticklength,-1+(i*subdiv+j)*delta,-1));
 			    c.setLineColor(color);
 			    box3D.addElement(c);
-			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",Globalsettings.mapY(-1+(i*subdiv+j)*delta)),new Vector3D(-1,-1+(i*subdiv+j)*delta,-1),new Vector3D(0,0,0),color.darker()));
+			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",settings.mapY(-1+(i*subdiv+j)*delta)),new Vector3D(-1,-1+(i*subdiv+j)*delta,-1),new Vector3D(0,0,0),color.darker()));
 				
 			}
 			ElementCurve c=new ElementCurve(new Vector3D(-1,1,-1),new Vector3D(-1+0.07,1,-1));
@@ -765,7 +765,7 @@ public class SceneManager  {
 			    ElementCurve c=new ElementCurve(new Vector3D(-1,1,-1+(i*subdiv+j)*delta),new Vector3D(-1+ticklength,1,-1+(i*subdiv+j)*delta));
 			    c.setLineColor(color);
 			    box3D.addElement(c);
-			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",Globalsettings.mapZ(-1+(i*subdiv+j)*delta)),new Vector3D(-1,1,-1+(i*subdiv+j)*delta),new Vector3D(0,0,0),color.darker()));
+			    if ((i>0)&&(j==0))box3D.addElement(new ElementString(String.format("%.1G",settings.mapZ(-1+(i*subdiv+j)*delta)),new Vector3D(-1,1,-1+(i*subdiv+j)*delta),new Vector3D(0,0,0),color.darker()));
 				
 			}
 			ElementCurve c=new ElementCurve(new Vector3D(-1,1,1),new Vector3D(-1+0.07,1,1));
@@ -784,7 +784,7 @@ public class SceneManager  {
 		color=Color.DARK_GRAY;//.brighter().brighter();
 		gridXY = new ElementCollection();
 		double minX, minY, maxX, maxY;
-		box=Globalsettings.mappedClipBox;
+		box=settings.mappedClipBox;
 		minX = box.getMinX();
 		minY = box.getMinY();
 		//minZ = box.getMinZ();
@@ -804,8 +804,8 @@ public class SceneManager  {
                ec.setFillColor(color);
                ec.setBackColor(color);
                gridXY.addElement(ec);
-               if (Globalsettings.mapCliptoY(y)==0)continue;
-               ElementString es=new ElementString(doubletoString(Globalsettings.mapCliptoY(y)),new Vector3D(maxX+0.12,y,0),new Vector3D(maxX+0.13,y,0),Color.black);
+               if (settings.mapCliptoY(y)==0)continue;
+               ElementString es=new ElementString(doubletoString(settings.mapCliptoY(y)),new Vector3D(maxX+0.12,y,0),new Vector3D(maxX+0.13,y,0),Color.black);
                gridXY.addElement(es);
 		}
 		
@@ -818,8 +818,8 @@ public class SceneManager  {
                ec.setFillColor(color);
                ec.setBackColor(color);
                gridXY.addElement(ec);
-               if (Globalsettings.mapCliptoY(x)==0)continue;
-               ElementString es=new ElementString(doubletoString(Globalsettings.mapCliptoX(x)),new Vector3D(x,maxY+0.12,0),new Vector3D(x,maxY+0.13,0),Color.black);
+               if (settings.mapCliptoY(x)==0)continue;
+               ElementString es=new ElementString(doubletoString(settings.mapCliptoX(x)),new Vector3D(x,maxY+0.12,0),new Vector3D(x,maxY+0.13,0),Color.black);
                gridXY.addElement(es);
 		}
 	   
