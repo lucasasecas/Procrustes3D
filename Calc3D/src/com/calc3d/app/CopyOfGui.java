@@ -1141,16 +1141,17 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 
 	/**
 	 * Create a new Canvas with their attributes
+	 * @param localSettings 
+	 * @param sceneManager 
 	 * @return new Canvas3D
 	 */
 	
-	private Canvas3D createCanvas(){
-		Canvas3D canvas =new Canvas3D();
+	private Canvas3D createCanvas(SceneManager sceneManager, LocalSettings localSettings){
+		Canvas3D canvas =new Canvas3D(sceneManager, localSettings);
 		canvas.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 		Camera3D cam = new Camera3D();
 		cam.setOrthographic(!Globalsettings.perspectiveEnabled);
 		canvas.setCamera(cam);
-		canvas.setRenderer(new Renderer());
 		canvas.setInteractionHandler(new InteractionHandler());
 		return canvas;
 	}
@@ -1307,6 +1308,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			  this.tglBox.setSelected(Globalsettings.boxVisible);
 			  canvas3D.refresh();
 		}else if(command=="axis"){
+			double g = Globalsettings.maxX;
 			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
 			SceneManager sceneManager = canvas3D.getSceneManager();
 			sceneManager.setAxisVisible(!sceneManager.isAxisVisible());
@@ -1357,7 +1359,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			  Globalsettings.fov=canvas3D.iCamera.getFov();
 			  canvas3D.refresh();
 		}else if(command=="reset"){
-			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			  Canvas3D canvas3D = tabsManager.getCurrentCanvas();
 			  canvas3D.iCamera.reset();
 	 	      canvas3D.refresh();
 		}else if (command=="export"){
@@ -1495,12 +1497,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element);
     	Preferences preferences;
-	    Canvas3D newCanvas = this.createCanvas();
-		newCanvas.addSceneManager(new SceneManager());
-		newCanvas.getSceneManager().addElement(element);
 		preferences = Commons.setPreferences(list);
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
+	    Canvas3D newCanvas = this.createCanvas(new SceneManager(), new LocalSettings(preferences));
+		newCanvas.getSceneManager().addElement(element);
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
         dirty=false;
@@ -1533,9 +1534,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	public void addElement3D(Element3D element3D, DialogConfiguration configuration){
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element3D);
-    	Preferences preferences  =Globalsettings.getSettings();
-	    Canvas3D newCanvas = this.createCanvas();
-		newCanvas.addSceneManager(new SceneManager());
+    	Preferences preferences = configuration.getGraphPreferences();
+	    Canvas3D newCanvas = this.createCanvas(new SceneManager(), new LocalSettings(preferences));
 		newCanvas.getSceneManager().addElement(element3D);
 		newCanvas.getSceneManager().setAxisVisible(true);
 		if(configuration!=null){
@@ -1545,11 +1545,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
-		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
+		newCanvas.setSettings(new LocalSettings(preferences)); 
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
         dirty=false;
-        newCanvas.setSettings(new LocalSettings(preferences));       
+              
 
         GraphicsPane gPane = new GraphicsPane(list, newCanvas, this);
         
@@ -1561,14 +1561,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element3D);
     	Preferences preferences;
-	    Canvas3D newCanvas = this.createCanvas();
-		newCanvas.addSceneManager(new SceneManager());
-		newCanvas.getSceneManager().addElement(element3D);
-		newCanvas.getSceneManager().setAxisVisible(true);
 		configuration.setGraphPreferences(Commons.setPreferences(list));
 		preferences = configuration.getGraphPreferences();
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
+	    Canvas3D newCanvas = this.createCanvas(new SceneManager(), new LocalSettings(preferences));
+		newCanvas.getSceneManager().addElement(element3D);
+		newCanvas.getSceneManager().setAxisVisible(true);
 		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
 		applySettings(newCanvas,preferences,true,true);
         updateTable();
@@ -1997,7 +1996,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		 canvas3D.stereoEnabled=preferences.isSteroscopyEnabled();
 		 canvas3D.getRenderer().setFogEnabled(preferences.isFogEnabled());
 		 canvas3D.getRenderer().setBackgroundColor(preferences.getBackColor());
-		 Globalsettings.axisColor=preferences.getAxisColor();
+		 canvas3D.getSettings().axisColor=preferences.getAxisColor();
 		 bgColorIcon.setBackground(preferences.getBackColor());
 		 canvas3D.getLights()[0].setEnabled(preferences.isLight1Enabled());
 		 canvas3D.getLights()[1].setEnabled(preferences.isLight2Enabled());
@@ -2006,8 +2005,8 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			fileToolbar.setVisible(preferences.isFileToolbarVisible());
 		    editToolbar.setVisible(preferences.isObjectToolbarVisible());
 			LookAndFeel current = UIManager.getLookAndFeel();
-			if ((Globalsettings.fileToolbarVisible != preferences.isFileToolbarVisible())|| 
-					(Globalsettings.objectToolbarVisible!= preferences.isObjectToolbarVisible())) {
+			if ((canvas3D.getSettings().fileToolbarVisible != preferences.isFileToolbarVisible())|| 
+					(canvas3D.getSettings().objectToolbarVisible!= preferences.isObjectToolbarVisible())) {
 				GridLayout layout;
 				if (preferences.isObjectToolbarVisible()
 						& preferences.isFileToolbarVisible())
@@ -2070,14 +2069,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			}
 		} else{ //if skipguiUpdate =true
 				//Save current Gui settings in preference object so that Globalsettings for gui remain unchanged
-				preferences.setLookandFeel(Globalsettings.lookandFeel);
-				preferences.setFileToolbarVisible(Globalsettings.fileToolbarVisible);
-				preferences.setObjectToolbarVisible(Globalsettings.objectToolbarVisible);
-				preferences.setStatusbarVisible(Globalsettings.statusbarVisible);
+				preferences.setLookandFeel(canvas3D.getSettings().lookandFeel);
+				preferences.setFileToolbarVisible(canvas3D.getSettings().fileToolbarVisible);
+				preferences.setObjectToolbarVisible(canvas3D.getSettings().objectToolbarVisible);
+				preferences.setStatusbarVisible(canvas3D.getSettings().statusbarVisible);
 		}
 //	  	Globalsettings.saveSettings(preferences);
 		 
-	    canvas3D.getSceneManager().setClip(new Clip(Globalsettings.mappedClipBox));
+	    canvas3D.getSceneManager().setClip(new Clip(canvas3D.getSettings().mappedClipBox));
 		canvas3D.setScene(sceneManager.createScene(reCreateScene));
          canvas3D.refresh();    
 			
@@ -2498,14 +2497,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		ArrayList<Element3D> list = new ArrayList<Element3D>();
 		list.add(element3D);
     	Preferences preferences;
-	    Canvas3D newCanvas = this.createCanvas();
-		newCanvas.addSceneManager(new SceneManager());
-		newCanvas.getSceneManager().addElement(element3D);
-		newCanvas.getSceneManager().setAxisVisible(true);
 		configuration.setGraphPreferences(Commons.setPreferences(list));
 		preferences = configuration.getGraphPreferences();
 		preferences.setLookandFeel(Globalsettings.lookandFeel);
 		preferences.setBackColor(Color.WHITE);
+	    Canvas3D newCanvas = this.createCanvas(new SceneManager(), new LocalSettings(preferences));
+		newCanvas.getSceneManager().addElement(element3D);
+		newCanvas.getSceneManager().setAxisVisible(true);
 		newCanvas.getSceneManager().setSettings(new LocalSettings(preferences));
 		applySettings(newCanvas,preferences,true,true);
         updateTable();

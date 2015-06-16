@@ -88,6 +88,8 @@ public final class Canvas3D extends JPanel implements Printable
 		dbImageR=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		dbImage=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		
+		
+		
 		iRenderer.setLightCameraandImage(this,iLights,iCamera,dbImage);
 
 		iHandler = new InteractionHandler();
@@ -99,6 +101,36 @@ public final class Canvas3D extends JPanel implements Printable
 		requestFocusInWindow();
 	}
 	
+	public Canvas3D(SceneManager sceneManager, LocalSettings localSettings){
+		super();
+		iLights=new Light3D[3];
+		iLights[0]=new Light3D();
+		iLights[1]=new Light3D(new Vector3D(0,5,0),new Vector3D(0,-1,0),Color.white,true);
+		iLights[2]=new Light3D(new Vector3D(10,10,10),new Vector3D(-1,-1,-1),Color.white,true);
+		iCamera = new Camera3D();
+		iCameraL=new Camera3D();
+		iCameraR=new Camera3D();
+		iCameraL.rotateAroundFocus(0, 2.5, 0);
+		iCameraR.rotateAroundFocus(0, -2.5, 0);
+		this.sceneManager = sceneManager;
+		iRenderer=  new Renderer();
+		dbImageL=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+		dbImageR=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+		dbImage=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+		
+		this.setSettings(localSettings);
+		
+		iRenderer.setLightCameraandImage(this,iLights,iCamera,dbImage);
+		bspTraverser=new BSPTreeTraverser(iRenderer);
+		iHandler = new InteractionHandler();
+		setInteractionHandler(iHandler);
+		
+		updateViewPort();
+		setDoubleBuffered(true);
+		setFocusable(true);
+		requestFocusInWindow();
+		
+	}
 	
 	/**
 	 * Get the scene camera.
@@ -401,7 +433,7 @@ public final class Canvas3D extends JPanel implements Printable
 
 
 	private void setEyeAndCenter() {
-		Box3D box = settings.getClipBox();
+		Box3D box = settings.mappedClipBox;
 		double w = box!=null?box.getWidth():0;
 		double h = box!=null?box.getHeight():0;
 		double x0 = w - box.getMaxX(); 
@@ -409,8 +441,8 @@ public final class Canvas3D extends JPanel implements Printable
 		double xc = w/2 - x0;
 		double yc = h/2 - y0;
 		
-		iCamera.originalEye.set(xc/w, yc/h, iCamera.originalEye.getZ());
-		iCamera.originalFocus.set(xc/w, yc/h, iCamera.originalFocus.getZ());
+		iCamera.originalEye.set(xc, yc, iCamera.originalEye.getZ());
+		iCamera.originalFocus.set(xc, yc, iCamera.originalFocus.getZ());
 		iCamera.reset();
 		
 	}

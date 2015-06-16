@@ -350,12 +350,12 @@ public class SceneManager  {
 		//Add axes whichever enable
 		createAxes();
 		//createBox(Color.blue);
-		createXYGrid(Color.green.darker().darker());
+		//createXYGrid(Color.green.darker().darker());
 		if (this.isAxisVisible())	for (Element e:axis3D.elements)	object3D.addElement(e);
 		
-		//if (boxVisible)		for (Element e:box3D.elements)	object3D.addElement(e);
+//		if (boxVisible)		for (Element e:box3D.elements)	object3D.addElement(e);
 		
-		if (this.isGridXYVisible())	for (Element e:gridXY.elements)	object3D.addElement(e);
+		//if (this.isGridXYVisible())	for (Element e:gridXY.elements)	object3D.addElement(e);
 		
 		//Add plane first so that number of intersection of polygons in bsp may be minimum
 //		for(Element3D element3D:element3Ds){
@@ -461,33 +461,42 @@ public class SceneManager  {
 		maxZ=settings.inverseMapX(box.getMaxZ());
 	    double n=10; //no of parts axis is divided
 	    int i;
+	    double tic;
 		axis3D = new ElementCollection();
 		if (settings.xAxisVisible & (maxX>0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ex = new ElementCurve(new Vector3D(i/n*maxX, minY, minZ),new Vector3D((i+1)/n*maxX, minY, minZ));
-				ex.setLineColor(color);
-				ex.setCurveWidth(settings.axisWidth);
-				ex.setFillColor(color);
-				axis3D.addElement(ex);
-			}
-			ElementArrow ex = new ElementArrow(new Vector3D(i/n*maxX, minY, minZ),new Vector3D((i+1)/n*maxX, minY, minZ));
+//			tic = Math.abs(maxX - minX ) / n;
+//			double acumX = minX;
+//			for ( i = 0; i < n; i++) {
+//				ElementCurve ex = new ElementCurve(new Vector3D(acumX, minY, minZ),new Vector3D(acumX + tic, minY, minZ));
+//				ex.setLineColor(color);
+//				ex.setCurveWidth(settings.axisWidth);
+//				ex.setFillColor(color);
+//				axis3D.addElement(ex);
+//				acumX += tic;
+//				
+//			}
+			ElementArrow ex = new ElementArrow(new Vector3D(minX, minY, minZ),new Vector3D(maxX, minY, minZ));
 			ex.setLineColor(color);
 			ex.setCurveWidth(settings.axisWidth);
 			ex.setFillColor(color);
 			ex.setArrowSize(3);
 			axis3D.addElement(ex);
-			axis3D.addElement(new ElementString("x", new Vector3D(maxX + 0.1, 0, 0),new Vector3D(maxX + 0.2, 0,0), color));
+			axis3D.addElement(new ElementString("x", new Vector3D(maxX + 0.1, minY, minZ),new Vector3D(maxX + 0.2, minY, minZ), color));
 		}
 			
 		if (settings.yAxisVisible & (maxY>0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ey = new ElementCurve(new Vector3D(minX,i/n*maxY, minZ),new Vector3D(minX,(i+1)/n*maxY, minZ));
-				ey.setLineColor(color);
-				ey.setCurveWidth(settings.axisWidth);
-				ey.setFillColor(color);
-				axis3D.addElement(ey);
-			}
-			ElementArrow ey = new ElementArrow(new Vector3D(minX,i/n*maxY, minZ),new Vector3D(minX,(i+1)/n*maxY, minZ));
+			
+//			tic = Math.abs(maxY - minY ) / n;
+//			double acumY = minY;
+//			for ( i = 0; i < n-1; i++) {
+//				ElementCurve ey = new ElementCurve(new Vector3D(minX,acumY, minZ),new Vector3D(minX,acumY + tic, minZ));
+//				ey.setLineColor(color);
+//				ey.setCurveWidth(settings.axisWidth);
+//				ey.setFillColor(color);
+//				axis3D.addElement(ey);
+//				acumY += tic;
+//			}
+			ElementArrow ey = new ElementArrow(new Vector3D(minX,minY, minZ),new Vector3D(minX,maxY, minZ));
 			ey.setLineColor(color);
 			ey.setCurveWidth(settings.axisWidth);
 			ey.setFillColor(color);
@@ -497,14 +506,17 @@ public class SceneManager  {
 		}
 		
 		if (settings.zAxisVisible & (maxZ>0)){
-			for ( i = 0; i < n-1; i++) {
-				ElementCurve ez = new ElementCurve(new Vector3D(minX,minY,i/n*maxZ),new Vector3D(minX, minY,(i+1)/n*maxZ));
-				ez.setLineColor(color);
-				ez.setCurveWidth(settings.axisWidth);
-				ez.setFillColor(color);
-				axis3D.addElement(ez);
-			}
-			ElementArrow ez = new ElementArrow(new Vector3D(minX, minY,i/n*maxZ),new Vector3D(minX, minY,(i+1)/n*maxZ));
+//			tic = Math.abs(maxZ - minZ ) / n;
+//			double acumZ = minZ;
+//			for ( i = 0; i < n-1; i++) {
+//				ElementCurve ez = new ElementCurve(new Vector3D(minX,minY,acumZ),new Vector3D(minX, minY,acumZ +tic));
+//				ez.setLineColor(color);
+//				ez.setCurveWidth(settings.axisWidth);
+//				ez.setFillColor(color);
+//				axis3D.addElement(ez);
+//				acumZ += tic;
+//			}
+			ElementArrow ez = new ElementArrow(new Vector3D(minX, minY,minZ),new Vector3D(minX, minY,maxZ));
 			ez.setLineColor(color);
 			ez.setCurveWidth(settings.axisWidth);
 			ez.setFillColor(color);

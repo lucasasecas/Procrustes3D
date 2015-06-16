@@ -86,8 +86,8 @@ public class Commons {
 	public static Preferences setPreferences(ArrayList<Element3D> list) {
 		Preferences preferences = Globalsettings.getSettings();
 		double maxX, maxY, maxZ, minX, minY, minZ;
-		maxX = maxY = maxZ = Double.MIN_VALUE;
-		minX = minY = minZ = Double.MAX_VALUE;
+		maxX = maxY = maxZ = Double.NEGATIVE_INFINITY;
+		minX = minY = minZ = Double.POSITIVE_INFINITY;
 		for(int i=0; i<list.size(); i++){
 			if(list.get(i).isVisible()){
 	 			Vector3D maxVal =  list.get(i).getMaxBound();
@@ -103,7 +103,7 @@ public class Commons {
 		double min, max;
 		max = Math.max(Math.max(maxX, maxY), maxZ);
 		min = Math.min(Math.min(minX, minY), minZ);
-		Box3D axesBox = new Box3D(min, max, min, max, min, max);
+		Box3D axesBox = new Box3D(minX, maxX, minY, maxY, minZ, Math.max(maxZ, Double.MIN_VALUE));
 		preferences.setAxesBox(axesBox);
 		preferences.setClipBox(axesBox);
 		return preferences;

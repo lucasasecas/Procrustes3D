@@ -139,13 +139,18 @@ public final class Renderer implements BSPTreeTraverseListener{
 	private boolean fogEnabled=true;
 	public Renderer() {
 		// initialise array to hold a transformed triangle's vectors
-		this.settings = new LocalSettings(Globalsettings.getSettings());
 		for (int i = 0; i < 3; ++i) {
 			iTransformedVectors1[i] = new Vector3D();
 			iTransformedVectors2[i] = new Vector3D();
 		}
 		iRasterSettings = new RasterSettings();
 		backgroundColor = new Color(230,230,240);
+	}
+	
+	public Renderer(LocalSettings settings){
+		this();
+		this.settings = settings;
+		
 	}
 
 	public void setLightCameraandImage(Canvas3D canvas,Light3D[] light,Camera3D camera, BufferedImage bImg){
