@@ -39,7 +39,7 @@ public class TpsLoader extends DataSetLoader{
 				currentLine = currentLine.trim();
 				if(currentLine.startsWith("LM") || currentLine.startsWith("lm")){
 					int numLandmarks = Integer.parseInt(currentLine.split("=")[1]);
-					newSpecimen = new SampleSimpleElement("sample-"+counter);
+					newSpecimen = new SampleSimpleElement("Specimen-"+counter);
 					entities.addElement(newSpecimen);
 					for(int i=0; i<numLandmarks; i++){
 						String[] landmarkCoords = br.readLine().trim().split("\\s+");
@@ -54,7 +54,7 @@ public class TpsLoader extends DataSetLoader{
 					counter++;
 				}else if(currentLine.startsWith("ID") || currentLine.startsWith("id")){
 					newSpecimen.setName(currentLine.split("=")[1]);
-					newSpecimen.setDescription("Sample " + currentLine.split("=")[1]);
+					newSpecimen.setDescription("Specimen " + currentLine.split("=")[1]);
 				}
 				
 				
