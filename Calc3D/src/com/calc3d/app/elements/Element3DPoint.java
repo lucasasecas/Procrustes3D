@@ -2,7 +2,8 @@ package com.calc3d.app.elements;
 
 import java.awt.Color;
 
-import com.calc3d.app.Globalsettings;
+
+import com.calc3d.app.LocalSettings;
 import com.calc3d.geometry3d.Clip;
 import com.calc3d.geometry3d.Element;
 import com.calc3d.geometry3d.ElementPoint;
@@ -16,9 +17,7 @@ import com.calc3d.math.Vector3D;
  */
 public class Element3DPoint extends Element3D {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -7718288181668445927L;
 	private Vector3D point;
 	private int radius=4;
@@ -74,7 +73,7 @@ public class Element3DPoint extends Element3D {
 
 	@Override
 	public Element createElement() {
-		Vector3D pt=new Vector3D(Globalsettings.inverseMapX(point.getX()),Globalsettings.inverseMapY(point.getY()),Globalsettings.inverseMapZ(point.getZ()));
+		Vector3D pt=new Vector3D(this.settings.inverseMapX(point.getX()),settings.inverseMapY(point.getY()),settings.inverseMapZ(point.getZ()));
 		ElementPoint e=new ElementPoint(pt);
 		e.setText(getText());
 		element=e;
@@ -89,7 +88,8 @@ public class Element3DPoint extends Element3D {
 
 	@Override
 	public Element createElement(Clip clip) {
-		Vector3D pt=new Vector3D(Globalsettings.inverseMapX(point.getX()),Globalsettings.inverseMapY(point.getY()),Globalsettings.inverseMapZ(point.getZ()));
+		if(settings != null){
+		Vector3D pt=new Vector3D(settings.inverseMapX(point.getX()),settings.inverseMapY(point.getY()),settings.inverseMapZ(point.getZ()));
 		ElementPoint e=new ElementPoint(pt);
 		e.setText(getText());
 		if(T!=null)e.transform(T);
@@ -101,6 +101,7 @@ public class Element3DPoint extends Element3D {
 	    element.setDashed(isDashed());
 	    if (radius>=1) ((ElementPoint)element).setRadius(radius);
 	    isCreated=true;
+		}
 		return element;
 	}
 

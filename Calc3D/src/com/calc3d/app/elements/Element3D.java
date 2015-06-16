@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import com.calc3d.app.LocalSettings;
 import com.calc3d.geometry3d.Clip;
 import com.calc3d.geometry3d.Element;
 import com.calc3d.math.AffineTransform3D;
@@ -75,6 +76,8 @@ import com.calc3d.math.Vector3D;
 
 	/***/
 	protected int fillmode=0;
+
+	protected LocalSettings settings;
 	
 	/** returns if this element is to be rendered or not */
 	public boolean isVisible() {
@@ -264,6 +267,14 @@ import com.calc3d.math.Vector3D;
 	public void select(boolean b) {
 		
 		
+	}
+
+	public void setSettings(LocalSettings settings) {
+		this.settings = settings;
+		
+	}
+	public LocalSettings getSettings() {
+		return settings;
 	}
 	
 }

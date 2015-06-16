@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import com.calc3d.app.Globalsettings;
+import com.calc3d.app.LocalSettings;
 import com.calc3d.engine3d.Camera3D;
 import com.calc3d.engine3d.Light3D;
 import com.calc3d.log.Logger;
@@ -58,6 +58,8 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 	/** Instanciation of the KeyBoard class... only one needed */
 	private KeyBoard keyBoard = new KeyBoard();
 
+	private LocalSettings settings;
+	
 	/** Need to smooth Keyboard Interaction */
 	private Timer timerKey,timerAnimate;
 	private Thread animator; // for the animation
@@ -234,22 +236,22 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 			    Camera3D camera = iSurface.getCamera();
 				if (null != camera) {
 					   camera.setFov((camera.getFov() + 1) % 360);
-				if (Globalsettings.steroscopyEnabled){
+				if (settings.steroscopyEnabled){
 					   iSurface.iCameraL.setFov(camera.getFov());
 					   iSurface.iCameraR.setFov(camera.getFov());
 				}
-					Globalsettings.fov=camera.getFov();
+					settings.fov=camera.getFov();
 				}
 				break;
 		  case KeyEvent.VK_PAGE_DOWN:
 			    camera = iSurface.getCamera();
 				if (null != camera) {
 				    	camera.setFov((camera.getFov() + 359) % 360);
-				if (Globalsettings.steroscopyEnabled){
+				if (settings.steroscopyEnabled){
 					   iSurface.iCameraL.setFov(camera.getFov());
 					   iSurface.iCameraR.setFov(camera.getFov());
 				}
-					Globalsettings.fov=camera.getFov();
+					settings.fov=camera.getFov();
 				}
 			  // dec FOV angle (Zoom out)
 			  break;
@@ -459,7 +461,7 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 				//camera.rotateAboutAxes(0, 0, (iCameraAngles.iAngleY *ydir+iCameraAngles.iAngleX *xdir)/length);
 				camera.rotateAboutAxes( 0,iCameraAngles.iAngleY,0);
 				camera.rotateAboutAxes(iCameraAngles.iAngleX,0,0);
-				if (Globalsettings.steroscopyEnabled){
+				if (settings.steroscopyEnabled){
 	            	 iSurface.iCameraL.eye=new Vector3D(camera.eye);
 	            	 iSurface.iCameraR.eye=new Vector3D(camera.eye);
 	            	 iSurface.iCameraL.up=new Vector3D(camera.up);
@@ -472,7 +474,7 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 			}else{
 				//Rotate camera about focus
 			    camera.rotateAroundFocus(iCameraAngles.iAngleX,iCameraAngles.iAngleY, iCameraAngles.iAngleZ);
-	            if (Globalsettings.steroscopyEnabled){
+	            if (settings.steroscopyEnabled){
 	            	 iSurface.iCameraL.eye=new Vector3D(camera.eye);
 	            	 iSurface.iCameraR.eye=new Vector3D(camera.eye);
 	            	 iSurface.iCameraL.up=new Vector3D(camera.up);
@@ -498,11 +500,11 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 			   camera.setFov((camera.getFov() + 1) % 360);
 			if (arg0.getWheelRotation() < 0) // zoom out
 			   camera.setFov((camera.getFov() + 359) % 360);
-			if (Globalsettings.steroscopyEnabled){
+			if (settings.steroscopyEnabled){
 			   iSurface.iCameraL.setFov(camera.getFov());
 			   iSurface.iCameraR.setFov(camera.getFov());
 			}
-			Globalsettings.fov=camera.getFov();
+			settings.fov=camera.getFov();
 			refreshDisplay();
 		}
 	}
@@ -619,6 +621,12 @@ public final class InteractionHandler implements KeyListener, MouseListener,
 
 	public void setMouseInteractionAviable(boolean mouseInteractionAviable) {
 		this.mouseInteractionAviable  = mouseInteractionAviable;
+		
+	}
+
+
+	public void setSettings(LocalSettings settings) {
+		this.settings = settings;
 		
 	}
 

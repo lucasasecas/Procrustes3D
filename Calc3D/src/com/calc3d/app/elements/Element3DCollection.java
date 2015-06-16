@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import com.calc3d.app.LocalSettings;
 import com.calc3d.geometry3d.Clip;
 import com.calc3d.geometry3d.Element;
 import com.calc3d.geometry3d.ElementCollection;
@@ -57,7 +58,13 @@ public class Element3DCollection extends Element3D implements Collection {
 	@Override
 	public boolean add(Object e) {
 		elements.add((Element3D)e);
+		this.refresh();
 		return true;
+	}
+
+	private void refresh() {
+		this.setSettings(this.settings);
+		
 	}
 
 	@Override
@@ -165,6 +172,12 @@ public class Element3DCollection extends Element3D implements Collection {
 		}
 	}
 	
+	@Override
+	public void setSettings(LocalSettings settings){
+		for(Element3D element3D : this.elements)
+			element3D.setSettings(settings);
+		this.settings = settings;
+	}
 	
 	
 }

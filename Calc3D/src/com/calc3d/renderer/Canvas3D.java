@@ -117,12 +117,12 @@ public final class Canvas3D extends JPanel implements Printable
 		dbImageL=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		dbImageR=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		dbImage=new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
-		
+		iHandler = new InteractionHandler();		
 		this.setSettings(localSettings);
 		
 		iRenderer.setLightCameraandImage(this,iLights,iCamera,dbImage);
 		bspTraverser=new BSPTreeTraverser(iRenderer);
-		iHandler = new InteractionHandler();
+
 		setInteractionHandler(iHandler);
 		
 		updateViewPort();
@@ -425,6 +425,7 @@ public final class Canvas3D extends JPanel implements Printable
 	public void setSettings(LocalSettings settings) {
 		this.settings = settings;
 		sceneManager.setSettings(settings);
+		this.iHandler.setSettings(settings);
 		this.iRenderer.setSettings(settings);
 		
 		this.setEyeAndCenter();

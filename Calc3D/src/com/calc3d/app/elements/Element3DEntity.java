@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.ejml.simple.SimpleMatrix;
 
-import com.calc3d.app.Globalsettings;
+
 import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.geometry3d.Clip;
@@ -92,12 +92,14 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 
 	@Override
 	public Element createElement(Clip clip) {
+		
 		ElementCollection ec = new ElementCollection();
+		try{
 		if(T!=null)ec.transform(T);
 		for(int i=0; i<_points.size(); i++){
 			if(! _points.get(i).isVisible()) continue;
 			Vector3D p = _points.get(i).getPoint();
-			Vector3D tmpPoint = new Vector3D(Globalsettings.inverseMapX(p.getX()),Globalsettings.inverseMapY(p.getY()),Globalsettings.inverseMapZ(p.getZ()));
+			Vector3D tmpPoint = new Vector3D(settings.inverseMapX(p.getX()),settings.inverseMapY(p.getY()),settings.inverseMapZ(p.getZ()));
 			ElementPoint npoint = new ElementPoint(tmpPoint); 
 			npoint.setBackColor(_points.get(i).getBackColor());
 			npoint.setFillColor(_points.get(i).getFillColor());
@@ -106,7 +108,9 @@ public class Element3DEntity extends Element3DCollection implements IMatrixable<
 			ec.addElement(npoint);
 		}
 		this.elementContainer = true;
-		
+		}catch(NullPointerException ne){
+			ne.printStackTrace();
+		}
 		Element elem = clip.getClippedElement(ec);
 		return elem;
 	}

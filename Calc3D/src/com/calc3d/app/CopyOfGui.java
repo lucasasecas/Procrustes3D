@@ -1970,10 +1970,9 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 				preferences.setObjectToolbarVisible(Globalsettings.objectToolbarVisible);
 				preferences.setStatusbarVisible(Globalsettings.statusbarVisible);
 		}
-		 LocalSettings settings = new LocalSettings(preferences);
-		 canvas.setSettings(settings);
-	  	Globalsettings.saveSettings(preferences); 
-	    canvas.getSceneManager().setClip(new Clip(Globalsettings.mappedClipBox));
+		 canvas.getSettings().saveSettings(preferences);
+//	  	Globalsettings.saveSettings(preferences); 
+	    canvas.getSceneManager().setClip(new Clip(canvas.getSettings().mappedClipBox));
 		canvas.setScene(canvas.getSceneManager().createScene(reCreateScene));
       canvas.refresh();    
     }

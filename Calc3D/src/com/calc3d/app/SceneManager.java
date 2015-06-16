@@ -903,6 +903,9 @@ public class SceneManager  {
 	}
 
 	public void setSettings(LocalSettings settings) {
+		for(Element3D element3D : element3Ds){
+			element3D.setSettings(settings);
+		}
 		this.settings = settings;
 		
 	}
