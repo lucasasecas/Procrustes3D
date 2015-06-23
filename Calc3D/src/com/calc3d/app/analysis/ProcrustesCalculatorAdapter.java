@@ -42,8 +42,8 @@ public class ProcrustesCalculatorAdapter   {
 			elements.add(new SimpleMatrix(entity.toMatrix()));
 		}
 		ArrayList<SimpleMatrix> result = calculator.execute(elements);
-		String prefix = configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "GLSP-" : "GRP-";
-		ComposeSimpleElement dataset = new ComposeSimpleElement(prefix + configuration.getName());
+//		String prefix = configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "GLSP-" : "GRP-";
+		ComposeSimpleElement dataset = new ComposeSimpleElement(configuration.getName());
 
 		dataset.addElement(Commons.toPCEntity(result,elems));
 		if(result.size()!= 0){

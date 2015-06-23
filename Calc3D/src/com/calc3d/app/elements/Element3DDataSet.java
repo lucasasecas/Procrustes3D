@@ -37,9 +37,9 @@ public class Element3DDataSet extends Element3DCollection implements IMatrixable
 		for(int i=0; i<specimens.size(); i++){
 			SampleSimpleElement sample = specimensList.get(i);
 			Element3DEntity specimen3D = new Element3DEntity(sample);
-			this.add(specimen3D);
+			specimens3D.add(specimen3D);
 		}
-		//this.add(specimens3D);
+		this.add(specimens3D);
 		String name = dataset.getName(); 
 		this.setName(name);
 	}
@@ -59,6 +59,7 @@ public class Element3DDataSet extends Element3DCollection implements IMatrixable
 					maxbound.getY() < bound.getY() ? bound.getY() : maxbound.getY(),
 					maxbound.getZ() < bound.getZ() ? bound.getZ() : maxbound.getZ());
 		}
+		int a = 1;
 		return maxbound;
 	}
 	

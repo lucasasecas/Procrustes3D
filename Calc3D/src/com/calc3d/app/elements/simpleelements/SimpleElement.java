@@ -6,23 +6,26 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
+import org.jdesktop.swingx.action.ActionContainerFactory;
+
 import com.calc3d.app.elements.Element3D;
+import com.calc3d.app.elements.actions.SimpleElementAction;
 
 public abstract class SimpleElement implements Serializable{
 
 	String name;
 	ImageIcon icon;
 	String description;
-	ArrayList<String> actions;
+	ArrayList<SimpleElementAction> actions;
 
 	public SimpleElement(String name2) {
 		this.name = name2;
 		this.description = name2;
-		this.actions = new ArrayList<String>();
+		this.actions = new ArrayList<SimpleElementAction>();
 	}
 
 	public SimpleElement() {
-		this.actions = new ArrayList<String>();
+		this.actions = new ArrayList<SimpleElementAction>();
 	}
 
 	public String getName() {
@@ -49,19 +52,25 @@ public abstract class SimpleElement implements Serializable{
 		this.description = description;
 	}
 	
-	public void addAction(String action){
+	public void addAction(SimpleElementAction action){
 		boolean eixtst = false;
-		for(String val : actions){
-			if(val == action)
+		for(SimpleElementAction val : actions){
+			if(val.getName() == action.getName())
 				return;
 		}
 		actions.add(action);
 	}
 	
-	public String[] getAllActions(){
-		String[] arrayActions = new String[actions.size()];
+	public SimpleElementAction[] getAllActions(){
+		SimpleElementAction[] arrayActions = new SimpleElementAction[actions.size()];
 		arrayActions = actions.toArray(arrayActions);
 		return arrayActions;
+	}
+
+	public SimpleElement[] getSubElements() {
+		SimpleElement[] elems = new SimpleElement[1];
+		elems[0] = this;
+		return elems;
 	}
  
 }

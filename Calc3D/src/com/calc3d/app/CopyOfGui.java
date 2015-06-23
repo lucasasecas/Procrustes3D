@@ -79,9 +79,12 @@ import com.calc3d.app.dialogs.HelpDialog;
 import com.calc3d.app.elements.Element3D;
 import com.calc3d.app.elements.Element3DCollection;
 import com.calc3d.app.elements.Element3DDataSet;
+import com.calc3d.app.elements.Element3DEntity;
 import com.calc3d.app.elements.Element3DFactory;
 import com.calc3d.app.elements.Element3DProjection;
 import com.calc3d.app.elements.Element3DWireframe;
+import com.calc3d.app.elements.actions.ShowSimpleElementAction;
+import com.calc3d.app.elements.actions.SimpleElementAction;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.ProjectSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
@@ -402,7 +405,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		this.mnuExport = new JMenuItem(Messages.getString("menu.file.export"));
 		this.mnuExport.setIcon(Icons.EXPORT);
 		this.mnuExport.setActionCommand("export");
-		this.mnuOpen.addActionListener(this);
+		this.mnuExport.addActionListener(this);
 //		this.mnuExport.setEnabled(false);
 		
 		this.mnuPrint = new JMenuItem(Messages.getString("menu.file.print"));
@@ -485,109 +488,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		menuItem.setActionCommand("addProjection");
 		menuItem.addActionListener(this);
 		mnuInsert.add(menuItem);	
-//		
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dexplicit"));
-//		menuItem.setIcon(Icons.ADDCURVE2DCARTESIAN);
-//		menuItem.setActionCommand("addcurve2dcartesian");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);	
-//		
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.curve2dimplicit"));
-//		menuItem.setIcon(Icons.ADDCURVE2DIMPLICIT);
-//		menuItem.setActionCommand("addcurve2dimplicit");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);	
-//		mnuInsert.addSeparator();		
-//		
-//		//mnuInsert.addSeparator();
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.polygon"));
-//		menuItem.setIcon(Icons.ADDPOLYGON);
-//		menuItem.setActionCommand("addpolygon");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.plane"));
-//		menuItem.setIcon(Icons.ADDPLANE);
-//		menuItem.setActionCommand("addplane");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);
-//		mnuInsert.addSeparator();		
-//	
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceexplicit"));
-//		menuItem.setIcon(Icons.ADDSURFACE);
-//		menuItem.setActionCommand("addsurface");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);		
-//		
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceimplicit"));
-//		menuItem.setIcon(Icons.ADDSURFACEIMPLICIT);
-//		menuItem.setActionCommand("addsurfaceimplicit");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);		
-//	
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.surfaceparametric"));
-//		menuItem.setIcon(Icons.ADDSURFACEPARAMETRIC);
-//		menuItem.setActionCommand("addsurfaceparametric");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);
-//		mnuInsert.addSeparator();		
-//		
-//		menuItem = new JMenuItem(Messages.getString("menu.insert.premitive"));
-//		menuItem.setIcon(Icons.ADDPREMITIVE);
-//		menuItem.setActionCommand("addprimitive");
-//		menuItem.addActionListener(this);
-//		mnuInsert.add(menuItem);		
-//	
-		/*
-		this.mnuEvaluate = new JMenu(Messages.getString("menu.evaluate"));
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.pointvspoint"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("pointvspoint");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.pointvsline"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("pointvsline");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.linevsline"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("linevsline");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		mnuEvaluate.addSeparator();
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.pointvsplane"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("pointvsplane");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.linevsplane"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("linevsplane");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.planevsplane"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("planevsplane");
-		menuItem.addActionListener(this);
-		mnuEvaluate.add(menuItem);
-		mnuEvaluate.addSeparator();
-		
-		JMenu menu = new JMenu(Messages.getString("menu.evaluate.surface"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("surface");
-		menuItem.addActionListener(this);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.surface.drawtangent"));
-     	//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("drawtangent");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
-		menuItem = new JMenuItem(Messages.getString("menu.evaluate.surface.drawnormal"));
-		//	menu.setIcon(Icons.ADDSURFACE);
-		menuItem.setActionCommand("drawnormal");
-		menuItem.addActionListener(this);
-		menu.add(menuItem);
-		mnuEvaluate.add(menu);
-		*/
+
 		this.mnuSettings = new JMenu(Messages.getString("menu.settings"));
 		JMenu menu = new JMenu(Messages.getString("menu.settings.scenesettings"));
 		menu.setIcon(Icons.SCENESETTINGS);
@@ -1224,6 +1125,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		      canvas3D.getRenderer().setPerspectiveEnabled(!canvas3D.getRenderer().isPerspectiveEnabled());
 		      this.tglPerspective.setSelected(canvas3D.getRenderer().isPerspectiveEnabled());
 		}else if(command=="CMAnalysis"){
+			
 			int i=this.treeTable.getSelectedRow();
 			TreePath path = treeTable.getPathForRow(i);
 			ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
@@ -1253,14 +1155,30 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			ComposeSimpleElement newDistance = calc.calculate(specimens); 
 			if(distances == null){
 				distances = new ComposeSimpleElement("distances");
+				distances.addAction(new SimpleElementAction(
+						"Remove",
+						"remove",
+						this,
+						distances
+						));
 			}
 			distances.addElement(newDistance);
 			
 			selected.addElement(distances);
+			selected.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					selected
+					));
+			
+//			newDistance.addAction("delete");
+			
 			treeTable.updateUI();
 			
 			DistancesDetailer detailer = new DistancesDetailer();
-			reporter.writeReport("Matrix of distances generated: \n");
+			reporter.writeReport("Matrix of distances generated \n");
+			reporter.writeReport("Data source: " + selected.getName() + '\n');
 			reporter.writeReport("Type of analysis: "+ (configuration.getType() == DistanceConfiguration.MIN_SQR_DISTANCE ? "Least squares distance" : "Robusts distance")+'\n');
 			reporter.writeReport(detailer.getDetails(newDistance));
 			
@@ -1275,15 +1193,28 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			if(projections==null){
 				projections = new ComposeSimpleElement("projections");
 			}
-			projection.addAction("showpanel");
+
+			projection.addAction(new ShowSimpleElementAction(
+					"Show Element",
+					"showpanel",
+					this,
+					projection
+					));
+			projection.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					projection
+					));
 			projections.addElement(projection);
 			selected.addElement(projections);
-//			this.addElement3D(new Element3DProjection(projection), configuration);
+
 			this.treeTable.updateUI();
 			
 			this.addElement3D(new Element3DProjection(projection), configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
-			reporter.writeReport("Projections: \n");
+			reporter.writeReport("New Projection Generated \n");
+			reporter.writeReport("Data Source: " + selected.getName() + '\n');
 			reporter.writeReport("Type of Projection: "+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "Least squares projection" : "Robusts projection")+'\n');
 			reporter.writeReport(detailer.getDetails(projection));
 		}else if(command=="addWireframe"){
@@ -1324,18 +1255,23 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
     	    canvas3D.refresh();
 		
 		}else if(command=="remove"){
-			  if (table.getSelectedRowCount()>0){ 
+			
+			
+			if (treeTable.getSelectedRowCount()>0){ 
 				if (JOptionPane.showConfirmDialog(this,"Are you sure you wan to delete the selected elements from list")== 0 ){	
-				
-					int deleteCount=0;
-					for (int i : table.getSelectedRows()) {
-						sceneManager.removeElement(sceneManager.getElement3D(i-deleteCount));
-						deleteCount++;
+					TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+					int i=treeTable.getSelectedRow();
+					TreePath path = treeTable.getPathForRow(i);
+					ComposeSimpleElement node = (ComposeSimpleElement) path.getLastPathComponent();
+					ComposeSimpleElement parent = (ComposeSimpleElement) path.getParentPath().getLastPathComponent();
+					parent.removeElement(node);
+					SimpleElement[] subItems = node.getSubElements();
+					for(SimpleElement element : subItems){
+						int tabIndex = tabsManager.getTabIndex(element.getName());
+						if(tabIndex != -1) tabsManager.removeTab(tabIndex);
 					}
-					System.out.println("Items Deleted:"+ deleteCount);
-					updateTable();
-					canvas3D.setScene(sceneManager.createScene(false));
-					canvas3D.refresh();
+					treeTable.updateUI();
+			
 				}
 			  }
 		}else if(command=="zoomin"){
@@ -1372,7 +1308,18 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog.show(this,null, Element3DFactory.DATASET_ELEMENT);
 			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration.getSrc());
 			if(dataset==null)return;
-			dataset.addAction("showpanel");
+			dataset.addAction(new ShowSimpleElementAction(
+					"Show Element",
+					"showpanel",
+					this,
+					dataset
+					));
+			dataset.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					dataset
+					));		
 			dataset.setIcon(Icons.DATASET);
 			this.addElement(dataset);
 			this.addElement3D(new Element3DDataSet(dataset), configuration);
@@ -1867,7 +1814,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
         String fileName=getFileName(true,".png","Export to image as....");
         if (fileName==null) return;
         try {
-            canvas3D.saveImage(fileName);
+        	Canvas3D canvas3d = tabsManager.getCurrentCanvas();
+	    	if(canvas3d != null){
+	    		canvas3d.saveImage(fileName);
+	    	}
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,"Could not export to file "+fileName,"Warning",JOptionPane.WARNING_MESSAGE);
         }
@@ -2121,6 +2071,11 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			super(elem);
 		}
 		
+		public void removeElement(String name) {
+			
+			
+		}
+
 		public void reset() {
 			root=null;
 			
@@ -2469,13 +2424,30 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
 		
 		//Generate 3dElements
-		result2.addAction("showpanel");
+		result2.addAction(new ShowSimpleElementAction(
+				"Show Element",
+				"showpanel",
+				this,
+				result2
+				));
+		result2.addAction(new SimpleElementAction(
+				"Remove",
+				"remove",
+				this,
+				result2
+				));
+		
 		int i=this.treeTable.getSelectedRow();
 		TreePath path = treeTable.getPathForRow(i);
 		ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
 		result2.setIcon(Icons.DATASET);
 		selected.addElement(result2);
 		Element3DDataSet dataset3D = new Element3DDataSet(result2);
+
+		if(configuration.getShowConsensus()){
+			Element3DEntity consensus = new Element3DEntity((SampleSimpleElement)result2.getElementByKey("consensus"));
+			dataset3D.add(consensus);
+		}
 		GraphicsPane graphicPane = (GraphicsPane) tabsManager.getTabAt(index);
 		
 //		Populate graphicsPane with elements
@@ -2488,6 +2460,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 		ProcrustesFitDetalier detailer = new ProcrustesFitDetalier();
 		reporter.writeReport("New procrustes fit analysis generated"+'\n');
 		reporter.writeReport("Type of analysis: "+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit" : "Robusts fit")+'\n');
+		reporter.writeReport("Data Source: " + selected.getName() + '\n');
 		reporter.writeReport(detailer.getDetails(result2)+'\n'+'\n'+'\n');
 		
 	}
@@ -2523,6 +2496,10 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			this.tglBox.setSelected(sceneManager.isBoxVisible());
 			bgColorIcon.setBackground(canvas3d.getRenderer().getBackgroundColor());
 		}
+	}
+
+	public TabsManager getTabsManager() {
+		return this.tabsManager;
 	}
 	 
 }

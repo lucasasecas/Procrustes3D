@@ -11,25 +11,30 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 
 import com.calc3d.app.analysis.AnalysisConfiguration;
 import com.calc3d.app.analysis.DialogConfiguration;
 import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
 import com.calc3d.app.resources.Messages;
+import com.calc3d.utils.PrefixTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JCheckBox;
 
-public class AnalysisPane extends JPanel implements SimpleElementCreatePanel{
+public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, ActionListener{
 	private JLabel lblName;
-	private JTextField textField;
-	private JTextField textField_2;
+	private PrefixTextField textField;
+	private PrefixTextField textField_2;
 	private JRadioButton rdbtnMinimusSquareFit;
 	private JRadioButton rdbtnRobustFit;
 	private JButton btnOk;
@@ -39,10 +44,11 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel{
 	public AnalysisPane() {
 		
 		lblName = new JLabel(Messages.getString("dialog.addpcanalysis.name"));
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		
+		textField_2 = new PrefixTextField("");
+		textField_2.setEnabled(false);
+		textField_2.setColumns(12);
 		rdbtnMinimusSquareFit = new JRadioButton(Messages.getString("dialog.addpcanalysis.glsp"));
-		rdbtnMinimusSquareFit.setSelected(true);
 		rdbtnMinimusSquareFit.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnRobustFit = new JRadioButton(Messages.getString("dialog.addpcanalysis.grp"));
 		
@@ -80,7 +86,10 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel{
 		ButtonGroup btnGroup = new ButtonGroup();
 		btnGroup.add(rdbtnMinimusSquareFit);
 		btnGroup.add(rdbtnRobustFit);
-		
+		rdbtnMinimusSquareFit.addActionListener(this);
+		rdbtnMinimusSquareFit.setActionCommand("rdb1");
+		rdbtnRobustFit.addActionListener(this);
+		rdbtnRobustFit.setActionCommand("rdb2");
 		this.setLayout(gl_configurationPnl);
 		
 		JPanel buttonsPnl = new JPanel();
@@ -107,10 +116,31 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel{
 		
 		int type = this.rdbtnMinimusSquareFit.isSelected() ? AnalysisConfiguration.MIN_SQUARES_FIT : AnalysisConfiguration.ROBUST_FIT;
 		String nName = type==AnalysisConfiguration.MIN_SQUARES_FIT?"GLSP":"GRP";
-		configuration.setTabTitle(nName+"-"+textField_2.getText());
-		configuration.setName(textField_2.getText());
+		System.out.println(textField_2.getFullText());
+		configuration.setTabTitle(textField_2.getFullText());
+		configuration.setName(textField_2.getFullText());
 		configuration.setType(type);
 		configuration.setShowConsensus(this.chckbxShowConsensus.isSelected());
 		return configuration;
+	}
+	
+	
+
+	@Override
+	public void actionPerformed(ActionEvent ev) {
+		String command = ev.getActionCommand();
+		switch(command){
+		case "rdb1":
+			textField_2.setEnabled(true);
+			textField_2.setPrefix("GLSP");
+			break;
+		
+		case "rdb2":
+			textField_2.setEnabled(true);
+			textField_2.setPrefix("GRP");
+			break;
+		
+		}
+		textField_2.updateUI();
 	}
 }

@@ -229,19 +229,19 @@ public class Element3DPane extends JPanel implements ActionListener, Element3DPa
 		
 	}
 	public void addElements(Element3DCollection elements){
-		ArrayList<Element3D> subElements = elements.getContainedElements();
-		for(Element3D elem : subElements){
-			if(elem instanceof Element3DCollection){
-				this.addConfigurations((Element3DCollection)elem);
-			}else{
-				Element3DCollection aux = new Element3DCollection();
-				aux.add(elem);
-				aux.setName(elem.getName());
-				this.addConfigurations(aux);
-			}
-			
-			
-		}
+//		ArrayList<Element3D> subElements = elements.getContainedElements();
+//		for(Element3D elem : subElements){
+//			if(elem instanceof Element3DCollection){
+//				this.addConfigurations((Element3DCollection)elem);
+//			}else{
+//				Element3DCollection aux = new Element3DCollection();
+//				aux.add(elem);
+//				aux.setName(elem.getName());
+//				this.addConfigurations(aux);
+//			}
+//			
+//			
+//		}
 	}
 	
 	private void addConfigurations(Element3DCollection element) {

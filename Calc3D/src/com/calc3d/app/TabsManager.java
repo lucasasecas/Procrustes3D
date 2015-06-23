@@ -64,7 +64,7 @@ public class TabsManager implements Serializable {
 		title1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		JLabel close = new JLabel("x");
 		pnl.add(title1);
-		pnl.add(new TabButton());
+		pnl.add(new TabButton(title));
 		
 		return pnl;
 	}
@@ -140,7 +140,10 @@ public class TabsManager implements Serializable {
 	 */
 	
 	private class TabButton extends JButton implements ActionListener {
-        public TabButton() {
+		
+		String title;
+        public TabButton(String title) {
+        	this.title = title;
             int size = 17;
             setPreferredSize(new Dimension(size, size));
             setToolTipText("close this tab");
@@ -162,12 +165,13 @@ public class TabsManager implements Serializable {
  
         public void actionPerformed(ActionEvent e) {
             int i = tabs.getSelectedIndex();
+            
             if (i != -1) {
-            	GraphicsPane pane = (GraphicsPane) tabs.getSelectedComponent();
+            	GraphicsPane pane = (GraphicsPane) getTabByTitle(this.title);
             	JTabbedPane tbs = tabs;
-            	String title = tabs.getTitleAt(i); 
             	HashMap closed = closedTabs;
             	closedTabs.put(title, pane);
+            	i = tabs.indexOfComponent(pane);
                 tabs.remove(i);
             }
         }
@@ -237,12 +241,41 @@ public class TabsManager implements Serializable {
 	}
 
 	public void showTab(String name) {
-		GraphicsPane pane = closedTabs.get(name);
-				
+		GraphicsPane pane = closedTabs.get(name);		
 		if(pane!=null){
 			closedTabs.remove(name);
 			this.newTab(pane, name);
 		}
+	}
+	
+	public Component getTabByTitle(String title){
+		int pos = 0;
+		while(pos < tabs.getTabCount()){
+			String tit =tabs.getTitleAt(pos); 
+			if(tit.equals(title)){
+				return tabs.getComponentAt(pos);
+				
+			}
+			pos++;
+		}
+		return null;	
+	}
+
+	public int getTabIndex(String name) {
+		int pos = 0;
+		while(pos < tabs.getTabCount()){
+			String tit =tabs.getTitleAt(pos); 
+			if(tit.equals(name)){
+				return pos;
+				
+			}
+			pos++;
+		}
+		return -1;
+	}
+
+	public void removeTab(int tabIndex) {
+		tabs.remove(tabIndex);
 		
 	}
 }

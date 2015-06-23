@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -374,8 +375,9 @@ public final class Canvas3D extends JPanel implements Printable
 	}
 	
 	public void saveImage(String fileName) throws IOException {
-		BufferedImage img = new BufferedImage(getWidth(), getHeight(),
+		BufferedImage  img = new BufferedImage(getWidth(), getHeight(),
 				BufferedImage.TYPE_INT_RGB);
+		
 		Graphics g = img.getGraphics();
 		int width = img.getWidth(), height = img.getHeight();
 		iRenderer.setLightCameraandImage(this, this.iLights, this.iCamera, img);

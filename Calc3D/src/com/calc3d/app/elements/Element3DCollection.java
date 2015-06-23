@@ -10,6 +10,7 @@ import com.calc3d.app.LocalSettings;
 import com.calc3d.geometry3d.Clip;
 import com.calc3d.geometry3d.Element;
 import com.calc3d.geometry3d.ElementCollection;
+import com.calc3d.math.Vector3D;
 
 public class Element3DCollection extends Element3D implements Collection {
 	
@@ -153,18 +154,6 @@ public class Element3DCollection extends Element3D implements Collection {
 		}
 	}
 	
-//	@Override
-//	public Vector2D calculateCentroid(){
-//		double[] center = new double[2];
-//        for(Element3D elem : elements) {
-//        	Vector2D auxCentroid = elem.calculateCentroid();
-//        	center[0] += auxCentroid.getX();
-//        	center[1] += auxCentroid.getY();
-//        }
-//        return new Vector2D(center[0] / elements.size(), center[1]/elements.size());
-//
-//	}
-	
 	@Override
 	public void select(boolean b){
 		for(int i=0; i<elements.size(); i++){
@@ -178,6 +167,32 @@ public class Element3DCollection extends Element3D implements Collection {
 			element3D.setSettings(settings);
 		this.settings = settings;
 	}
+	
+	@Override
+	public Vector3D getMaxBound(){
+		Vector3D maxbound = new Vector3D(Double.NEGATIVE_INFINITY,Double.NEGATIVE_INFINITY,Double.NEGATIVE_INFINITY);
+		for(int i=0; i<elements.size(); i++){
+			Vector3D bound = elements.get(i).getMaxBound();
+			maxbound.set(
+					maxbound.getX() < bound.getX() ? bound.getX() : maxbound.getX(),
+					maxbound.getY() < bound.getY() ? bound.getY() : maxbound.getY(),
+					maxbound.getZ() < bound.getZ() ? bound.getZ() : maxbound.getZ());
+		}
+		int a = 1;
+		return maxbound;
+	}
+	
+	@Override
+	public Vector3D getMinBound(){
+		Vector3D minbound = new Vector3D(Double.POSITIVE_INFINITY,Double.POSITIVE_INFINITY,Double.POSITIVE_INFINITY);
+		for(int i=0; i<elements.size(); i++){
+			Vector3D bound = elements.get(i).getMinBound();
+			minbound = new Vector3D(Math.min(bound.getX(), minbound.getX()),
+					Math.min(bound.getY(), minbound.getY()), Math.min(bound.getZ(), minbound.getZ()));
+		}
+		return minbound;
+	}
+	
 	
 	
 }

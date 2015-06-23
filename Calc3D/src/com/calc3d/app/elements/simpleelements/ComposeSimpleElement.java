@@ -1,9 +1,12 @@
 package com.calc3d.app.elements.simpleelements;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.swing.UIManager;
 
@@ -72,6 +75,22 @@ public class ComposeSimpleElement extends SimpleElement{
 
 	public int size() {
 		return elements.size();
+	}
+
+	public void removeElement(SimpleElement node) {
+		this.elements.remove(node.getName());
+		
+	}
+
+	public SimpleElement[] getSubElements() {
+		ArrayList<SimpleElement> subElements = new ArrayList<SimpleElement>(Arrays.asList(super.getSubElements()));
+		
+		for(SimpleElement elem : this.elements.values()){
+			ArrayList<SimpleElement> aux = new ArrayList<SimpleElement>(Arrays.asList(elem.getSubElements()));
+			subElements.addAll(aux);
+		}
+		SimpleElement[] subElementsArray = new SimpleElement[subElements.size()];
+		return subElements.toArray(subElementsArray);
 	}
 	
 	

@@ -86,7 +86,7 @@ public class AddObjectDialog extends JDialog implements ActionListener {
 	 */
 	private AddObjectDialog(Window owner,SimpleElement element, int elementType) {
 		
-		super(owner, Messages.getString("dialog.new.title.prefix") + Element3DFactory.getTypeStr(elementType), ModalityType.APPLICATION_MODAL);
+		super(owner,Element3DFactory.getTypeStr(elementType), ModalityType.APPLICATION_MODAL);
 		
 		element3D = Element3DFactory.generate(element, elementType);
 		this.simpleElement = element;

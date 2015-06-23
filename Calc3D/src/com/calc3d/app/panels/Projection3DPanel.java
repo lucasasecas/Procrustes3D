@@ -7,6 +7,7 @@ import com.calc3d.app.analysis.ProjectionConfiguration;
 import com.calc3d.app.elements.Element3D;
 import com.calc3d.app.elements.Element3DProjection;
 import com.calc3d.app.resources.Messages;
+import com.calc3d.utils.PrefixTextField;
 
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -35,7 +36,7 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
-public class Projection3DPanel extends JPanel implements SimpleElementCreatePanel {
+public class Projection3DPanel extends JPanel implements SimpleElementCreatePanel, ActionListener {
 
 
 	private JRadioButton rdbtnRobust;
@@ -43,14 +44,18 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 	private JRadioButton rdbtn2D;
 	private JRadioButton rdbtn3D;
 	private JLabel lblName;
-	private JTextField txtName;
+	private PrefixTextField txtName;
 
 
 	public Projection3DPanel() {
 		
 		rdbtnRobust = new JRadioButton(Messages.getString("dialog.projection.rmds"));
+		rdbtnRobust.addActionListener(this);
+		rdbtnRobust.setActionCommand("rdb2");
 		
 		rdbtnLeastSqe = new JRadioButton(Messages.getString("dialog.projection.fmds"));
+		rdbtnLeastSqe.addActionListener(this);
+		rdbtnLeastSqe.setActionCommand("rdb1");
 		
 		JLabel lblProjectionType = new JLabel("Projection type:");
 		
@@ -61,8 +66,8 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		
 		lblName = new JLabel("Name");
 		
-		txtName = new JTextField();
-		txtName.setText("name");
+		txtName = new PrefixTextField("");
+		txtName.setEnabled(false);
 		txtName.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -109,8 +114,6 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		setLayout(groupLayout);
 		
 		ButtonGroup bGroup = new ButtonGroup();
-		rdbtnLeastSqe.setSelected(true);
-		rdbtnRobust.setSelected(false);
 		bGroup.add(rdbtnRobust);
 		bGroup.add(rdbtnLeastSqe);
 		
@@ -141,7 +144,28 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		String nName = type==ProjectionConfiguration.LEAST_SQR_PROJETION?Messages.getString("tab.name.prefix.fmds"):Messages.getString("tab.name.prefix.rmds");
 				
 		configuration.setDimensions(rdbtn2D.isSelected() ? 2 : 3);
-		configuration.setName(this.txtName.getText());
+		configuration.setName(this.txtName.getFullText());
 		return configuration;
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent ev) {
+		String command = ev.getActionCommand();
+		switch(command){
+		case "rdb1":
+			txtName.setEnabled(true);
+			txtName.setPrefix(Messages.getString("tab.name.prefix.fmds"));
+			break;
+		
+		case "rdb2":
+			txtName.setEnabled(true);
+			txtName.setPrefix(Messages.getString("tab.name.prefix.rmds"));
+			break;
+		
+		}
+		txtName.updateUI();
+		
 	}
 }

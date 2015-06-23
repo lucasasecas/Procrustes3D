@@ -70,8 +70,8 @@ public class ProjectionCalculatorAdapter {
 	 		lm.addCoordinate(resultRaw.get(i).toArray());
 	 		result.addElement(lm);
 	 	}
-	 	String prefix = configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "fMDS-" : "rMDS-";
-	 	result.setName(prefix + configuration.getName() + "-" + configuration.getDimensions() + "D");
+	 	//String prefix = configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "fMDS-" : "rMDS-";
+	 	result.setName(configuration.getName() + "-" + configuration.getDimensions() + "D");
 	 	configuration.setTabTitle(result.getName());
 	 	
 		return result;
