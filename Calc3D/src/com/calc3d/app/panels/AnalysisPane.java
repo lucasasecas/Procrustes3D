@@ -43,7 +43,7 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, Ac
 	
 	public AnalysisPane() {
 		
-		lblName = new JLabel(Messages.getString("dialog.addpcanalysis.name"));
+		lblName = new JLabel(Messages.getString("dialog.addpcanalysis.tabname"));
 		
 		textField_2 = new PrefixTextField("");
 		textField_2.setEnabled(false);
@@ -58,30 +58,30 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, Ac
 			gl_configurationPnl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_configurationPnl.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_configurationPnl.createParallelGroup(Alignment.LEADING)
-						.addComponent(chckbxShowConsensus)
+					.addGroup(gl_configurationPnl.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(rdbtnRobustFit)
-						.addComponent(rdbtnMinimusSquareFit)
+						.addComponent(chckbxShowConsensus)
 						.addGroup(gl_configurationPnl.createSequentialGroup()
 							.addComponent(lblName)
-							.addGap(46)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)))
+							.addGap(57)
+							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(rdbtnMinimusSquareFit))
 					.addContainerGap(119, Short.MAX_VALUE))
 		);
 		gl_configurationPnl.setVerticalGroup(
 			gl_configurationPnl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_configurationPnl.createSequentialGroup()
 					.addContainerGap()
+					.addComponent(rdbtnMinimusSquareFit)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(rdbtnRobustFit)
+					.addGap(18)
 					.addGroup(gl_configurationPnl.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
 						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(rdbtnMinimusSquareFit)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(rdbtnRobustFit)
-					.addGap(32)
 					.addComponent(chckbxShowConsensus)
-					.addContainerGap(147, Short.MAX_VALUE))
+					.addContainerGap(153, Short.MAX_VALUE))
 		);
 		ButtonGroup btnGroup = new ButtonGroup();
 		btnGroup.add(rdbtnMinimusSquareFit);
@@ -97,6 +97,11 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, Ac
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		this.add(buttonsPnl, BorderLayout.SOUTH);
 		
+	}
+	
+	public void setName(String name){
+		super.setName(name);
+		textField_2.setText(name);
 	}
 	
 	@Override

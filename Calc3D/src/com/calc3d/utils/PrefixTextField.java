@@ -18,6 +18,7 @@ public class PrefixTextField extends JTextField {
 
     @Override
     protected void paintComponent(Graphics g) {
+    	
         int w = SwingUtilities.computeStringWidth(
                 getFontMetrics(getFont()), prefix);
         setMargin(new Insets(3, 3 + w, 3, 3));
@@ -38,6 +39,10 @@ public class PrefixTextField extends JTextField {
 	
 	public String getFullText(){
 		return label.getText() + super.getText();
+	}
+	
+	public void setText(String text){
+			super.setText(text);
 	}
 
 }

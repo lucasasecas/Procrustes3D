@@ -64,7 +64,7 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		rdbtn2D = new JRadioButton("2D");
 		rdbtn3D = new JRadioButton("3D");
 		
-		lblName = new JLabel("Name");
+		lblName = new JLabel("Tab Name");
 		
 		txtName = new PrefixTextField("");
 		txtName.setEnabled(false);
@@ -81,35 +81,33 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 					.addGap(81)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(rdbtn3D)
-						.addComponent(rdbtn2D)
-						.addGroup(groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 							.addComponent(rdbtnRobust)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(rdbtnLeastSqe))
-					.addContainerGap(81, Short.MAX_VALUE))
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(rdbtn2D)
+						.addComponent(rdbtnLeastSqe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(35)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblName)
-						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblProjectionType)
 						.addComponent(rdbtnLeastSqe))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(3)
 					.addComponent(rdbtnRobust)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblName))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDimensions)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(rdbtn2D)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(rdbtn3D)))
-					.addContainerGap(95, Short.MAX_VALUE))
+						.addComponent(rdbtn2D))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(rdbtn3D)
+					.addGap(144))
 		);
 		setLayout(groupLayout);
 		
@@ -123,7 +121,11 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 	}
 
 
-
+	public void setName(String name){
+		super.setName(name);
+		txtName.setText(name);
+	}
+	
 	@Override
 	public boolean isDrawable() {
 		
@@ -168,4 +170,5 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		txtName.updateUI();
 		
 	}
+	
 }

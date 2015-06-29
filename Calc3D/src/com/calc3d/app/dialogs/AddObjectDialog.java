@@ -88,15 +88,19 @@ public class AddObjectDialog extends JDialog implements ActionListener {
 		
 		super(owner,Element3DFactory.getTypeStr(elementType), ModalityType.APPLICATION_MODAL);
 		
-		element3D = Element3DFactory.generate(element, elementType);
+		if(Element3DFactory.PROJECTION_ELEMENT != elementType)
+			element3D = Element3DFactory.generate(element, elementType);
+		
 		this.simpleElement = element;
 		this.type = elementType;
 		this.pane3D = new Element3DPane((Element3DCollection)element3D);
+		
 		//if (element.getName()=="")this.object3D.setName(commonUtils.getobject3DName(element));
 		
 		JTabbedPane tabs = new JTabbedPane();
 		
 		this.pnlObjectCreate= commonUtils.getSimpleelementPanel(this.type);
+		if(element!=null) this.pnlObjectCreate.setName(element.getName());
 //		this.pnlObjectGeneral=new Object3DgeneralPanel(element);
 //		this.pnlTransform = new TransformPanel(element.getTranslation(),element.getRotation());
 //	

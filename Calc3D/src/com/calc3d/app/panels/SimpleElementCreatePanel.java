@@ -10,5 +10,6 @@ public interface SimpleElementCreatePanel {
 	public boolean isDrawable();
 	public boolean isValidInput();
 	public DialogConfiguration getConfiguration();
+	public void setName(String name);
 
 }

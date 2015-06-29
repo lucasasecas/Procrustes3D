@@ -17,7 +17,7 @@ public class ProcrustesFitDetalier implements DataDetailer {
 		SampleSimpleElement consensus = (SampleSimpleElement)dataset.getElementByKey("consensus");
 		
 		if(specimens!= null){
-			report+= "adjusted configurations"+'\n';
+			report+= "Superimposed Configurations"+'\n';
 			for(int i=0; i<specimens.size(); i++){
 				ComposeSimpleElement sample = (ComposeSimpleElement)specimens.getContainedElement(i);
 				report += "----------------------------------------------------------------------------------------------------------------------------------------------"+'\n';

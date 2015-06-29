@@ -1186,12 +1186,12 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			int i=this.treeTable.getSelectedRow();
 			TreePath path = treeTable.getPathForRow(i);
 			ComposeSimpleElement selected = (ComposeSimpleElement) path.getLastPathComponent();
-			ProjectionConfiguration configuration = (ProjectionConfiguration) AddObjectDialog.show(this,null, Element3DFactory.PROJECTION_ELEMENT);
+			ProjectionConfiguration configuration = (ProjectionConfiguration) AddObjectDialog.show(this,selected, Element3DFactory.PROJECTION_ELEMENT);
 			ProjectionCalculatorAdapter calculator = new ProjectionCalculatorAdapter(configuration);
 			ComposeSimpleElement projection = calculator.calculate((ComposeSimpleElement) selected);
-			ComposeSimpleElement projections = (ComposeSimpleElement) selected.getElementByKey("projections");
+			ComposeSimpleElement projections = (ComposeSimpleElement) selected.getElementByKey("ordinations");
 			if(projections==null){
-				projections = new ComposeSimpleElement("projections");
+				projections = new ComposeSimpleElement("ordinations");
 			}
 
 			projection.addAction(new ShowSimpleElementAction(
@@ -1210,11 +1210,17 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			selected.addElement(projections);
 
 			this.treeTable.updateUI();
-			
+			Object[] paths =  path.getPath();
+			String names = "";
+			int z=0;
+			for(z=0 ; z<paths.length-1; z++){
+				names += ((SimpleElement)paths[z]).getName() + " > ";  
+			}
+			names += ((SimpleElement)paths[z]).getName();						
 			this.addElement3D(new Element3DProjection(projection), configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
 			reporter.writeReport("New Projection Generated \n");
-			reporter.writeReport("Data Source: " + selected.getName() + '\n');
+			reporter.writeReport("Data Source Path: " + names + '\n');
 			reporter.writeReport("Type of Projection: "+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "Least squares projection" : "Robusts projection")+'\n');
 			reporter.writeReport(detailer.getDetails(projection));
 		}else if(command=="addWireframe"){
