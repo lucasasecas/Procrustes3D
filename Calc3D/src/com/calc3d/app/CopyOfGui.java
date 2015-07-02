@@ -75,6 +75,7 @@ import com.calc3d.app.contextcommands.ContextMenuCommand;
 import com.calc3d.app.dialogs.AboutDialog;
 import com.calc3d.app.dialogs.AddObjectDialog;
 import com.calc3d.app.dialogs.EditElement3DDialog;
+import com.calc3d.app.dialogs.ExportObjectDialog;
 import com.calc3d.app.dialogs.HelpDialog;
 import com.calc3d.app.elements.Element3D;
 import com.calc3d.app.elements.Element3DCollection;
@@ -89,6 +90,9 @@ import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.ProjectSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.export.ExportConfiguration;
+import com.calc3d.app.export.ExporterFactory;
+import com.calc3d.app.export.IExporter;
 import com.calc3d.app.fileload.FileLoader;
 import com.calc3d.app.fileload.LoaderFactory;
 import com.calc3d.app.panels.ColorIcon;
@@ -1260,6 +1264,15 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
     	    this.tglGridXY.setSelected(sceneManager.isGridXYVisible());
     	    canvas3D.refresh();
 		
+		}else if(command=="exportDataset"){
+			TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+			int i=treeTable.getSelectedRow();
+			TreePath path = treeTable.getPathForRow(i);
+			SimpleElement selected = (SimpleElement) path.getLastPathComponent();
+			ExportConfiguration configuration = ExportObjectDialog.show(this, selected);
+			IExporter exporter = ExporterFactory.getExporter(configuration.getType());
+			exporter.export(selected, configuration.getSource());
+			
 		}else if(command=="remove"){
 			
 			
@@ -1647,7 +1660,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 	 * @param ext extention of file  (ext (like ".ser") is ignored for save=false)
 	 * @return
 	 */
-	private String getFileName(boolean save,String ext,String title) {
+	public String getFileName(boolean save,String ext,String title) {
 	    final JFileChooser fileChooser=new JFileChooser();
 	    fileChooser.setDialogTitle(title);
 	    fileChooser.setCurrentDirectory(new File(lastDirectory==null?System.getProperty("user.dir"):lastDirectory));

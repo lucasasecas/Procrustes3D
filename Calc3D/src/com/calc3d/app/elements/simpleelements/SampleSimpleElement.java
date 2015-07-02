@@ -39,6 +39,16 @@ public class SampleSimpleElement extends ComposeSimpleElement {
 		return elems;
 	}
 
+	public int getDimension() {
+		ArrayList<SimpleElement> subElements = (ArrayList<SimpleElement>) this.getAllElements(); 
+		for(int i=0; i<subElements.size(); i++ ){
+			LandmarkSimpleElement lm = (LandmarkSimpleElement) subElements.get(i);
+			if(lm.getCoords()[2] != 0)
+				return 3;
+		}
+		return 2;
+	}
+
 	
 
 	

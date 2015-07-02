@@ -32,6 +32,10 @@ public class LandmarkSimpleElement extends SimpleElement {
 		return coords[0]+"\t"+coords[1]+"\t"+coords[2];
 	}
 	
+	public String toString2D(){
+		return coords[0]+"\t"+coords[1];
+	}
+	
 	
 
 }
