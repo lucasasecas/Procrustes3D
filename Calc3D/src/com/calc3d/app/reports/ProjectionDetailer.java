@@ -10,10 +10,10 @@ public class ProjectionDetailer implements DataDetailer{
 
 	@Override
 	public String getDetails(SimpleElement data) {
-		String report="";
+		String report="\n";
 		ComposeSimpleElement projections = (ComposeSimpleElement) data;
 		for(LandmarkSimpleElement lm : (ArrayList<LandmarkSimpleElement>)projections.getAllElements()){
-			report +=lm.getName()+"    "+ lm.toString()+'\n';
+			report +=lm.getName()+"\t"+ lm.toString()+'\n';
 		}
 		return report+"\n\n\n";
 	}

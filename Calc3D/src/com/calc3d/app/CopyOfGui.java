@@ -1229,11 +1229,11 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			treeTable.updateUI();
 
 			DistancesDetailer detailer = new DistancesDetailer();
-			reporter.writeReport("Matrix of distances generated \n");
-			reporter.writeReport("Data source: " + selected.getName() + '\n');
-			reporter.writeReport("Type of analysis: "
-					+ (configuration.getType() == DistanceConfiguration.MIN_SQR_DISTANCE ? "Least squares distance"
-							: "Robusts distance") + '\n');
+			reporter.writeReport("Distance Matrix Generated \n");
+			reporter.writeReport("Data Source: " + selected.getName() + '\n');
+			reporter.writeReport("Type of Distance: "
+					+ (configuration.getType() == DistanceConfiguration.MIN_SQR_DISTANCE ? Messages.getString("dialog.distance.pd")
+							: Messages.getString("dialog.distance.rd")) + '\n');
 			reporter.writeReport(detailer.getDetails(newDistance));
 
 		} else if (command == "addProjection") {
@@ -1277,12 +1277,9 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 
 			this.treeTable.updateUI();
 			Object[] paths = path.getPath();
-			String names = "";
+			String names = selected.getName();
 			int z = 0;
-			for (z = 0; z < paths.length - 1; z++) {
-				names += ((SimpleElement) paths[z]).getName() + " > ";
-			}
-			names += ((SimpleElement) paths[z]).getName();
+			
 			configuration.getGraphPreferences().setBoxVisible(true);
 			configuration.getGraphPreferences().setxAxisVisible(true);
 			configuration.getGraphPreferences().setyAxisVisible(true);
@@ -1292,11 +1289,12 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			this.addElement3D(projection3D,
 					configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
-			reporter.writeReport("New Projection Generated \n");
-			reporter.writeReport("Data Source Path: " + names + '\n');
-			reporter.writeReport("Type of Projection: "
-					+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "Least squares projection"
-							: "Robusts projection") + '\n');
+			reporter.writeReport("New Ordination Generated \n");
+			reporter.writeReport("Distance Source: " + names + '\n');
+			reporter.writeReport("Type of Ordination: "
+					+ (configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? Messages.getString("dialog.projection.fmds")
+							: Messages.getString("dialog.projection.rmds")) + '\n');
+			reporter.writeReport("Dimension: "+ configuration.getDimensions()+"D\n");
 			reporter.writeReport(detailer.getDetails(projection));
 		} else if (command == "addWireframe") {
 			int i = this.treeTable.getSelectedRow();
@@ -2319,7 +2317,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 
 	class TreeTableModel extends AbstractTreeTableModel {
 
-		private String[] columnNames = { "Project item list" };
+		private String[] columnNames = { "Project Item List" };
 
 		ArrayList<SimpleElement> rootElements;
 
@@ -2746,10 +2744,10 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 		// this.addElement3D(dataset3D, configuration);
 		tabsManager.setTitleTabAt(index, configuration.getTabTitle());
 		ProcrustesFitDetalier detailer = new ProcrustesFitDetalier();
-		reporter.writeReport("New procrustes fit analysis generated" + '\n');
-		reporter.writeReport("Type of analysis: "
-				+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? "Least squares fit"
-						: "Robusts fit") + '\n');
+		reporter.writeReport("New Procrustes Analysis Generated" + '\n');
+		reporter.writeReport("Type of Analysis: "
+				+ (configuration.getType() == AnalysisConfiguration.MIN_SQUARES_FIT ? Messages.getString("dialog.addpcanalysis.glsp")
+						: Messages.getString("dialog.addpcanalysis.grp")) + '\n');
 		reporter.writeReport("Data Source: " + selected.getName() + '\n');
 		reporter.writeReport(detailer.getDetails(result2) + '\n' + '\n' + '\n');
 

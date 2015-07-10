@@ -11,6 +11,7 @@ import java.util.Arrays;
 import org.ejml.simple.SimpleMatrix;
 
 import com.calc3d.app.elements.simpleelements.*;
+import com.calc3d.app.resources.Messages;
 
 public class DistancesDetailer implements DataDetailer{
 	
@@ -21,33 +22,32 @@ public class DistancesDetailer implements DataDetailer{
 	public String getDetails(SimpleElement data) {
 		String report = "";
 		ComposeSimpleElement distanceElement = (ComposeSimpleElement) data;
-		ArrayList<DistanceSimpleElement> dist = (ArrayList<DistanceSimpleElement>) ((ComposeSimpleElement) distanceElement.getElementByKey("values")).getAllElements();
+		ArrayList<DistanceSimpleElement> dist = (ArrayList<DistanceSimpleElement>) ((ComposeSimpleElement) distanceElement.getElementByKey(Messages.getString("config.distances.values"))).getAllElements();
 		int distSizes = dist.size();
 		int numberOfElements = this.getCountOfElements(dist.size());
 		String names = "";
 		double[][] distArrayMat = new double[numberOfElements][numberOfElements];
 		int count = 0; 
+		report += "Specimens: "+numberOfElements+'\n';
+		report += "Distance Matrix: \n";
+			
 		for(int i=0; i<numberOfElements; i++){
-			names += dist.size()==0?"":dist.get(0).getElementA().getName()+ "   ";
-			for(int j=i; j<numberOfElements; j++){
+			for(int j=0; j<=i; j++){
 				if(i!=j){
 					DistanceSimpleElement distance = dist.remove(0); 
-					distArrayMat[i][j] = distance.getDistance();
-					distArrayMat[j][i] = distance.getDistance();
+					report+=distance.getDistance()+"	";
+//					distArrayMat[i][j] = distance.getDistance();
+//					distArrayMat[j][i] = distance.getDistance();
 				}
 				else{
-					distArrayMat[i][j] = 0;
-					distArrayMat[j][i] = 0;
+					report += "0.0000\n";
+//					distArrayMat[i][j] = 0;
+//					distArrayMat[j][i] = 0;
 				}
 			}
 		}
 
-		report += "Count of elements: "+numberOfElements+'\n';
-		report += "Order of elements: \n";
-		report += names;
-		report += "Distances Matrix: \n";
-		String mat = new SimpleMatrix(distArrayMat).toString();
-		report += mat;
+
 
 		return report+"\n\n\n";
 	}
