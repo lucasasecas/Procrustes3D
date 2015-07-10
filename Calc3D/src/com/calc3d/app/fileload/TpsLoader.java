@@ -29,7 +29,7 @@ public class TpsLoader extends DataSetLoader{
 	public Object load(String filepath){ 
 		BufferedReader br;
 		ComposeSimpleElement doc = new ComposeSimpleElement();
-		ComposeSimpleElement entities = new ComposeSimpleElement("specimens");
+		ComposeSimpleElement entities = new ComposeSimpleElement("Specimens");
 		boolean is3D = false;
 		try{
 			String currentLine;
@@ -40,11 +40,11 @@ public class TpsLoader extends DataSetLoader{
 				currentLine = currentLine.trim();
 				if(currentLine.startsWith("LM") || currentLine.startsWith("lm")){
 					int numLandmarks = Integer.parseInt(currentLine.split("=")[1]);
-					newSpecimen = new SampleSimpleElement("Specimen-"+counter);
+					newSpecimen = new SampleSimpleElement("Specimen_"+counter);
 					entities.addElement(newSpecimen);
 					for(int i=0; i<numLandmarks; i++){
 						String[] landmarkCoords = br.readLine().trim().split("\\s+");
-						LandmarkSimpleElement landmark = new LandmarkSimpleElement("lm-"+i);
+						LandmarkSimpleElement landmark = new LandmarkSimpleElement("LM_"+i);
 						
 						double[] dCoords = new double[landmarkCoords.length];
 						for(int j=0; j<landmarkCoords.length; j++){

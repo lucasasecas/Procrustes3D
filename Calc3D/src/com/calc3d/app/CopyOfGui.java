@@ -959,7 +959,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 				.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 
 		// Create a table pane.
-		this.project = new ProjectSimpleElement("New project");
+		this.project = new ProjectSimpleElement("New Project");
 		project.setIcon(Icons.PROJECT);
 		treeTable = new JXTreeTable(new TreeTableModel(project));
 		TableColumnModel cModel = treeTable.getColumnModel();
@@ -1177,7 +1177,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			calculator.setConfiguration(configuration);
 
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement) selected
-					.getElementByKey("specimens")).getAllElements();
+					.getElementByKey("Specimens")).getAllElements();
 
 			
 			int tabIndex = this.createEmptyTab(configuration);
@@ -1198,25 +1198,18 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			DistanceCalculatorAdapter calc = new DistanceCalculatorAdapter(
 					configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement) selected
-					.getElementByKey("specimens")).getAllElements();
-			ComposeSimpleElement distances = (ComposeSimpleElement) selected
-					.getElementByKey("distances");
+					.getElementByKey("Specimens")).getAllElements();
+//			ComposeSimpleElement distances = (ComposeSimpleElement) selected
+//					.getElementByKey("distances");
 			ComposeSimpleElement newDistance = calc.calculate(specimens);
-			if (distances == null) {
-				distances = new ComposeSimpleElement("distances");
-				distances.addAction(new SimpleElementAction("Remove", "remove",
-						this, distances));
-			}
-			distances.addElement(newDistance);
+//			if (distances == null) {
+//				distances = new ComposeSimpleElement("distances");
+//				distances.addAction(new SimpleElementAction("Remove", "remove",
+//						this, distances));
+//			}
+//			distances.addElement(newDistance);
 
-			selected.addElement(distances);
-//<<<<<<< HEAD
-//			selected.addAction(new SimpleElementAction("Remove", "remove",
-//					this, selected));
-//
-//			// newDistance.addAction("delete");
-//
-//=======
+			selected.addElement(newDistance);
 			newDistance.addAction(new SimpleElementAction(
 					"Remove",
 					"remove",
@@ -1254,18 +1247,12 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 					configuration);
 			ComposeSimpleElement projection = calculator
 					.calculate((ComposeSimpleElement) selected);
-			ComposeSimpleElement projections = (ComposeSimpleElement) selected
-					.getElementByKey("ordinations");
-			if (projections == null) {
-				projections = new ComposeSimpleElement("ordinations");
-			}
+//			ComposeSimpleElement projections = (ComposeSimpleElement) selected
+//					.getElementByKey("ordinations");
+//			if (projections == null) {
+//				projections = new ComposeSimpleElement("ordinations");
+//			}
 
-//<<<<<<< HEAD
-//			projection.addAction(new ShowSimpleElementAction("Show Element",
-//					"showpanel", this, projection));
-//			projection.addAction(new SimpleElementAction("Remove", "remove",
-//					this, projection));
-//=======
 			projection.addAction(new ShowSimpleElementAction(
 					"Show Element",
 					"showpanel",
@@ -1285,8 +1272,8 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 					projection
 					));
 //>>>>>>> developer
-			projections.addElement(projection);
-			selected.addElement(projections);
+			selected.addElement(projection);
+//			selected.addElement(projections);
 
 			this.treeTable.updateUI();
 			Object[] paths = path.getPath();
@@ -1318,9 +1305,9 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			ComposeSimpleElement wireframe = (ComposeSimpleElement) this
 					.loadFromFile(getFileName(false, ".nts", "Add wireframe"));
 			int[][] links = commonUtils.getLinksMatrix(wireframe);
-			if (selected.getElementByKey("specimens") != null) {
+			if (selected.getElementByKey("Specimens") != null) {
 				for (SampleSimpleElement elem : (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement) selected
-						.getElementByKey("specimens")).getAllElements()) {
+						.getElementByKey("Specimens")).getAllElements()) {
 					Element3DWireframe wireframe3D = new Element3DWireframe(
 							elem, links);
 				}
@@ -1490,6 +1477,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 					));		
 //>>>>>>> developer
 			dataset.setIcon(Icons.DATASET);
+			dataset.setName(configuration.getTabTitle());
 			this.addElement(dataset);
 			Element3DDataSet dataset3D = new Element3DDataSet(dataset);
 			configuration.getGraphPreferences().setBoxVisible(false);
@@ -2742,7 +2730,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 
 		if (configuration.getShowConsensus()) {
 			Element3DEntity consensus = new Element3DEntity(
-					(SampleSimpleElement) result2.getElementByKey("consensus"));
+					(SampleSimpleElement) result2.getElementByKey("Consensus"));
 			dataset3D.add(consensus);
 		}
 		GraphicsPane graphicPane = (GraphicsPane) tabsManager.getTabAt(index);

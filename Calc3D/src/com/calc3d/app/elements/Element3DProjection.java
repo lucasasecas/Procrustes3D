@@ -25,11 +25,12 @@ public class Element3DProjection extends Element3DCollection {
 	
 	public Element3DProjection(ComposeSimpleElement projection) {
 		ArrayList<LandmarkSimpleElement> elems = (ArrayList<LandmarkSimpleElement>) projection.getAllElements();
+		this.setName(projection.getName());
 		for(int i=0; i<elems.size(); i++){
 			LandmarkSimpleElement elem = elems.get(i);
 			double[] coords = elem.getCoords();
 			Element3DPoint point = new Element3DPoint(new Vector3D(coords[0]*0.001, coords[1]*0.001, coords[2]*0.001));
-			point.setName(elem.getName()+"_Projection");
+			point.setName(elem.getName());
 			point.setText(elem.getName());
 			this.add(point);
 		}

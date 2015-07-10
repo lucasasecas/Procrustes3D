@@ -32,7 +32,7 @@ public class PrefixTextField extends JTextField {
 		String subString = fullText.substring(prefix.length());
 		label.setText(subString);
 		System.out.println(label.getText());
-		this.prefix = string + " - ";
+		this.prefix = string + "_";
 		this.label.setText(prefix + label.getText());
 		
 	}

@@ -22,7 +22,7 @@ public class DistanceCalculatorAdapter {
 	public ComposeSimpleElement calculate(
 			ArrayList<SampleSimpleElement> specimens) {
 		
-		String prefix = configuration.getType() == configuration.MIN_SQR_DISTANCE ? "PD_" : "RD_";
+		String prefix = configuration.getType() == configuration.MIN_SQR_DISTANCE ? "LSD_" : "RD_";
 		
 		ArrayList<SimpleMatrix> matArray = new ArrayList<SimpleMatrix>();
 		for(int j=0; j<specimens.size(); j++){

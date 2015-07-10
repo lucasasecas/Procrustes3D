@@ -62,7 +62,11 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		JLabel lblDimensions = new JLabel("Dimension:");
 		
 		rdbtn2D = new JRadioButton("2D");
+		rdbtn2D.addActionListener(this);
+		rdbtn2D.setActionCommand("rdb2D");
 		rdbtn3D = new JRadioButton("3D");
+		rdbtn3D.addActionListener(this);
+		rdbtn3D.setActionCommand("rdb3D");
 		
 		lblName = new JLabel("Tab Name");
 		
@@ -162,17 +166,41 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		switch(command){
 		case "rdb1":
 			txtName.setEnabled(true);
-			txtName.setPrefix(Messages.getString("tab.name.prefix.fmds"));
+			txtName.setPrefix(getDimensionPrefix()+Messages.getString("tab.name.prefix.fmds"));
 			break;
 		
 		case "rdb2":
 			txtName.setEnabled(true);
-			txtName.setPrefix(Messages.getString("tab.name.prefix.rmds"));
+			txtName.setPrefix(getDimensionPrefix()+Messages.getString("tab.name.prefix.rmds"));
 			break;
-		
+		case "rdb2D":
+			txtName.setPrefix("2D_"+getProjectionPrefix());
+			break;
+		case "rdb3D":
+			txtName.setPrefix("3D_"+getProjectionPrefix());
+			break;
 		}
+			
 		txtName.updateUI();
 		
+	}
+
+	public String getProjectionPrefix(){
+		if(this.rdbtnLeastSqe.isSelected()){
+			return Messages.getString("tab.name.prefix.fmds");
+		}else if(this.rdbtnRobust.isSelected()){
+			return Messages.getString("tab.name.prefix.rmds");
+		}
+		return "";
+	}
+	
+	public String getDimensionPrefix(){
+		if(this.rdbtn2D.isSelected()){
+			return "2D_";
+		}else if(this.rdbtn3D.isSelected()){
+			return "3D_";
+		}
+		return "";
 	}
 	
 }

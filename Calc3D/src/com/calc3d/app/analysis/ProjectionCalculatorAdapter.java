@@ -71,7 +71,7 @@ public class ProjectionCalculatorAdapter {
 	 		result.addElement(lm);
 	 	}
 	 	//String prefix = configuration.getType() == ProjectionConfiguration.LEAST_SQR_PROJETION ? "fMDS-" : "rMDS-";
-	 	result.setName(configuration.getName() + "-" + configuration.getDimensions() + "D");
+	 	result.setName(configuration.getName());
 	 	configuration.setTabTitle(result.getName());
 	 	
 		return result;

@@ -155,7 +155,7 @@ public class Commons {
 	}
 
 	public static ComposeSimpleElement toPCEntity(ArrayList<SimpleMatrix> result, ArrayList<SampleSimpleElement> elems) {
-		ComposeSimpleElement specimens = new ComposeSimpleElement("specimens");
+		ComposeSimpleElement specimens = new ComposeSimpleElement("Specimens");
 		for(int i=0; i<result.size()-1;i++){
 			SimpleMatrix m = result.get(i);
 			specimens.addElement(new SampleSimpleElement(elems.get(i).getName(), m));

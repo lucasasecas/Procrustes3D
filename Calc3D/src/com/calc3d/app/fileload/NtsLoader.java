@@ -20,7 +20,7 @@ public class NtsLoader extends FileLoader{
 	public Object load(String filepath) {
 		BufferedReader br;
 		ComposeSimpleElement doc = new ComposeSimpleElement();
-		ComposeSimpleElement entities = new ComposeSimpleElement("specimens");
+		ComposeSimpleElement entities = new ComposeSimpleElement("Specimens");
 		try{
 			String currentLine;
 			br = new BufferedReader(new FileReader(filepath));
@@ -60,11 +60,11 @@ public class NtsLoader extends FileLoader{
 					if(labels.length == numSpecimens)
 						labelsReaded=true;
 				}else {
-					String name = labels==null?"sample-"+counter:labels[counter];
+					String name = labels==null?"Specimen_"+counter:labels[counter];
 					SampleSimpleElement newSpecimen = new SampleSimpleElement(name);
 					entities.addElement(newSpecimen);
 					String[] landmarkCoords = currentLine.trim().split("\\s+");
-					LandmarkSimpleElement landmark = new LandmarkSimpleElement("lm-"+0);
+					LandmarkSimpleElement landmark = new LandmarkSimpleElement("LM_"+0);
 					double[] dCoords = new double[landmarkCoords.length];
 					for(int j=0; j<landmarkCoords.length; j++){
 						dCoords[j] = Double.parseDouble(landmarkCoords[j]);

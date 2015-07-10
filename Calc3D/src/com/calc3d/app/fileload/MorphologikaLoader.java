@@ -20,7 +20,7 @@ public class MorphologikaLoader  extends FileLoader{
 	public Object load(String filepath) {
 		BufferedReader br;
 		ComposeSimpleElement doc = new ComposeSimpleElement();
-		ComposeSimpleElement entities = new ComposeSimpleElement("specimens");
+		ComposeSimpleElement entities = new ComposeSimpleElement("Specimens");
 		try{
 			String currentLine;
 			br = new BufferedReader(new FileReader(filepath));
@@ -56,11 +56,11 @@ public class MorphologikaLoader  extends FileLoader{
 							String rawLine = br.readLine().trim();
 							if(rawLine.isEmpty())
 								continue;
-							String name = labels!=null? rawLine.substring(1):"config-"+counter;
+							String name = labels!=null? rawLine.substring(1):"Specimen_"+counter;
 							SampleSimpleElement newSpecimen = new SampleSimpleElement(name);
 							for(int i=0; i<numLandmarks; i++){
 								String[] landmarkCoords = br.readLine().trim().split("\\s+");
-								LandmarkSimpleElement landmark = new LandmarkSimpleElement("lm-"+i);
+								LandmarkSimpleElement landmark = new LandmarkSimpleElement("LM_"+i);
 								double[] dCoords = new double[landmarkCoords.length];
 								for(int j=0; j<landmarkCoords.length; j++){
 									dCoords[j] = Double.parseDouble(landmarkCoords[j]);
