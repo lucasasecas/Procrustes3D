@@ -57,9 +57,9 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		rdbtnLeastSqe.addActionListener(this);
 		rdbtnLeastSqe.setActionCommand("rdb1");
 		
-		JLabel lblProjectionType = new JLabel("Projection type:");
+		JLabel lblProjectionType = new JLabel("Ordination type:");
 		
-		JLabel lblDimensions = new JLabel("Dimensions:");
+		JLabel lblDimensions = new JLabel("Dimension:");
 		
 		rdbtn2D = new JRadioButton("2D");
 		rdbtn3D = new JRadioButton("3D");
@@ -73,19 +73,23 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblProjectionType)
-						.addComponent(lblName)
-						.addComponent(lblDimensions))
-					.addGap(81)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(rdbtn3D)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(rdbtnRobust)
-							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addComponent(rdbtn2D)
-						.addComponent(rdbtnLeastSqe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblProjectionType)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblName)
+									.addComponent(lblDimensions)))
+							.addGap(81)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(rdbtn3D)
+								.addComponent(rdbtnRobust)
+								.addComponent(rdbtnLeastSqe, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+								.addComponent(rdbtn2D)))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(168)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -99,15 +103,15 @@ public class Projection3DPanel extends JPanel implements SimpleElementCreatePane
 					.addComponent(rdbtnRobust)
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblName))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDimensions)
 						.addComponent(rdbtn2D))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(4)
 					.addComponent(rdbtn3D)
-					.addGap(144))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblName))
+					.addGap(133))
 		);
 		setLayout(groupLayout);
 		

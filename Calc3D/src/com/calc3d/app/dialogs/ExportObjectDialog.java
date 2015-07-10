@@ -31,13 +31,14 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 	private JButton btnBrowse;
 	private Window window;
 	private JRadioButton rdbtnTps;
-	private JRadioButton rdbtnCsv;
+	private JRadioButton rdbtnNts;
 	public  boolean canceled = false;
 	private int typeExport;
 	private JButton btnAcept;
 	private JButton btnCancel;
 	private ExportObjectDialog(Window window,SimpleElement elements) {
 		super(window, "Export", ModalityType.APPLICATION_MODAL);
+		this.setSize(400, 300);
 		this.window = window;
 		JLabel lblSelectFolder = new JLabel("Select Folder:");
 		
@@ -54,12 +55,12 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 		rdbtnTps.addActionListener(this);
 		rdbtnTps.setActionCommand("rdTps");
 				
-		rdbtnCsv = new JRadioButton("CSV");
-		rdbtnCsv.addActionListener(this);
-		rdbtnCsv.setActionCommand("rdCsv");
+		rdbtnNts = new JRadioButton("NTS");
+		rdbtnNts.addActionListener(this);
+		rdbtnNts.setActionCommand("rdNts");
 		
 		ButtonGroup group = new ButtonGroup();
-		group.add(rdbtnCsv);
+		group.add(rdbtnNts);
 		group.add(rdbtnTps);
 		
 		JLabel lblDatasetFormat = new JLabel("Dataset Format:");
@@ -85,7 +86,7 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 									.addComponent(lblDatasetFormat)
 									.addGap(93)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(rdbtnCsv)
+										.addComponent(rdbtnNts)
 										.addComponent(rdbtnTps))))
 							.addGap(6)
 							.addComponent(btnBrowse))
@@ -110,7 +111,7 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 						.addComponent(lblDatasetFormat)
 						.addComponent(rdbtnTps))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(rdbtnCsv)
+					.addComponent(rdbtnNts)
 					.addPreferredGap(ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAcept)
@@ -168,9 +169,9 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 			this.btnBrowse.setEnabled(true);
 			this.typeExport = ExportConfiguration.TPS_TYPE;
 			break;
-		case "rdCsv":
+		case "rdNts":
 			this.btnBrowse.setEnabled(true);
-			this.typeExport = ExportConfiguration.CSV_TYPE;
+			this.typeExport = ExportConfiguration.NTS_TYPE;
 			break;
 		default:
 			break;
@@ -182,8 +183,8 @@ public class ExportObjectDialog extends JDialog implements ActionListener {
 
 
 	private String getExtension() {
-		if(rdbtnCsv.isSelected()){
-			return ".scv";
+		if(rdbtnNts.isSelected()){
+			return ".nts";
 		}else if(rdbtnTps.isSelected()){
 			return ".tps";
 		}

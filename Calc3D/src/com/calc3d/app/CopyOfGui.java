@@ -1210,11 +1210,29 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			distances.addElement(newDistance);
 
 			selected.addElement(distances);
-			selected.addAction(new SimpleElementAction("Remove", "remove",
-					this, selected));
-
-			// newDistance.addAction("delete");
-
+//<<<<<<< HEAD
+//			selected.addAction(new SimpleElementAction("Remove", "remove",
+//					this, selected));
+//
+//			// newDistance.addAction("delete");
+//
+//=======
+			newDistance.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					newDistance
+					));
+			newDistance.addAction(new SimpleElementAction(
+					"Export Distance",
+					"exportDistance",
+					this,
+					newDistance
+					));
+			
+//			newDistance.addAction("delete");
+			
+//>>>>>>> developer
 			treeTable.updateUI();
 
 			DistancesDetailer detailer = new DistancesDetailer();
@@ -1242,10 +1260,31 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 				projections = new ComposeSimpleElement("ordinations");
 			}
 
-			projection.addAction(new ShowSimpleElementAction("Show Element",
-					"showpanel", this, projection));
-			projection.addAction(new SimpleElementAction("Remove", "remove",
-					this, projection));
+//<<<<<<< HEAD
+//			projection.addAction(new ShowSimpleElementAction("Show Element",
+//					"showpanel", this, projection));
+//			projection.addAction(new SimpleElementAction("Remove", "remove",
+//					this, projection));
+//=======
+			projection.addAction(new ShowSimpleElementAction(
+					"Show Element",
+					"showpanel",
+					this,
+					projection
+					));
+			projection.addAction(new ShowSimpleElementAction(
+					"Export Dataset",
+					"exportDataset",
+					this,
+					projection
+					));
+			projection.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					projection
+					));
+//>>>>>>> developer
 			projections.addElement(projection);
 			selected.addElement(projections);
 
@@ -1323,16 +1362,35 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			IExporter exporter = ExporterFactory.getExporter(configuration
 					.getType());
 			exporter.export(selected, configuration.getSource());
-
-		} else if (command == "remove") {
-
-			if (treeTable.getSelectedRowCount() > 0) {
-				if (JOptionPane
-						.showConfirmDialog(this,
-								"Are you sure you wan to delete the selected elements from list") == 0) {
-					TreeTableModel model = (TreeTableModel) treeTable
-							.getTreeTableModel();
-					int i = treeTable.getSelectedRow();
+//<<<<<<< HEAD
+//
+//		} else if (command == "remove") {
+//
+//			if (treeTable.getSelectedRowCount() > 0) {
+//				if (JOptionPane
+//						.showConfirmDialog(this,
+//								"Are you sure you wan to delete the selected elements from list") == 0) {
+//					TreeTableModel model = (TreeTableModel) treeTable
+//							.getTreeTableModel();
+//					int i = treeTable.getSelectedRow();
+//=======
+			
+		}else if(command=="exportDistance"){
+			TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+			int i=treeTable.getSelectedRow();
+			TreePath path = treeTable.getPathForRow(i);
+			SimpleElement selected = (SimpleElement) path.getLastPathComponent();
+			IExporter exporter = ExporterFactory.getExporter(ExportConfiguration.NTS_DISTANCE_TYPE);
+			String destination = this.getFileName(true, ".nts", "Export Distance");
+			exporter.export(selected, destination);
+		}else if(command=="remove"){
+			
+			
+			if (treeTable.getSelectedRowCount()>0){ 
+				if (JOptionPane.showConfirmDialog(this,"Are you sure you wan to delete the selected elements from list")== 0 ){	
+					TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+					int i=treeTable.getSelectedRow();
+//>>>>>>> developer
 					TreePath path = treeTable.getPathForRow(i);
 					ComposeSimpleElement node = (ComposeSimpleElement) path
 							.getLastPathComponent();
@@ -1364,32 +1422,73 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
 			SceneManager sceneManager = canvas3D.getSceneManager();
 			canvas3D.iCamera.setFov((canvas3D.iCamera.getFov() + 1) % 360);
+
 			if (Globalsettings.steroscopyEnabled) {
 				canvas3D.iCameraL.setFov(canvas3D.iCamera.getFov());
 				canvas3D.iCameraR.setFov(canvas3D.iCamera.getFov());
 			}
 			Globalsettings.fov = canvas3D.iCamera.getFov();
 			canvas3D.refresh();
-		} else if (command == "reset") {
-			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
-			canvas3D.iCamera.reset();
-			canvas3D.refresh();
-		} else if (command == "export") {
-			exportPNG();
-		} else if (command == "new") {
-			newFile();
-			initProject();
-		} else if (command == "load") {
-			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog
-					.show(this, null, Element3DFactory.DATASET_ELEMENT);
-			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration
-					.getSrc());
-			if (dataset == null)
-				return;
-			dataset.addAction(new ShowSimpleElementAction("Show Element",
-					"showpanel", this, dataset));
-			dataset.addAction(new SimpleElementAction("Remove", "remove", this,
-					dataset));
+//		} else if (command == "reset") {
+//			Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+//			canvas3D.iCamera.reset();
+//			canvas3D.refresh();
+//		} else if (command == "export") {
+//			exportPNG();
+//		} else if (command == "new") {
+//			newFile();
+//			initProject();
+//		} else if (command == "load") {
+//			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog
+//					.show(this, null, Element3DFactory.DATASET_ELEMENT);
+//			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration
+//					.getSrc());
+//			if (dataset == null)
+//				return;
+//			dataset.addAction(new ShowSimpleElementAction("Show Element",
+//					"showpanel", this, dataset));
+//			dataset.addAction(new SimpleElementAction("Remove", "remove", this,
+//					dataset));
+//=======
+			  if (Globalsettings.steroscopyEnabled){
+				  canvas3D.iCameraL.setFov(canvas3D.iCamera.getFov());
+				  canvas3D.iCameraR.setFov(canvas3D.iCamera.getFov());
+			  }
+			  Globalsettings.fov=canvas3D.iCamera.getFov();
+			  canvas3D.refresh();
+		}else if(command=="reset"){
+			  Canvas3D canvas3D = tabsManager.getCurrentCanvas();
+			  canvas3D.iCamera.reset();
+	 	      canvas3D.refresh();
+		}else if (command=="export"){
+			  exportPNG();
+		}else if (command=="new"){ 
+			  newFile();
+			  initProject();
+		}
+		else if(command=="load"){
+			DatasetConfiguration configuration = (DatasetConfiguration) AddObjectDialog.show(this,null, Element3DFactory.DATASET_ELEMENT);
+			ComposeSimpleElement dataset = (ComposeSimpleElement) loadFromFile(configuration.getSrc());
+			if(dataset==null)return;
+			dataset.addAction(new ShowSimpleElementAction(
+					"Show Element",
+					"showpanel",
+					this,
+					dataset
+					));
+			dataset.addAction(new SimpleElementAction(
+					"Export Dataset",
+					"exportDataset",
+					this,
+					dataset
+					));	
+			dataset.addAction(new SimpleElementAction(
+					"Remove",
+					"remove",
+					this,
+					dataset
+					));		
+//>>>>>>> developer
 			dataset.setIcon(Icons.DATASET);
 			this.addElement(dataset);
 			Element3DDataSet dataset3D = new Element3DDataSet(dataset);
@@ -2552,8 +2651,12 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 				System.out.println("Visibility of:" + elem.getName() + "="
 						+ (Boolean) val);
 			}
-		}
-
+//<<<<<<< HEAD
+//		}
+//
+//=======
+		}		
+//>>>>>>> developer
 	}
 
 	@Override
@@ -2587,16 +2690,43 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 		}
 	}
 
-	public void addProcrustesAnalisys(ComposeSimpleElement result2,
-			AnalysisConfiguration configuration, int index) {
-
-		// Generate 3dElements
-		result2.addAction(new ShowSimpleElementAction("Show Element",
-				"showpanel", this, result2));
-		result2.addAction(new SimpleElementAction("Remove", "remove", this,
-				result2));
-
-		int i = this.treeTable.getSelectedRow();
+//<<<<<<< HEAD
+//	public void addProcrustesAnalisys(ComposeSimpleElement result2,
+//			AnalysisConfiguration configuration, int index) {
+//
+//		// Generate 3dElements
+//		result2.addAction(new ShowSimpleElementAction("Show Element",
+//				"showpanel", this, result2));
+//		result2.addAction(new SimpleElementAction("Remove", "remove", this,
+//				result2));
+//
+//		int i = this.treeTable.getSelectedRow();
+//=======
+	public void addProcrustesAnalisys(ComposeSimpleElement result2, AnalysisConfiguration configuration, int index) {
+		
+		//Generate 3dElements
+		result2.addAction(new ShowSimpleElementAction(
+				"Show Element",
+				"showpanel",
+				this,
+				result2
+				));
+		result2.addAction(new ShowSimpleElementAction(
+				"Export Dataset",
+				"exportDataset",
+				this,
+				result2
+				));
+		
+		result2.addAction(new SimpleElementAction(
+				"Remove",
+				"remove",
+				this,
+				result2
+				));
+		
+		int i=this.treeTable.getSelectedRow();
+//>>>>>>> developer
 		TreePath path = treeTable.getPathForRow(i);
 		ComposeSimpleElement selected = (ComposeSimpleElement) path
 				.getLastPathComponent();
