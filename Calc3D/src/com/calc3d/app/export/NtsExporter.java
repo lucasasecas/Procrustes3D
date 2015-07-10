@@ -1,6 +1,5 @@
 package com.calc3d.app.export;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -11,7 +10,7 @@ import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
 
-public class TpsExporter implements IExporter {
+public class NtsExporter implements IExporter {
 
 	@Override
 	public void export(SimpleElement element, String source) {
@@ -25,24 +24,34 @@ public class TpsExporter implements IExporter {
 			fw  = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
 			ComposeSimpleElement specimens = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey("specimens");
+			int countSpecimens = specimens.size(),
+					dimentions = ((SampleSimpleElement)specimens.getContainedElement(0)).getDimension(),
+					countLM = ((SampleSimpleElement)specimens.getContainedElement(0)).getAllElements().size();
+			
+			String head = "1 "+countSpecimens+"L "+countLM*dimentions+(dimentions==2?"":" Dim=3"),
+					matrix="",ids="";
+			
 			for(SimpleElement elem : specimens.getAllElements()){
 				SampleSimpleElement sample = (SampleSimpleElement) elem;
 				int sampleDimension = sample.getDimension();
-				fw.write("LM=" + sample.getAllElements().size() + '\n');
+				
 				for(SimpleElement landmark : sample.getAllElements()){
-					fw.write(sampleDimension ==3?
+					matrix +=(sampleDimension ==3?
 							((LandmarkSimpleElement)landmark).toString() + '\n':
 							((LandmarkSimpleElement)landmark).toString2D()+ '\n');
 				}
-				fw.write("ID="+sample.getName() + '\n');
+				matrix += '\n';
+				ids += sample.getName()+'\t';
 				
 			}
+			fw.write(head+'\n');
+			fw.write(ids+'\n');
+			fw.write(matrix);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		
-
 	}
+
 }

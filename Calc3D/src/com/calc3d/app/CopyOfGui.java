@@ -1169,11 +1169,17 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			distances.addElement(newDistance);
 			
 			selected.addElement(distances);
-			selected.addAction(new SimpleElementAction(
+			newDistance.addAction(new SimpleElementAction(
 					"Remove",
 					"remove",
 					this,
-					selected
+					newDistance
+					));
+			newDistance.addAction(new SimpleElementAction(
+					"Export Distance",
+					"exportDistance",
+					this,
+					newDistance
 					));
 			
 //			newDistance.addAction("delete");
@@ -1201,6 +1207,12 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			projection.addAction(new ShowSimpleElementAction(
 					"Show Element",
 					"showpanel",
+					this,
+					projection
+					));
+			projection.addAction(new ShowSimpleElementAction(
+					"Export Dataset",
+					"exportDataset",
 					this,
 					projection
 					));
@@ -1273,6 +1285,14 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 			IExporter exporter = ExporterFactory.getExporter(configuration.getType());
 			exporter.export(selected, configuration.getSource());
 			
+		}else if(command=="exportDistance"){
+			TreeTableModel model = (TreeTableModel) treeTable.getTreeTableModel();
+			int i=treeTable.getSelectedRow();
+			TreePath path = treeTable.getPathForRow(i);
+			SimpleElement selected = (SimpleElement) path.getLastPathComponent();
+			IExporter exporter = ExporterFactory.getExporter(ExportConfiguration.NTS_DISTANCE_TYPE);
+			String destination = this.getFileName(true, ".nts", "Export Distance");
+			exporter.export(selected, destination);
 		}else if(command=="remove"){
 			
 			
@@ -1333,6 +1353,12 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 					this,
 					dataset
 					));
+			dataset.addAction(new SimpleElementAction(
+					"Export Dataset",
+					"exportDataset",
+					this,
+					dataset
+					));	
 			dataset.addAction(new SimpleElementAction(
 					"Remove",
 					"remove",
@@ -2409,10 +2435,7 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
      	        String name = elem.getName(); 
         	    System.out.println("Visibility of:" + elem.getName() +"="+(Boolean)val);
 			}
-		}
-
-		
-		
+		}		
 	}
 
 	@Override
@@ -2449,6 +2472,13 @@ public class CopyOfGui extends JFrame implements ActionListener,  MouseListener,
 				this,
 				result2
 				));
+		result2.addAction(new ShowSimpleElementAction(
+				"Export Dataset",
+				"exportDataset",
+				this,
+				result2
+				));
+		
 		result2.addAction(new SimpleElementAction(
 				"Remove",
 				"remove",

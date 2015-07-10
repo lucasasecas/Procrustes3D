@@ -29,7 +29,18 @@ public class Commons {
 			row[i] = m.get(pos, i);
 		return row;
 	}
+	
+	public static int productoria(int base, int it){
+		if(it==0) return 0;
+		return base + productoria(base-1, it-1);
+		
+	}
 
+	public static double countOfElementsByDistances(int countOfDistance){
+		double a = Math.sqrt(1-4*(-countOfDistance*2));
+		return  ((1+a)/2);
+	}
+	
 	public static ArrayList<Element3D> resultToElement3D(
 			ProcrustesResult result) {
 		ArrayList<PCEntity> entities = result.getTransformations();

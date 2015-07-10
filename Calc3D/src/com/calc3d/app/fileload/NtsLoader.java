@@ -52,7 +52,7 @@ public class NtsLoader extends FileLoader{
 					if(currentLine.isEmpty()){
 						continue;
 					}
-					String[] labelsRow = currentLine.split(" ");
+					String[] labelsRow = currentLine.split("[ \t]");
 					for(int i=0; i<labelsRow.length; i++){
 						labels[labelsReadedCount] =  labelsRow[i];
 						labelsReadedCount++;
