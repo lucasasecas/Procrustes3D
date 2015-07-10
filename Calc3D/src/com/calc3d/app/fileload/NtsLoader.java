@@ -92,7 +92,7 @@ public class NtsLoader extends FileLoader{
 			doc.setName( filepath.substring(find, lind));
 		}
 		catch(Exception e){
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		doc.setDimension(dimentions);
 		return doc;

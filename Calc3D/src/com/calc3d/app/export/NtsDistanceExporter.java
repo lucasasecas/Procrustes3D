@@ -11,6 +11,7 @@ import com.calc3d.app.elements.simpleelements.DistanceSimpleElement;
 import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.resources.Messages;
 import com.procrustes.Utils.Commons;
 
 public class NtsDistanceExporter implements IExporter {
@@ -27,7 +28,7 @@ public class NtsDistanceExporter implements IExporter {
 			int z=0;
 			fw  = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-			ComposeSimpleElement distances = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey("values");
+			ComposeSimpleElement distances = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey(Messages.getString("config.distances.values"));
 			String ids = getIds(distances);
 			String matrix = matrixToString(distances);
 			String header = "2 \t"+(int)Commons.countOfElementsByDistances(distances.getAllElements().size())+"L\t"+(int)Commons.countOfElementsByDistances(distances.getAllElements().size())+"\t0";

@@ -120,7 +120,7 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, Ac
 		//configuration.setElements((ArrayList<SimpleElement>) ((ComposeSimpleElement)dataset.getElementByKey("specimens")).getAllElements());
 		
 		int type = this.rdbtnMinimusSquareFit.isSelected() ? AnalysisConfiguration.MIN_SQUARES_FIT : AnalysisConfiguration.ROBUST_FIT;
-		String nName = type==AnalysisConfiguration.MIN_SQUARES_FIT?"GLSP":"GRP";
+		String nName = type==AnalysisConfiguration.MIN_SQUARES_FIT?"GlsP":"GrP";
 		System.out.println(textField_2.getFullText());
 		configuration.setTabTitle(textField_2.getFullText());
 		configuration.setName(textField_2.getFullText());
@@ -137,12 +137,12 @@ public class AnalysisPane extends JPanel implements SimpleElementCreatePanel, Ac
 		switch(command){
 		case "rdb1":
 			textField_2.setEnabled(true);
-			textField_2.setPrefix("GLSP");
+			textField_2.setPrefix("GlsP");
 			break;
 		
 		case "rdb2":
 			textField_2.setEnabled(true);
-			textField_2.setPrefix("GRP");
+			textField_2.setPrefix("GrP");
 			break;
 		
 		}

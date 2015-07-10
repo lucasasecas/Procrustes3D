@@ -9,6 +9,7 @@ import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.resources.Messages;
 
 public class NtsExporter implements IExporter {
 
@@ -23,12 +24,12 @@ public class NtsExporter implements IExporter {
 			}
 			fw  = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-			ComposeSimpleElement specimens = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey("specimens");
+			ComposeSimpleElement specimens = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey(Messages.getString("config.specimens"));
 			int countSpecimens = specimens.size(),
 					dimentions = ((SampleSimpleElement)specimens.getContainedElement(0)).getDimension(),
 					countLM = ((SampleSimpleElement)specimens.getContainedElement(0)).getAllElements().size();
 			
-			String head = "1 "+countSpecimens+"L "+countLM*dimentions+(dimentions==2?"":" Dim=3"),
+			String head = "1 "+countSpecimens+"L "+countLM*dimentions+(dimentions==2?" 0":" 0 Dim=3"),
 					matrix="",ids="";
 			
 			for(SimpleElement elem : specimens.getAllElements()){

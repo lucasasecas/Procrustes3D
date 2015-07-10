@@ -22,7 +22,7 @@ public class DistanceCalculatorAdapter {
 	public ComposeSimpleElement calculate(
 			ArrayList<SampleSimpleElement> specimens) {
 		
-		String prefix = configuration.getType() == configuration.MIN_SQR_DISTANCE ? "LSD_" : "RD_";
+		//String prefix = configuration.getType() == configuration.MIN_SQR_DISTANCE ? "LSD_" : "RD_";
 		
 		ArrayList<SimpleMatrix> matArray = new ArrayList<SimpleMatrix>();
 		for(int j=0; j<specimens.size(); j++){
@@ -31,13 +31,13 @@ public class DistanceCalculatorAdapter {
 		
 		DistanceCalculator calc = this.getCalculator();
 		double[][] result  = calc.calculate(matArray);
-		ComposeSimpleElement list = new ComposeSimpleElement(prefix + "distance");
-		ComposeSimpleElement values = new ComposeSimpleElement("values");
+		ComposeSimpleElement list = new ComposeSimpleElement(configuration.getTabTitle());
+		ComposeSimpleElement values = new ComposeSimpleElement("Values");
 		for(int i=0; i<specimens.size(); i++){
 			for(int j=i; j<specimens.size();j++){
 				if(j!=i){
 					DistanceSimpleElement dist = new DistanceSimpleElement(specimens.get(i), specimens.get(j), result[i][j]);
-					dist.setName("dist-"+i+"-to-"+j);
+					dist.setName("dist_"+i+"_to_"+j);
 					values.addElement(dist);
 				}
 			}

@@ -680,7 +680,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 		this.btnRobAnalisys = new JButton(Icons.DISTANCE);
 		this.btnRobAnalisys.addActionListener(this);
 		this.btnRobAnalisys.setActionCommand("distance");
-		this.btnRobAnalisys.setToolTipText("Distance");
+		this.btnRobAnalisys.setToolTipText("Distances");
 
 		this.btnOpen = new JButton(Icons.OPEN);
 		this.btnOpen.addActionListener(this);
@@ -759,7 +759,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 		btnP.setToolTipText("Calculate Projection");
 		btnP.addActionListener(this);
 		btnP.setActionCommand("addProjection");
-		btnP.setToolTipText("Calculate Projection");
+		btnP.setToolTipText("Ordinations");
 
 		fileToolbar.add(btnP);
 
@@ -1194,7 +1194,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			ComposeSimpleElement selected = (ComposeSimpleElement) path
 					.getLastPathComponent();
 			DistanceConfiguration configuration = (DistanceConfiguration) AddObjectDialog
-					.show(this, null, Element3DFactory.DISTANCE_ELEMENT);
+					.show(this, selected, Element3DFactory.DISTANCE_ELEMENT);
 			DistanceCalculatorAdapter calc = new DistanceCalculatorAdapter(
 					configuration);
 			ArrayList<SampleSimpleElement> specimens = (ArrayList<SampleSimpleElement>) ((ComposeSimpleElement) selected
@@ -1287,8 +1287,9 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 			configuration.getGraphPreferences().setxAxisVisible(true);
 			configuration.getGraphPreferences().setyAxisVisible(true);
 			configuration.getGraphPreferences().setzAxisVisible(true);
-			
-			this.addElement3D(new Element3DProjection(projection),
+			Element3DProjection projection3D =new Element3DProjection(projection); 
+			projection3D.setDimension3D(projection.is3D());
+			this.addElement3D(projection3D,
 					configuration);
 			ProjectionDetailer detailer = new ProjectionDetailer();
 			reporter.writeReport("New Projection Generated \n");
@@ -2715,6 +2716,7 @@ public class CopyOfGui extends JFrame implements ActionListener, MouseListener,
 		
 		int i=this.treeTable.getSelectedRow();
 //>>>>>>> developer
+		
 		TreePath path = treeTable.getPathForRow(i);
 		ComposeSimpleElement selected = (ComposeSimpleElement) path
 				.getLastPathComponent();

@@ -40,16 +40,16 @@ public class Element3DFactory {
 	public static String getTypeStr(int elementType) {
 		
 		if(elementType == PROJECTION_ELEMENT){
-			return Messages.getString("common.element.projection");
+			return Messages.getString("common.element.projection")+"s";
 		}
 		if(elementType == DISTANCE_ELEMENT){
-			return Messages.getString("common.element.distance");
+			return Messages.getString("common.element.distance")+"s";
 		}
 		if(elementType == PROCRUSTES_ELEMENT){
-			return Messages.getString("common.element.procrustesanalysis");
+			return Messages.getString("common.element.procrustesanalysis")+"s";
 		}
 		if(elementType == DATASET_ELEMENT){
-			return Messages.getString("common.element.dataset");
+			return Messages.getString("common.element.dataset")+"s";
 		}
 		return null;
 		

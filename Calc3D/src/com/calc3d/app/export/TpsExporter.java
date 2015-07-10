@@ -10,6 +10,7 @@ import com.calc3d.app.elements.simpleelements.ComposeSimpleElement;
 import com.calc3d.app.elements.simpleelements.LandmarkSimpleElement;
 import com.calc3d.app.elements.simpleelements.SampleSimpleElement;
 import com.calc3d.app.elements.simpleelements.SimpleElement;
+import com.calc3d.app.resources.Messages;
 
 public class TpsExporter implements IExporter {
 
@@ -24,7 +25,7 @@ public class TpsExporter implements IExporter {
 			}
 			fw  = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(fw);
-			ComposeSimpleElement specimens = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey("specimens");
+			ComposeSimpleElement specimens = (ComposeSimpleElement) ((ComposeSimpleElement)element).getElementByKey(Messages.getString("config.specimens"));
 			for(SimpleElement elem : specimens.getAllElements()){
 				SampleSimpleElement sample = (SampleSimpleElement) elem;
 				int sampleDimension = sample.getDimension();

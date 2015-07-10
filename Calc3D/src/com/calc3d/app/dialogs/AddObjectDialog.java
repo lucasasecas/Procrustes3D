@@ -110,7 +110,7 @@ public class AddObjectDialog extends JDialog implements ActionListener {
 
 		tabs.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
 		tabs.addTab(Element3DFactory.getTypeStr(elementType), pnlObject);
-		tabs.addTab(Messages.getString("dialog.body.tab.graphic"), pane3D);
+		//tabs.addTab(Messages.getString("dialog.body.tab.graphic"), pane3D);
 //		tabs.addTab(Messages.getString("dialog.body.tab.transform"), this.pnlTransform);
 		
 		btnCancel = new JButton(Messages.getString("button.cancel"));
