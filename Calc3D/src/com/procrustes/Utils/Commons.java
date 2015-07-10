@@ -83,8 +83,8 @@ public class Commons {
 		return list;
 	}
 
-	public static Preferences setPreferences(ArrayList<Element3D> list) {
-		Preferences preferences = Globalsettings.getSettings();
+	public static Preferences setPreferences(ArrayList<Element3D> list, Preferences preferences) {
+
 		double maxX, maxY, maxZ, minX, minY, minZ;
 		maxX = maxY = maxZ = Double.NEGATIVE_INFINITY;
 		minX = minY = minZ = Double.POSITIVE_INFINITY;

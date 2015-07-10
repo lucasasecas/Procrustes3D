@@ -998,7 +998,7 @@ public final class Renderer implements BSPTreeTraverseListener{
 		if (element.isFilled())iRasterSettings.iGraphics.fill(ellipse);
 		iRasterSettings.iGraphics.setPaint(element.getLineColor());//ColorUtils.blendColors(element.curveColor,iBgColor,iLight.getBlendAmt(element.depth)));
 		iRasterSettings.iGraphics.draw(ellipse);
-		iRasterSettings.iGraphics.drawString(element.getText(), (int)v.getX(),  (int)v.getY()-1);
+		iRasterSettings.iGraphics.drawString(element.getText(), (int)v.getX(),  (int)v.getY()-4);
 	}
 
 	private void drawElementCurve(ElementCurve element) {

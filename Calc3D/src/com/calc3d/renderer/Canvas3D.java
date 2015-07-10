@@ -12,9 +12,12 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -391,7 +394,15 @@ public final class Canvas3D extends JPanel implements Printable
 		g.drawRect(1, 1, width - 3, height - 3);
 		g.setColor(ColorUtils.blendColors(Color.WHITE, bg, .5));
 		g.drawRect(0, 0, width - 1, height - 1);
-		ImageIO.write(img, "png", new File(fileName));
+		Iterator<ImageWriter> writer = ImageIO.getImageWritersByFormatName("svg");
+		if(writer.hasNext()){
+			ImageWriter imageWriter = (ImageWriter) writer.next();
+		    File file = new File(fileName);
+		    ImageOutputStream ios = ImageIO.createImageOutputStream(file);
+		    imageWriter.setOutput(ios);
+		    imageWriter.write(img);
+		}
+		
 	}
 
 	@Override

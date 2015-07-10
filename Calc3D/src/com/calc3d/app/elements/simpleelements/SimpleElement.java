@@ -17,6 +17,7 @@ public abstract class SimpleElement implements Serializable{
 	ImageIcon icon;
 	String description;
 	ArrayList<SimpleElementAction> actions;
+	int dimension = 3;
 
 	public SimpleElement(String name2) {
 		this.name = name2;
@@ -71,6 +72,14 @@ public abstract class SimpleElement implements Serializable{
 		SimpleElement[] elems = new SimpleElement[1];
 		elems[0] = this;
 		return elems;
+	}
+	
+	public void setDimension(int d){
+		this.dimension = d;
+	}
+	
+	public boolean is3D(){
+		return this.dimension==3;
 	}
  
 }

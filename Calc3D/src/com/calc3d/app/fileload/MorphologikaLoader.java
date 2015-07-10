@@ -84,6 +84,7 @@ public class MorphologikaLoader  extends FileLoader{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
+		doc.setDimension(dimensions);
 		return doc;
 	}
 

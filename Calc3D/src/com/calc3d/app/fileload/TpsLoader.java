@@ -30,6 +30,7 @@ public class TpsLoader extends DataSetLoader{
 		BufferedReader br;
 		ComposeSimpleElement doc = new ComposeSimpleElement();
 		ComposeSimpleElement entities = new ComposeSimpleElement("specimens");
+		boolean is3D = false;
 		try{
 			String currentLine;
 			br = new BufferedReader(new FileReader(filepath));
@@ -44,10 +45,12 @@ public class TpsLoader extends DataSetLoader{
 					for(int i=0; i<numLandmarks; i++){
 						String[] landmarkCoords = br.readLine().trim().split("\\s+");
 						LandmarkSimpleElement landmark = new LandmarkSimpleElement("lm-"+i);
+						
 						double[] dCoords = new double[landmarkCoords.length];
 						for(int j=0; j<landmarkCoords.length; j++){
 							dCoords[j] = Double.parseDouble(landmarkCoords[j]);
 						}
+						is3D = is3D || (landmarkCoords.length==3 && dCoords[2] != 0);
 						landmark.addCoordinate(dCoords);
 						newSpecimen.addElement(landmark);
 					}
@@ -70,6 +73,7 @@ public class TpsLoader extends DataSetLoader{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
+		doc.setDimension(is3D?3:2);
 		return doc;
 	}
 	

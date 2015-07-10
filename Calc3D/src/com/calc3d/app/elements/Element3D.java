@@ -27,6 +27,8 @@ import com.calc3d.math.Vector3D;
 	 * 
 	 */
 	private static final long serialVersionUID = -2177499520844129649L;
+	
+	private boolean dimention3D = false;
 
 	/** True if Object is visible */
 	private boolean visible = true;
@@ -275,6 +277,14 @@ import com.calc3d.math.Vector3D;
 	}
 	public LocalSettings getSettings() {
 		return settings;
+	}
+	
+	public void setDimension3D(boolean value){
+		this.dimention3D = value;
+	}
+	
+	public boolean is3D(){
+		return dimention3D;
 	}
 	
 }

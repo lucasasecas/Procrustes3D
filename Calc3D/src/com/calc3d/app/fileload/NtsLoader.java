@@ -94,6 +94,7 @@ public class NtsLoader extends FileLoader{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
+		doc.setDimension(dimentions);
 		return doc;
 	}
 

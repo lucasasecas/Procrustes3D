@@ -41,6 +41,7 @@ public class Element3DDataSet extends Element3DCollection implements IMatrixable
 		}
 		this.add(specimens3D);
 		String name = dataset.getName(); 
+		this.setDimension3D(dataset.is3D());
 		this.setName(name);
 	}
 
